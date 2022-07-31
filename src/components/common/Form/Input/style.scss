@@ -1,0 +1,25 @@
+.inputmain{
+    padding: 0px !important;
+}
+.field-lbl{
+    font-family: "Muli";
+    background-color: white;
+    color: #52C4D4;
+    padding: 0px 5px;
+    font-size: 10px;
+    position: absolute;
+    top: -8px;
+    left: 20px;
+    z-index: 99;
+}
+
+.input-field{
+    position: relative;
+    border: 1px solid #52C4D4 !important;
+    border-radius: 3px !important;
+    font-family: "Poppins";
+    font-size: 12px !important;
+    &:focus {        
+        box-shadow: 0px 0px 4px 0px #52C4D4 !important;
+    }
+}

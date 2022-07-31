@@ -1,0 +1,4 @@
+{
+    "html.format.unformatted": "",
+    "emmet.includeLanguages": { "javascript": "html" }
+}
