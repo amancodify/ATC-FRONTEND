@@ -86,6 +86,7 @@ const Home = () => {
             name="searchText"
             onChange={(event) => onTextSearch(event)}
             className="searchbox-field"
+            autoComplete="off"
             placeholder="Search by Party code or Firm name"
           />
           <i className="fa fa-search search-icon" aria-hidden="true"></i>
