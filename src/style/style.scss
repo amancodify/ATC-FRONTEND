@@ -1352,8 +1352,11 @@ a:link {
             position: absolute;
             right: 9%;
             top: 13px;
-            color: rgb(255, 255, 255);
+            color: rgb(61, 61, 61);
             font-size: 20px;
+            font-weight: 400;
+            margin-right: 10px;
+            cursor: pointer;
             @media only screen and (max-width: 600px) {
                 right: 10%;
                 top: 10px;
@@ -1412,7 +1415,7 @@ a:link {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        transition: all 0.15s ease-in-out;
+        transition: all 0.1s ease-in-out;
         font-family: "Poppins";
         .display-letter {
             position: absolute;
@@ -1448,6 +1451,7 @@ a:link {
         }
         &:hover {
             box-shadow: 0px 0px 8px #6e6e6e5f;
+            background-color: rgb(242, 247, 255);
         }
 
         .icon {
@@ -2773,11 +2777,11 @@ a:link {
 }
 
 .loading {
-    position: fixed;
-    top: 250px;
-    left: 25%;
-    right: 0;
-    bottom: 0;
+    // position: absolute;
+    // bottom: 0;
+    // left: 0;
+    // width: 100%;
+    height: 75vh;
     background: rgb(255, 255, 255);
     color: #666666;
     font-weight: bold;
@@ -4352,4 +4356,20 @@ a:link {
             }
         }
     }
+}
+
+.no-data-vector {
+    display: block;
+    width: 350px;
+    height: 350px;
+    margin: 0px auto;
+    margin-top: 30px;
+}
+
+.no-data-title{
+    font-size: 32px;
+    font-weight: 700;
+    color: rgb(78, 78, 78);
+    text-align: center;
+    margin-top: 40px;
 }

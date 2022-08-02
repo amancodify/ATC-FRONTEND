@@ -1,4 +1,5 @@
 import React from 'react';
+import AtcLogo from "../../../assets/logo.png";
 
 const Footer = () => {
     return (
@@ -7,7 +8,7 @@ const Footer = () => {
                 <div className="container sub-main">
                     <div className="row">
                         <div className="col-md-2 logo">
-                            <a href="/"><img src="./images/atc-logo-white.png" alt="" /></a>
+                            <a href="/"><img src={AtcLogo} alt="" /></a>
                         </div>
 
                         <div className="d-flex col-md-4">

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { isLoggedIn, logout } from '../../../utils/auth';
+import CompLogo from "../../../assets/logo.png";
 
 const AtcNav = () => {
     let atcBtn = isLoggedIn() ? (
@@ -18,7 +19,7 @@ const AtcNav = () => {
         <div className="navbar-main">
             <Navbar bg="dark" expand="lg" variant="dark" fixed="top" className="navbar-main">
                 <Navbar.Brand href="/">
-                    <img alt="" src="/images/atc-logo-color.png" height="30" className="d-inline-block align-top" />{' '}
+                    <img alt="" src={CompLogo} height="50" className="d-inline-block align-top" />{' '}
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="navbarToggleExternalContent">
