@@ -62,13 +62,15 @@ a:link {
 }
 
 .navbar-main {
+    max-height: 45px;
     background-color: rgb(255, 255, 255) !important;
     box-shadow: rgba(255, 255, 255, 0.102) 0px 2px 3px;
     @media only screen and (max-width: 600px) {
-        background-color: rgb(28, 28, 28) !important;
+        background-color: rgb(4, 9, 44) !important;
     }
     .navbar {
         padding: 0.5rem 0.5rem;
+        max-height: 50px;
     }
     .navbar-brand {
         padding-left: 10px;
@@ -4366,7 +4368,7 @@ a:link {
     margin-top: 30px;
 }
 
-.no-data-title{
+.no-data-title {
     font-size: 32px;
     font-weight: 700;
     color: rgb(78, 78, 78);

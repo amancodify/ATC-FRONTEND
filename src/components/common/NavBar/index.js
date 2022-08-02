@@ -19,7 +19,7 @@ const AtcNav = () => {
         <div className="navbar-main">
             <Navbar bg="dark" expand="lg" variant="dark" fixed="top" className="navbar-main">
                 <Navbar.Brand href="/">
-                    <img alt="" src={CompLogo} height="50" className="d-inline-block align-top" />{' '}
+                    <img alt="" src={CompLogo} height="38" className="d-inline-block align-top" />{' '}
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="navbarToggleExternalContent">
