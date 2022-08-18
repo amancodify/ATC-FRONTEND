@@ -5,7 +5,7 @@ import Header from './header';
 import Career from './Career';
 import FQ from './FQ';
 import Achievement from '../Home/achievement';
-import Footer2 from '../Footer2';
+import Footer2 from "../../components/common/Footer2";
 import WhyLoveAtc from './whyloveatc';
 
 function Home() {

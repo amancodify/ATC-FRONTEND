@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { useOnClickOutside } from '../../AtcPortal/dealers/outsideClick';
+import { useOnClickOutside } from '../../../pages/AtcPortal/dealers/outsideClick';
 
 const MenuOptions = ({ optionsNode, mainOptionsCSS, menuListCSS }) => {
     const ref = useRef(null);

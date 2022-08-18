@@ -142,8 +142,6 @@ a:link {
     line-height: 60px;
     font-family: "Poppins";
     font-weight: 800;
-    transform: translateX(-100px);
-    opacity: 0.1;
 }
 
 .tagline {
@@ -384,13 +382,12 @@ a:link {
     justify-content: center;
     align-items: center;
     padding: 10px 40px;
-    min-width: 180px;
-    background-color: #543ea6;
     color: white;
     border-radius: 20px;
     font-size: 16px;
     font-weight: 600;
     margin-top: 30px;
+    width: 150px;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
     @media only screen and (max-width: 600px) {
@@ -406,7 +403,7 @@ a:link {
 }
 
 .otp-main {
-    background-image: url("../imagesCSS/otp_banner.png");
+    background-image: url("../assets/otp_banner.png");
     background-repeat: no-repeat;
     background-size: cover;
     padding-top: 100px;
@@ -498,7 +495,7 @@ a:link {
 }
 
 .footer-submain {
-    background-image: url("../imagesCSS/footer-img.png");
+    background-image: url("../assets/footer-img.png");
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;
@@ -1417,7 +1414,7 @@ a:link {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        transition: all 0.1s ease-in-out;
+        transition: all 0.1s ease-in;
         font-family: "Poppins";
         .display-letter {
             position: absolute;
@@ -1453,7 +1450,7 @@ a:link {
         }
         &:hover {
             box-shadow: 0px 0px 8px #6e6e6e5f;
-            background-color: rgb(242, 247, 255);
+            background-color: rgb(249, 251, 255);
         }
 
         .icon {
@@ -2070,13 +2067,15 @@ a:link {
                 padding: 10px 20px;
                 font-size: 16px;
                 background-color: #000142;
+                height: 40px;
                 color: white;
                 border-radius: 4px;
                 margin: 0px 10px;
                 transition: all 0.2s ease-in-out;
                 cursor: pointer;
+                text-decoration: none;
                 &:hover {
-                    background-color: #1e00ff;
+                    background-color: #220fb5;
                 }
                 @media only screen and (max-width: 600px) {
                     font-size: 12px;
@@ -3561,7 +3560,7 @@ a:link {
 
 .events-main {
     font-family: "Poppins";
-    background: url("../imagesCSS/eventsbanner.jpg");
+    background: url("../assets/eventsbanner.jpg");
     height: 100vh;
     position: relative;
     z-index: 1;

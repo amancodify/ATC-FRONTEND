@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import Popup from "../../common/PopUp";
+import Popup from '../../../components/common/PopUp';
 import AtcRefillGodown from "./RefillGodown";
 import GodownDamageForm from "./godownDamage";
 import API_URL from "../../../config";

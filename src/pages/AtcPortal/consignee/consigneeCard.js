@@ -1,9 +1,9 @@
 import React, { useRef, useState } from 'react';
 import { useOnClickOutside } from '../dealers/outsideClick';
-import MenuOptions from '../../common/MenuOptions';
+import MenuOptions from '../../../components/common/MenuOptions';
 import axios from 'axios';
 import API_URL from '../../../config';
-import Popup from '../../common/PopUp';
+import Popup from '../../../components/common/PopUp';
 
 const ConsigneeCard = ({ consigneeData }) => {
     let { firmname, partycode, name, email, mobile, consigneecode, lastupdated, partydata, photo, createddate, address, buydamage } = consigneeData;

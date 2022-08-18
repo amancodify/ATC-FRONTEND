@@ -6,7 +6,7 @@ import API_URL from '../../../config';
 import { formatDate, parseDate } from 'react-day-picker/moment';
 import { convertDate } from '../../../utils/dateConverter';
 import EmptyDataBannerComp from '../dealers/emptyDataBanner';
-import Popup from '../../common/PopUp';
+import Popup from '../../../components/common/PopUp';
 import RefillTransactionsReport from './refillGodownReport';
 import { REFILL_MODE_TEXTS } from '../dealers/variablesMapping';
 

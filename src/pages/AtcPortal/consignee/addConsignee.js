@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import CheckboxComp from '../../common/Form/Checkbox';
+import CheckboxComp from '../../../components/common/Form/Checkbox';
 import API_URL from '../../../config';
 import { Dropdown } from 'semantic-ui-react';
 

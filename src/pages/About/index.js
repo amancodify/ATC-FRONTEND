@@ -3,8 +3,8 @@ import Header from "./aboutHeader";
 import CoreVal from "./coreValues";
 import CompDetails from "./compDetails";
 import Teams from "./teams";
-import Events from "../Crousal";
-import Footer2 from "../Footer2";
+import Events from "../../components/common/Crousal";
+import Footer2 from "../../components/common/Footer2";
 
 var sliderImages = [
   "images/6.jpg",

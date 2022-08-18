@@ -364,7 +364,7 @@ a:link {
 }
 
 .otp-main {
-  background-image: url("../imagesCSS/otp_banner.png");
+  background-image: url("../assets/otp_banner.png");
   background-repeat: no-repeat;
   background-size: cover;
   padding-top: 100px;
@@ -470,7 +470,7 @@ a:link {
 }
 
 .footer-submain {
-  background-image: url("../imagesCSS/footer-img.png");
+  background-image: url("../../assets/footer-img.png");
   background-repeat: no-repeat;
   background-size: contain;
   height: 100%;

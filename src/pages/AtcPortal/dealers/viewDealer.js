@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import Popup from "../../common/PopUp";
+import Popup from "../../../components/common/PopUp";
 import DealerTransaction from "./newTransaction";
 import OpeningBal from "./openingBal";
 import AddCommentComp from "./addComment";
 import API_URL from "../../../config";
 import { useOnClickOutside } from "./outsideClick";
-import GraphComp from "../../common/graph";
+import GraphComp from "../../../components/common/graph";
 import { PRODUCTS_TEXTS } from "./variablesMapping";
+import Button from "@mui/material/Button";
 
 const ViewDealer = (props) => {
     let partyCode = props.match.params.id;
@@ -229,15 +230,24 @@ const ViewDealer = (props) => {
                             </div>
                             <div className="actions">
                                 <div className={`${cursorCss}`}>
-                                    <div
+                                    <Button
+                                        style={{ textTransform: "none" }}
+                                        variant="contained"
                                         className={`action-link ${disabledCss}`}
                                         onClick={() => setShowTransPopup(true)}
                                     >
                                         New Transaction
-                                    </div>
+                                    </Button>
                                 </div>
-                                <a className="action-link" href={`#/transactions/${partyCode}`}>
-                                    View Transactions
+
+                                <a href={`#/transactions/${partyCode}`}>
+                                    <Button
+                                        style={{ textTransform: "none" }}
+                                        variant="contained"
+                                        className={`action-link ${disabledCss}`}
+                                    >
+                                        View Transactions
+                                    </Button>
                                 </a>
                             </div>
                         </div>

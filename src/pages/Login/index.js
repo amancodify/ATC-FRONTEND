@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { login, isLoggedIn } from "../../../utils/auth";
+import { login, isLoggedIn } from "../../utils/auth";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
-import API_URL from "../../../config";
+import API_URL from "../../config";
 
 const UserLogin = () => {
   const [formData, setFormData] = useState({});

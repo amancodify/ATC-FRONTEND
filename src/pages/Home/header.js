@@ -1,11 +1,7 @@
-import React, { useEffect } from 'react';
-import { gsap } from 'gsap';
+import React from 'react';
+import Button from "@mui/material/Button";
 
 const Header = () => {
-    useEffect(() => {
-        gsap.to('.atcfull', { x: 0, duration: 1.5, opacity: 1 });
-    }, []);
-
     return (
         <div className="home-main">
             <div className="row mb-md-8 align-items-center sub-container">
@@ -17,18 +13,18 @@ const Header = () => {
                 <div className="col-md-5 home-left">
                     <h1 className="atcfull">Aman Trading Company</h1>
                     <div className="tagline">Trade Simplified</div>
-                    <div className="d-flex btns-cover">
+                    <div className="d-flex btns-cover mt-4">
                         <a href="tel:+917260995387">
-                            <div className="contactbar mr-4">
+                            <Button variant="contained" className="contactbar mr-4">
                                 <i className="fa fa-phone" aria-hidden="true"></i>
                                 <span className="ml-3 text">Call Us</span>
-                            </div>
+                            </Button>
                         </a>
                         <a href="mailto:amantrading.company13@gmail.com">
-                            <div className="contactbar">
+                            <Button variant="contained" className="contactbar">
                                 <i className="fa fa-envelope" aria-hidden="true"></i>
                                 <span className="ml-3 text">Email Us</span>
-                            </div>
+                            </Button>
                         </a>
                     </div>
                 </div>

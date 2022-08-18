@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import DealerCard from "./PartyCard";
 import axios from "axios";
-import CheckboxComp from "../../common/Form/Checkbox";
+import CheckboxComp from "../../../components/common/Form/Checkbox";
 import { DebounceInput } from "react-debounce-input";
 import API_URL from "../../../config";
 import { useOnClickOutside } from "./outsideClick";
@@ -74,7 +74,7 @@ const Home = () => {
 
     return (
         <>
-            <div className="col-md-12 view-section">
+            <div  className="col-md-12 view-section">
                 <div className="searchbox">
                     <DebounceInput
                         value={searchText}

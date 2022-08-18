@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import Popup from '../../common/PopUp';
+import Popup from '../../../components/common/PopUp';
 import API_URL from '../../../config';
 import { useOnClickOutside } from '../dealers/outsideClick';
-import GraphComp from '../../common/graph';
+import GraphComp from '../../../components/common/graph';
 import { PRODUCTS_TEXTS } from '../dealers/variablesMapping';
 
 const ViewConsignee = (props) => {

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import ExcelReportComp from './reactExcel';
 import axios from 'axios';
-import API_URL from '../../config';
-import { getCurrentDate } from '../../utils/dateConverter';
+import API_URL from '../../../config';
+import { getCurrentDate } from '../../../utils/dateConverter';
 
 const AtcReports = () => {
     const [showLink, setShowLink] = useState(false);

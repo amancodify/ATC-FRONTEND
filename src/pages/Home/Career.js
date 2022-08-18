@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useForm } from "react-hook-form";
 import axios from 'axios';
-import Input from "../Form/Input";
-import TextArea from "../Form/TextArea";
-import API_URL from "../../../config";
+import Input from "../../components/common/Form/Input";
+import TextArea from "../../components/common/Form/TextArea";
+import API_URL from "../../config";
 
 
 const Career = (() => {
