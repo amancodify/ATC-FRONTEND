@@ -175,7 +175,7 @@ const AllTransactions = (props) => {
                         <div className="firmname report-icons d-flex">
                             <PartyReport partyCode={partyCode} />
                         </div>
-                        <div className="d-flex portal-date-picker">
+                        <div className="d-flex align-items-center portal-date-picker">
                             <i onClick={() => window.location.reload()} className="fa fa-refresh reset-trans" aria-hidden="true"></i>
                             <div className="dp-from">
                                 <DayPickerInput
@@ -193,6 +193,7 @@ const AllTransactions = (props) => {
                                     placeholder={'MM/DD/YYYY - To'}
                                     onDayChange={(date) => setToDate(date)}
                                     style={{ fontSize: '12px' }}
+                                    
                                 />
                             </div>
                             <div onClick={dateWiseTransactions} className="fetchbtn">

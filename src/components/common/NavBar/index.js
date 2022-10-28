@@ -11,7 +11,7 @@ const AtcNav = () => {
             <NavDropdown.Item onClick={() => logout()}>Logout</NavDropdown.Item>
         </NavDropdown>
     ) : (
-        <Nav.Link className="navitem atc-portal text-right" href="/atcportal">
+        <Nav.Link className="navitem" href="/atcportal">
             ATC PORTAL
         </Nav.Link>
     );
