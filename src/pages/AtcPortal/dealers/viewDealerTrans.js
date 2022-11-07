@@ -244,7 +244,7 @@ const AllTransactions = (props) => {
                     {allTrans.allTransactions &&
                         allTrans.allTransactions.length > 0 &&
                         allTrans.allTransactions.map((data, inx) => {
-                            let finalTransDate = data.transactiondate ? data.transactiondate : data.createdAt;
+                            let finalTransDate = data.createdAt;
                             return (
                                 <div className="d-flex flex-column" key={`dealertrans_${inx}`}>
                                     <div className="trans-card-main">

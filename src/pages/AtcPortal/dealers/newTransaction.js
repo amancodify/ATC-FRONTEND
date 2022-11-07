@@ -5,7 +5,7 @@ import axios from 'axios';
 import API_URL from "../../../config";
 import { getCurrentDate } from "../../../utils/dateConverter";
 import { PRODUCTS_TEXTS, TRANSACTION_MODES } from "./variablesMapping";
-import { Dropdown } from 'semantic-ui-react';
+// import { Dropdown } from 'semantic-ui-react';
 
 const NewPartyTransaction = (({ partyCode, firmName, partyName, email, damageDealer }) => {
     const { handleSubmit, register } = useForm();
@@ -17,8 +17,8 @@ const NewPartyTransaction = (({ partyCode, firmName, partyName, email, damageDea
     const [currenctProductTrans, setCurrentProductTrans] = useState({});
     const [finalProducts, setFinalProducts] = useState([]);
     const [addMore, setAddMore] = useState(true);
-    const [consignee, setConsignee] = useState([]);
-    const [selectedConsignee, setSelectedConsignee] = useState("");
+    // const [consignee, setConsignee] = useState([]);
+    // const [selectedConsignee, setSelectedConsignee] = useState("");
 
     useEffect(() => {
         axios.get(`${API_URL}/products`)
@@ -37,26 +37,25 @@ const NewPartyTransaction = (({ partyCode, firmName, partyName, email, damageDea
                 console.log(err);
             })
 
-        axios.post(`${API_URL}/getpartyconsignees`, { partycode: partyCode })
-            .then(response => {
-                setConsignee(response.data);
-            })
-            .catch(err => {
-                console.log(err);
-            })
+        // axios.post(`${API_URL}/getpartyconsignees`, { partycode: partyCode })
+        //     .then(response => {
+        //         setConsignee(response.data);
+        //     })
+        //     .catch(err => {
+        //         console.log(err);
+        //     })
     }, [partyCode]);
 
     const onSubmit = values => {
         if (finalProducts.length > 0) {
             setLoadingText("Creating");
-            console.log(selectedConsignee)
             let transactionData = {
                 products: finalProducts,
                 partyCode: partyCode,
                 partyName: partyName,
                 firmName: firmName,
                 vehicleNumber: values.vehicle_no,
-                consigneeCode: `${selectedConsignee}`,
+                consigneename: values.consigneename,
                 transactiondate: values.trans_date
             };
 
@@ -175,13 +174,13 @@ const NewPartyTransaction = (({ partyCode, firmName, partyName, email, damageDea
 
     let isModeDisabled = (currenctProductTrans.delivered && currenctProductTrans.delivered > 0) ? false : true;
 
-    let consigneeOptions = consignee.map((item) => {
-        return {
-            key: item.consigneecode,
-            value: item.consigneecode,
-            text: `${item.firmname} (${item.consigneecode})`
-        }
-    })
+    // let consigneeOptions = consignee.map((item) => {
+    //     return {
+    //         key: item.consigneecode,
+    //         value: item.consigneecode,
+    //         text: `${item.firmname} (${item.consigneecode})`
+    //     }
+    // })
 
     return (
         <>
@@ -318,7 +317,17 @@ const NewPartyTransaction = (({ partyCode, firmName, partyName, email, damageDea
                                     })}
                                 />
                             </div>
-                            <div className="d-flex justify-content-center align-items-center">
+                            <div className="d-flex justify-content-center align-items-center mb-3">
+                                <Form.Label className="productlbl newtrans-cons-vechi">Consignee</Form.Label>
+                                <Form.Control required className="transaction-fields" type="text" placeholder="Enter Consignee Name" name="consigneename"
+                                    ref={register({
+                                        pattern: {
+                                            message: "Cannot be empty"
+                                        }
+                                    })}
+                                />
+                            </div>
+                            {/* <div className="d-flex justify-content-center align-items-center">
                                 <Form.Label className="productlbl newtrans-cons-vechi">Consignee </Form.Label>
                                 <Dropdown
                                     clearable
@@ -330,7 +339,7 @@ const NewPartyTransaction = (({ partyCode, firmName, partyName, email, damageDea
                                     onChange={(e, data) => setSelectedConsignee(data.value)}
                                     className= "party-select-dd"
                                 />
-                            </div>
+                            </div> */}
                         </Form.Group>
                         <div className="mr-2">
                             <Form.Group className="col-md-12">
