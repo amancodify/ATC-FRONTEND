@@ -76,7 +76,7 @@ const PartyCard = ({
 
     return (
         <>
-            <div className="row justify-content-center align-items-center data-card-main">
+            <div className="row align-items-center data-card-main">
                 <a href={`#/dealer/${partyCode}`} className="col-md-10 col-sm-10 data-card">
                     <div className={`display-letter ${tagcolor}`}>{partyArea}</div>
                     <div className="createdon">

@@ -1,19 +1,23 @@
 import React, { useRef, useState, useEffect } from "react";
-import DealerCard from "./PartyCard";
 import axios from "axios";
+import DealerCard from "./PartyCard";
 import CheckboxComp from "../../../components/common/Form/Checkbox";
 import { DebounceInput } from "react-debounce-input";
 import API_URL from "../../../config";
 import { useOnClickOutside } from "./outsideClick";
-import NoDataVector from "../../../assets/no-data.jpg";
+// import NoDataVector from "../../../assets/no-data.jpg";
+import ContentLoader, { Facebook } from "react-content-loader";
+const MyFacebookLoader = () => <Facebook />;
 
 const Home = () => {
     const [allDealers, setAllDealers] = useState([]);
     const [godownFilters, setGodownFilters] = useState([]);
     const [searchText, setSearchText] = useState("");
     const [damageUserFilter, setDamageUserFilter] = useState(false);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [showFilters, setShowFilters] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalDealersCount, setTotalDealersCount] = useState(0);
 
     const clickRef = useRef(null);
     useOnClickOutside(clickRef, () => setShowFilters(false));
@@ -24,12 +28,17 @@ const Home = () => {
             saerchText: searchString,
             godowns: godownFilters,
             isDamageDealer: isDamageDealer,
+            page: currentPage,
+            size: 20,
         };
         axios
             .post(`${API_URL}/searchatcdealer`, allFilters)
             .then((response) => {
-                setAllDealers(response.data.data);
+                let { dealers, totalCount } = response.data.data;
+                let formattedDealers = [...allDealers, ...dealers];
+                setAllDealers(formattedDealers);
                 setLoading(false);
+                setTotalDealersCount(totalCount);
             })
             .catch((err) => {
                 setLoading(false);
@@ -38,13 +47,14 @@ const Home = () => {
     };
 
     useEffect(() => {
-        triggerSearch("", []);
-    }, []);
+        triggerSearch(searchText, godownFilters, damageUserFilter);
+    }, [searchText, godownFilters, damageUserFilter, currentPage]);
 
     const onTextSearch = (event) => {
+        setAllDealers([]);
         let searchValue = event.target.value;
         setSearchText(searchValue);
-        triggerSearch(searchValue, godownFilters);
+        setCurrentPage(1);
     };
 
     const onGodownFilterChangeHandler = (e) => {
@@ -63,18 +73,20 @@ const Home = () => {
         }
 
         setGodownFilters(godownFiltersCopy);
-        triggerSearch(searchText, godownFiltersCopy);
+        setCurrentPage(1);
+        setAllDealers([]);
     };
 
     const onDamageFilterChangeHandler = (e) => {
         let isDamageDealer = e.target.checked;
         setDamageUserFilter(isDamageDealer);
-        triggerSearch(searchText, godownFilters, isDamageDealer);
+        setCurrentPage(1);
+        setAllDealers([]);
     };
 
     return (
         <>
-            <div  className="col-md-12 view-section">
+            <div className="col-md-12 view-section">
                 <div className="searchbox">
                     <DebounceInput
                         value={searchText}
@@ -90,7 +102,8 @@ const Home = () => {
                         <i
                             onClick={() => {
                                 setSearchText("");
-                                triggerSearch("", godownFilters, damageUserFilter);
+                                setCurrentPage(1);
+                                setAllDealers([]);
                             }}
                             className="fa fa-times search-icon"
                             aria-hidden="true"
@@ -100,7 +113,9 @@ const Home = () => {
                     )}
                 </div>
                 <div className="details-controller">
-                    <div className="dealers-count">Showing {allDealers && allDealers.length} dealers</div>
+                    <div className="dealers-count">
+                        Showing {allDealers && allDealers.length} of {totalDealersCount} dealers
+                    </div>
                     <div className="filter-main ml-4">
                         <div className="filterby-text" onClick={() => setShowFilters(!showFilters)}>
                             Filters <i className="fa fa-angle-down down-arrow ml-1"></i>
@@ -142,42 +157,68 @@ const Home = () => {
                 </div>
 
                 <div className="scroll-section">
-                    {loading ? (
-                        <div className="loading">
-                            <i className="fa fa-cog fa-spin"></i>
-                            <span className="ml-3 pb-1">Loading...</span>
-                        </div>
-                    ) : (
-                        <>
-                            {allDealers && allDealers.length > 0 ? (
-                                allDealers.map((data, inx) => {
-                                    return (
-                                        <div key={`Dealer_card${inx}`}>
-                                            <DealerCard
-                                                firmName={data.firm_name}
-                                                OwnerName={data.name}
-                                                Mobile={data.mobile}
-                                                value={data.total_balance}
-                                                imgUrl={data.photo}
-                                                partyCode={data.party_code}
-                                                dealerArea={data.dealer_area}
-                                                isDamageDealer={data.is_damage_dealer || false}
-                                                email={data.email}
-                                                updatedAt={data.updatedAt}
-                                                outstanding={data.outstanding}
-                                                createdAt={data.dealer_creation_Date}
-                                            />
-                                        </div>
-                                    );
-                                })
-                            ) : (
-                                <>
-                                    <img className="no-data-vector" src={NoDataVector} alt="" />
-                                    <div className="no-data-title">No Dealers Found!</div>
-                                </>
-                            )}
-                        </>
-                    )}
+                    <>
+                        {allDealers && allDealers.length > 0 ? (
+                            allDealers.map((data, inx) => {
+                                return (
+                                    <div key={`Dealer_card${inx}`}>
+                                        <DealerCard
+                                            firmName={data.firm_name}
+                                            OwnerName={data.name}
+                                            Mobile={data.mobile}
+                                            value={data.total_balance}
+                                            imgUrl={data.photo}
+                                            partyCode={data.party_code}
+                                            dealerArea={data.dealer_area}
+                                            isDamageDealer={data.is_damage_dealer || false}
+                                            email={data.email}
+                                            updatedAt={data.updatedAt}
+                                            outstanding={data.outstanding}
+                                            createdAt={data.dealer_creation_Date}
+                                        />
+                                    </div>
+                                );
+                            })
+                        ) : (
+                            <>
+                                {/* <img className="no-data-vector" src={NoDataVector} alt="" />
+                                <div className="no-data-title">No Dealers Found!</div> */}
+                            </>
+                        )}
+                        {totalDealersCount !== allDealers.length ? (
+                            <div
+                                style={{
+                                    textAlign: "center",
+                                    marginTop: "40px",
+                                    marginBottom: "40px",
+                                    fontSize: "16px",
+                                    fontWeight: "500",
+                                }}
+                            >
+                                {loading ? (
+                                    <div style={{heigh: '70vh', width: '100%'}}>
+                                        <MyFacebookLoader />
+                                        <MyFacebookLoader />
+                                        <MyFacebookLoader />
+                                    </div>
+                                ) : (
+                                    <span
+                                        onClick={() => setCurrentPage(currentPage + 1)}
+                                        className="d-flex align-items-center justify-content-center load-more"
+                                    >
+                                        Load More{" "}
+                                        <i
+                                            style={{ fontSize: "22px", marginLeft: "10px" }}
+                                            class="fa fa-angle-down"
+                                            aria-hidden="true"
+                                        ></i>
+                                    </span>
+                                )}
+                            </div>
+                        ) : (
+                            <></>
+                        )}
+                    </>
                 </div>
             </div>
         </>
