@@ -33,6 +33,10 @@ export const TRANSACTION_MODES = {
         type: 'GODOWN',
         value: 'CH003',
     },
+    CH004: {
+        type: 'GODOWN',
+        value: 'CH004',
+    },
     RAIL: {
         type: 'TRANSPORT',
         value: 'RAIL',
@@ -68,4 +72,5 @@ export const MODES = {
     CH001: 'Chapra Godown',
     CH002: 'Chapra Godown-2',
     CH003: 'Chapra Rauja Pokhra',
+    CH004: 'Chapra Godown - Mehiya',
 };

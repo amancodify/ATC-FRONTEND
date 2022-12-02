@@ -249,7 +249,7 @@ const AllTransactions = (props) => {
                                 <div className="d-flex flex-column" key={`dealertrans_${inx}`}>
                                     <div className="trans-card-main">
                                         <div className="d-flex flex-column justify-content-between trans-left-elems">
-                                            <div>
+                                            <div style={{lineHeight: "17px"}}>
                                                 <div className="date">
                                                     <b className="mr-2">Date :</b>
                                                     {convertDate(finalTransDate.slice(0, 10), 0, true)} ({moment(finalTransDate).fromNow()})
@@ -269,7 +269,7 @@ const AllTransactions = (props) => {
                                                     return (
                                                         <div className="product" key={`transprod_${inx}`}>
                                                             <div className="title">{PRODUCTS[item.productcode]} :</div>
-                                                            <div className="values d-flex flex-column">
+                                                            <div className="values d-flex flex-column" style={{lineHeight: "17px"}}>
                                                                 <span>
                                                                     <b>Delivered: </b>
                                                                     <span className="greentxt">{item.delivered.toFixed(2)} mt</span>
