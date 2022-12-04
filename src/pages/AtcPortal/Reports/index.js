@@ -1,27 +1,33 @@
-import React, { useState } from 'react';
-import ExcelReportComp from './reactExcel';
-import axios from 'axios';
-import API_URL from '../../../config';
-import { getCurrentDate } from '../../../utils/dateConverter';
+import React, { useState } from "react";
+import ExcelReportComp from "./reactExcel";
+import axios from "axios";
+import API_URL from "../../../config";
+import { convertDate } from "../../../utils/dateConverter";
 
 const AtcReports = () => {
     const [showLink, setShowLink] = useState(false);
     const [reportData, setReportData] = useState([]);
-    const [statusText, setStatusText] = useState('No Reports Generated !!');
-    const [date, setDate] = useState();
+    const [statusText, setStatusText] = useState("No Reports Generated !!");
+    const [fromDate, setFromDate] = useState();
+    const [toDate, setToDate] = useState();
 
-    const onDateChange = (event) => {
-        setDate(event.target.value);
-    };
-
-    const generateReport = (date) => {
-        setStatusText('Generating report please wait...');
+    const generateReport = () => {
+        let requestData = {};
+        if (fromDate && toDate) {
+            requestData = {
+                dateFilter: {
+                    fromDate: `${convertDate(fromDate)}`,
+                    toDate: `${convertDate(toDate)}`,
+                },
+            };
+        }
+        setStatusText("Generating report please wait...");
         axios
-            .get(`${API_URL}/generatealldealersreport`)
+            .post(`${API_URL}/generatealldealersreport`, requestData)
             .then((response) => {
                 setReportData(response.data);
                 setShowLink(true);
-                setStatusText('Report has been Generated !!');
+                setStatusText("Report has been Generated !!");
             })
             .catch((err) => {
                 console.log(err);
@@ -33,8 +39,16 @@ const AtcReports = () => {
             <div className="reports-main">
                 <div className="row">
                     <div className="col-md-12 my-4 d-flex">
-                        <input onChange={onDateChange} defaultValue={getCurrentDate()} type="date" />
-                        <div onClick={() => generateReport(date)} className="generate-txt">
+                        <input
+                            onChange={(e) => setFromDate(e.target.value)}
+                            type="date"
+                            className="mr-3"
+                        />
+                        <input
+                            onChange={(e) => setToDate(e.target.value)}
+                            type="date"
+                        />
+                        <div onClick={() => generateReport()} className="generate-txt">
                             Generate Report
                         </div>
                     </div>
@@ -42,7 +56,11 @@ const AtcReports = () => {
                         <div className="col-md-12 report-link-main">
                             <img className="empty-img" src="/images/emptydata.gif" alt="" />
                             <div className="empty-text mb-3">
-                                {statusText === 'Generating report please wait...' ? <i className="fa fa-cog fa-spin"></i> : ''}
+                                {statusText === "Generating report please wait..." ? (
+                                    <i className="fa fa-cog fa-spin"></i>
+                                ) : (
+                                    ""
+                                )}
                                 &nbsp;&nbsp;{statusText}
                             </div>
                         </div>

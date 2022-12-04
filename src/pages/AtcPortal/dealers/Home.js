@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useRef, useState, useEffect } from "react";
 import axios from "axios";
 import DealerCard from "./PartyCard";
@@ -6,7 +7,7 @@ import { DebounceInput } from "react-debounce-input";
 import API_URL from "../../../config";
 import { useOnClickOutside } from "./outsideClick";
 // import NoDataVector from "../../../assets/no-data.jpg";
-import ContentLoader, { Facebook } from "react-content-loader";
+import { Facebook } from "react-content-loader";
 const MyFacebookLoader = () => <Facebook />;
 
 const Home = () => {
@@ -47,7 +48,7 @@ const Home = () => {
     };
 
     useEffect(() => {
-        triggerSearch(searchText, godownFilters, damageUserFilter);
+        triggerSearch(searchText, godownFilters, damageUserFilter); 
     }, [searchText, godownFilters, damageUserFilter, currentPage]);
 
     const onTextSearch = (event) => {
@@ -196,7 +197,7 @@ const Home = () => {
                                 }}
                             >
                                 {loading ? (
-                                    <div style={{heigh: '70vh', width: '100%'}}>
+                                    <div style={{ heigh: "70vh", width: "100%" }}>
                                         <MyFacebookLoader />
                                         <MyFacebookLoader />
                                         <MyFacebookLoader />

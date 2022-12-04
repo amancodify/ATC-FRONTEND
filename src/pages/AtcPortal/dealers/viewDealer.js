@@ -259,8 +259,8 @@ const ViewDealer = (props) => {
                     show={showTransPopup}
                     onHide={() => setShowTransPopup(false)}
                     hideFooter={false}
-                    footerContent={() => "* Please fill the details correctly & carefully !!"}
-                    title={`New Transaction - ${firm_name}`}
+                    footerContent={() => "* Please fill the details correctly & carefully!"}
+                    title={`New Transaction - ${firm_name} [${party_code}]`}
                     headerImg="/images/trans.png"
                     size="xl"
                 >

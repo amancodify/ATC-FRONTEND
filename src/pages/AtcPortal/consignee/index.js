@@ -7,8 +7,9 @@ import API_URL from "../../../config";
 const ViewConsignee = () => {
   const [workingData, setWorkingData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchText, setSearchText] = useState("");
 
-  const triggerSearch = (searchString = "") => {
+  const triggerSearch = (searchString) => {
     let allFilters = {
       saerchText: searchString
     };
@@ -24,12 +25,12 @@ const ViewConsignee = () => {
   };
 
   useEffect(() => {
-    triggerSearch();
-  }, []);
+    triggerSearch(searchText);
+  }, [searchText]);
 
   const onTextSearch = (event) => {
     let searchValue = event.target.value;
-    triggerSearch(searchValue);
+    setSearchText(searchValue);
   };
 
   return (

@@ -1,33 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React from 'react';
 import ReactExport from 'react-data-export';
-import API_URL from '../../../config';
 import { convertDate } from '../../../utils/dateConverter';
 
-const PartyReport = ({ partyCode }) => {
+const PartyReport = ({ allTrans, partyData }) => {
     const ExcelFile = ReactExport.ExcelFile;
     const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
-    const [partyData, setPartyData] = useState({});
-    const [allTrans, setAllTrans] = useState({});
-
-    useEffect(() => {
-        axios
-            .get(`${API_URL}/dealers/${partyCode}`)
-            .then((response) => {
-                setPartyData(response.data);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-        axios
-            .get(`${API_URL}/partyalltransactions/${partyCode}`)
-            .then((response) => {
-                setAllTrans(response.data.data);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    }, [partyCode]);
 
     // For border add this style below
     // border: {top: { style: "thin", color: "FF00FFFF" }, left: { style: "thin", color: "FF00FFFF" }, right: { style: "thin", color: "FF00FFFF" }, bottom: { style: "thin", color: "FF00FFFF" }}
