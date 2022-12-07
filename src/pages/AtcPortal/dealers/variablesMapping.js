@@ -61,6 +61,7 @@ export const PRODUCTS = {
     opc: 'OPC',
     psc: 'PSC',
     cc: 'CC',
+    'Cc HDPE' : 'CC HDPE'
 };
 
 export const MODES = {

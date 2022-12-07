@@ -4,7 +4,7 @@ import { Form, Button } from 'react-bootstrap';
 import axios from 'axios';
 import API_URL from "../../../config";
 import { getCurrentDate } from "../../../utils/dateConverter";
-import { PRODUCTS_TEXTS, TRANSACTION_MODES } from "./variablesMapping";
+import { PRODUCTS_TEXTS, TRANSACTION_MODES, MODES } from "./variablesMapping";
 // import { Dropdown } from 'semantic-ui-react';
 
 const NewPartyTransaction = (({ partyCode, firmName, partyName, email, damageDealer }) => {
@@ -219,7 +219,7 @@ const NewPartyTransaction = (({ partyCode, firmName, partyName, email, damageDea
                                             <span>{PRODUCTS_TEXTS[item.productcode]}</span>
                                             <span>{item.delivered} mt</span>
                                             <span>{item.billed} mt</span>
-                                            <span>{item.mode.value}</span>
+                                            <span>{MODES[item.mode.value]}</span>
                                             <span>{item.producttype}</span>
 
                                             <div onClick={() => removeProduct(item.productcode)} className="delete-trans">&#10005;</div>
