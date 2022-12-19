@@ -280,12 +280,7 @@ const AllTransactions = (props) => {
                                             <div style={{ lineHeight: "17px" }}>
                                                 <div className="date">
                                                     <b className="mr-2">Date :</b>
-                                                    {convertDate(
-                                                        finalTransDate.slice(0, 10),
-                                                        0,
-                                                        true,
-                                                    )}{" "}
-                                                    ({moment(finalTransDate).fromNow()})
+                                                    {moment(finalTransDate).format("ll")}
                                                 </div>
                                                 <div
                                                     data-toggle="tooltip"
