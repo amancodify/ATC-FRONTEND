@@ -4,7 +4,7 @@ import { Form, Button } from 'react-bootstrap';
 import axios from 'axios';
 import API_URL from "../../../config";
 // import { getCurrentDate } from "../../utils/dateConverter";
-import { PRODUCTS_TEXTS, TRANSACTION_MODES } from "./variablesMapping";
+import { PRODUCTS_TEXTS, TRANSACTION_MODES } from "./constants";
 
 
 const ReturnBags = ({ tid, party_code, firm_name, party_name }) => {

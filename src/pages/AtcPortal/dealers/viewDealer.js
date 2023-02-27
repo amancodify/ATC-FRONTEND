@@ -7,7 +7,7 @@ import AddCommentComp from "./addComment";
 import API_URL from "../../../config";
 import { useOnClickOutside } from "./outsideClick";
 import GraphComp from "../../../components/common/graph";
-import { PRODUCTS_TEXTS } from "./variablesMapping";
+import { PRODUCTS_TEXTS } from "./constants";
 import Button from "@mui/material/Button";
 
 const ViewDealer = (props) => {

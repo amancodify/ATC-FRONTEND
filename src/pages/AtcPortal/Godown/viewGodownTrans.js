@@ -8,7 +8,7 @@ import { convertDate } from '../../../utils/dateConverter';
 import EmptyDataBannerComp from '../dealers/emptyDataBanner';
 import Popup from '../../../components/common/PopUp';
 import RefillTransactionsReport from './refillGodownReport';
-import { REFILL_MODE_TEXTS } from '../dealers/variablesMapping';
+import { REFILL_MODE_TEXTS } from '../dealers/constants';
 
 const GodownTransactions = (props) => {
     let godownCode = props.match.params.id;

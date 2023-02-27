@@ -11,7 +11,7 @@ import OverlayComp from "../../../components/common/overlay";
 import API_URL from "../../../config";
 import PartyReport from "../dealers/partyReport";
 import EmptyDataBannerComp from "./emptyDataBanner";
-import { PRODUCTS, MODES } from "./variablesMapping";
+import { PRODUCTS, MODES } from "./constants";
 import { useOnClickOutside } from "../dealers/outsideClick";
 import moment from "moment";
 

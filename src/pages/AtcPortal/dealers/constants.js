@@ -49,6 +49,11 @@ export const TRANSACTION_MODES = {
         type: 'TRANSPORT',
         value: 'STOCKTRANSFER',
     },
+
+    OTHER_DEPOT: {
+        type: 'TRANSPORT',
+        value: 'OTHER_DEPOT',
+    },
     NA: {
         type: 'NA',
         value: 'NA',
@@ -68,6 +73,7 @@ export const MODES = {
     RAIL: 'Railway',
     ROAD: 'Direct',
     STOCKTRANSFER: 'Stock Transfer',
+    OTHER_DEPOT: "Other Depot",
     SV001: 'Siwan Godown',
     SV002: 'Siwan Godown-2',
     CH001: 'Chapra Godown',

@@ -203,7 +203,7 @@ const PartyReport = ({ allTrans, partyData }) => {
                     { value: data.billed, style: { font: { sz: '12' }, alignment: { horizontal: 'center' } } },
                     { value: data.mode.value, style: { font: { sz: '12' }, alignment: { horizontal: 'center' } } },
                     { value: item.vehiclenumber, style: { font: { sz: '12' }, alignment: { horizontal: 'center' } } },
-                    { value: item.consigneename ? item.consigneename : '', style: { font: { sz: '12' }, alignment: { horizontal: 'center' } } },
+                    { value: item.consigneefirmname ? item.consigneefirmname : '', style: { font: { sz: '12' }, alignment: { horizontal: 'center' } } },
                     { value: returnValue, style: { font: { sz: '12' }, alignment: { horizontal: 'center' } } },
                     { value: item.trans_comment || '', style: { font: { sz: '12' }, alignment: { horizontal: 'center' } } },
                 ];

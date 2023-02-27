@@ -10,7 +10,7 @@ import OverlayComp from '../../../components/common/overlay';
 import API_URL from '../../../config';
 import PartyReport from '../dealers/partyReport';
 import EmptyDataBannerComp from '../dealers/emptyDataBanner';
-import { PRODUCTS, MODES } from '../dealers/variablesMapping';
+import { PRODUCTS, MODES } from '../dealers/constants';
 
 const ConsigneeTransactions = (props) => {
     const d = new Date();

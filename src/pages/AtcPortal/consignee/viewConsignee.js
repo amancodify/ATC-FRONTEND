@@ -4,7 +4,7 @@ import Popup from '../../../components/common/PopUp';
 import API_URL from '../../../config';
 import { useOnClickOutside } from '../dealers/outsideClick';
 import GraphComp from '../../../components/common/graph';
-import { PRODUCTS_TEXTS } from '../dealers/variablesMapping';
+import { PRODUCTS_TEXTS } from '../dealers/constants';
 
 const ViewConsignee = (props) => {
     let partyCode = props.match.params.id;
