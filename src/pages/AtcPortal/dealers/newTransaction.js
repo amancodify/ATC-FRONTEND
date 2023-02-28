@@ -78,6 +78,7 @@ const NewPartyTransaction = ({ partyCode, firmName, partyName, email, damageDeal
 
     const addToProductsList = () => {
         let { delivered, billed, mode, producttype } = currenctProductTrans;
+        console.log("Yahan ka mode", mode);
         let errorMessage = "";
         let hasError = false;
         if (delivered === 0 && billed === 0) {
@@ -139,6 +140,7 @@ const NewPartyTransaction = ({ partyCode, firmName, partyName, email, damageDeal
     const handleCurrentTransChange = (event) => {
         setErrorMsg("");
         let { name, value } = event.target;
+        console.log(name, value);
         let currenctDataCopy = { ...currenctProductTrans };
         currenctDataCopy[name] = value;
 
