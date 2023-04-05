@@ -78,7 +78,6 @@ const NewPartyTransaction = ({ partyCode, firmName, partyName, email, damageDeal
 
     const addToProductsList = () => {
         let { delivered, billed, mode, producttype } = currenctProductTrans;
-        console.log("Yahan ka mode", mode);
         let errorMessage = "";
         let hasError = false;
         if (delivered === 0 && billed === 0) {
@@ -127,8 +126,7 @@ const NewPartyTransaction = ({ partyCode, firmName, partyName, email, damageDeal
                 currenctProductTrans["producttype"] = "NA";
             }
 
-            let allFinalProductsCopy = finalProducts;
-            let productsToPush = [...allFinalProductsCopy, currenctProductTrans];
+            let productsToPush = [...finalProducts, currenctProductTrans];
             setFinalProducts(productsToPush);
             setAddMore(false);
             setCurrentProductTrans({});
@@ -140,7 +138,6 @@ const NewPartyTransaction = ({ partyCode, firmName, partyName, email, damageDeal
     const handleCurrentTransChange = (event) => {
         setErrorMsg("");
         let { name, value } = event.target;
-        console.log(name, value);
         let currenctDataCopy = { ...currenctProductTrans };
         currenctDataCopy[name] = value;
 
@@ -176,8 +173,8 @@ const NewPartyTransaction = ({ partyCode, firmName, partyName, email, damageDeal
         setUsedProducts(usedProductsCopy);
     };
 
-    let isModeDisabled =
-        currenctProductTrans.delivered && currenctProductTrans.delivered > 0 ? false : true;
+    // let isModeDisabled = currenctProductTrans.delivered && currenctProductTrans.delivered > 0 ? false : true;
+    let isModeDisabled = false;
 
     // let consigneeOptions = consignee.map((item) => {
     //     return {
