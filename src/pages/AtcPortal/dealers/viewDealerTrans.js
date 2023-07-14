@@ -14,6 +14,7 @@ import EmptyDataBannerComp from "./emptyDataBanner";
 import { PRODUCTS, MODES } from "./constants";
 import { useOnClickOutside } from "../dealers/outsideClick";
 import moment from "moment";
+import { getGodownsMode } from "../utils";
 
 const AllTransactions = (props) => {
     const partyCode = props.match.params.id;
@@ -27,6 +28,7 @@ const AllTransactions = (props) => {
     const [deleteModelShow, setDeleteModelShow] = useState(false);
     const [transactionId, setTransactionId] = useState("");
     const [expandOB, setExpandOB] = useState(false);
+    const [tranModes, setTransModes] = useState(MODES);
 
     const fetchPartyTransaction = () => {
         setLoadingScr(true);
@@ -43,7 +45,7 @@ const AllTransactions = (props) => {
             .post(`${API_URL}/partyalltransactions`, requestData)
             .then((response) => {
                 setAllTrans(response.data.data);
-                setUserData(response.data.data.partydata)
+                setUserData(response.data.data.partydata);
                 setLoadingScr(false);
             })
             .catch((err) => {
@@ -52,8 +54,14 @@ const AllTransactions = (props) => {
             });
     };
 
+    async function getGodownsData() {
+        let formattedGodownsList = await getGodownsMode();
+        setTransModes((val) => ({ ...val, ...formattedGodownsList }));
+    }
+
     useEffect(() => {
         fetchPartyTransaction();
+        getGodownsData();
     }, []);
 
     const onReturnClick = (tid) => {
@@ -333,7 +341,7 @@ const AllTransactions = (props) => {
                                                                 </span>
                                                                 <span>
                                                                     <b>Mode :</b>{" "}
-                                                                    {MODES[item.mode.value]}
+                                                                    {tranModes[item.mode.value]}
                                                                 </span>
                                                             </div>
                                                         </div>

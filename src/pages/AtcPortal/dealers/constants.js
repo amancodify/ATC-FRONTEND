@@ -74,10 +74,4 @@ export const MODES = {
     ROAD: 'Direct',
     STOCKTRANSFER: 'Stock Transfer',
     OTHER_DEPOT: 'Other Depot',
-    SV001: 'Siwan Godown',
-    SV002: 'Siwan Godown-2',
-    CH001: 'Chapra Godown',
-    CH002: 'Chapra Godown-2',
-    CH003: 'Chapra Rauja Pokhra',
-    CH004: 'Chapra Godown - Mehiya',
 };

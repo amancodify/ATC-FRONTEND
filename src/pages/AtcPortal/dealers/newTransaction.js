@@ -5,6 +5,7 @@ import axios from "axios";
 import API_URL from "../../../config";
 import { getCurrentDate } from "../../../utils/dateConverter";
 import { PRODUCTS_TEXTS, TRANSACTION_MODES, MODES } from "./constants";
+import { getGodownsMode } from "../utils";
 
 const NewPartyTransaction = ({ partyCode, firmName, partyName, email, damageDealer }) => {
     const { handleSubmit, register } = useForm();
@@ -15,7 +16,7 @@ const NewPartyTransaction = ({ partyCode, firmName, partyName, email, damageDeal
     const [currenctProductTrans, setCurrentProductTrans] = useState({});
     const [finalProducts, setFinalProducts] = useState([]);
     const [addMore, setAddMore] = useState(true);
-    // const [godowns, setGodowns] = useState([]);
+    const [transactionModes, setTransactionModes] = useState(MODES);
     // const [consignee, setConsignee] = useState([]);
     // const [selectedConsignee, setSelectedConsignee] = useState("");
 
@@ -29,14 +30,12 @@ const NewPartyTransaction = ({ partyCode, firmName, partyName, email, damageDeal
                 console.log(err);
             });
 
-        // axios
-        //     .get(`${API_URL}/godowns`)
-        //     .then((response) => {
-        //         setGodowns(response.data.data);
-        //     })
-        //     .catch((err) => {
-        //         console.log(err);
-        //     });
+        async function getGodownsData() {
+            let formattedGodownsList = await getGodownsMode();
+            setTransactionModes((val) => ({ ...val, ...formattedGodownsList }));
+        }
+
+        getGodownsData();
 
         // axios.post(`${API_URL}/getpartyconsignees`, { partycode: partyCode })
         //     .then(response => {
@@ -45,7 +44,7 @@ const NewPartyTransaction = ({ partyCode, firmName, partyName, email, damageDeal
         //     .catch(err => {
         //         console.log(err);
         //     })
-    }, [partyCode]);
+    }, []);
 
     const onSubmit = (values) => {
         if (finalProducts.length > 0) {
@@ -224,7 +223,7 @@ const NewPartyTransaction = ({ partyCode, firmName, partyName, email, damageDeal
                                             <span>{PRODUCTS_TEXTS[item.productcode]}</span>
                                             <span>{item.delivered} mt</span>
                                             <span>{item.billed} mt</span>
-                                            <span>{MODES[item.mode.value]}</span>
+                                            <span>{transactionModes[item.mode.value]}</span>
                                             <span>{item.producttype}</span>
 
                                             <div
@@ -314,10 +313,10 @@ const NewPartyTransaction = ({ partyCode, firmName, partyName, email, damageDeal
                                     <option disabled value="">
                                         Select Mode
                                     </option>
-                                    {Object.keys(MODES).map((item) => {
+                                    {Object.keys(transactionModes).map((item) => {
                                         return (
                                             <option key={`modes_val_${item}`} value={item}>
-                                                {MODES[item]}
+                                                {transactionModes[item]}
                                             </option>
                                         );
                                     })}

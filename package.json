@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@babel/types": "^7.22.5",
     "@emotion/react": "^11.10.0",
     "@emotion/styled": "^11.10.0",
     "@mui/icons-material": "^5.8.4",
@@ -17,6 +18,7 @@
     "firebase": "^7.24.0",
     "font-awesome": "^4.7.0",
     "js-cookie": "^2.2.1",
+    "lodash": "^4.17.21",
     "mdbreact": "^4.26.0",
     "moment": "^2.24.0",
     "node-sass": "^4.14.1",

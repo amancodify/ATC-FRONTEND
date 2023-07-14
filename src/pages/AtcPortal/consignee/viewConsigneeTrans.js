@@ -1,16 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import 'react-day-picker/lib/style.css';
-import axios from 'axios';
-import DayPickerInput from 'react-day-picker/DayPickerInput';
-import { formatDate, parseDate } from 'react-day-picker/moment';
-import Popup from '../../../components/common/PopUp';
-import Return from '../dealers/Return';
-import { convertDate } from '../../../utils/dateConverter';
-import OverlayComp from '../../../components/common/overlay';
-import API_URL from '../../../config';
-import PartyReport from '../dealers/partyReport';
-import EmptyDataBannerComp from '../dealers/emptyDataBanner';
-import { PRODUCTS, MODES } from '../dealers/constants';
+import React, { useState, useEffect } from "react";
+import "react-day-picker/lib/style.css";
+import axios from "axios";
+import DayPickerInput from "react-day-picker/DayPickerInput";
+import { formatDate, parseDate } from "react-day-picker/moment";
+import Popup from "../../../components/common/PopUp";
+import Return from "../dealers/Return";
+import { convertDate } from "../../../utils/dateConverter";
+import OverlayComp from "../../../components/common/overlay";
+import API_URL from "../../../config";
+import PartyReport from "../dealers/partyReport";
+import EmptyDataBannerComp from "../dealers/emptyDataBanner";
+import { PRODUCTS, MODES } from "../dealers/constants";
+import { getGodownsMode } from "../utils";
 
 const ConsigneeTransactions = (props) => {
     const d = new Date();
@@ -20,12 +21,18 @@ const ConsigneeTransactions = (props) => {
     const [allTrans, setAllTrans] = useState([]);
     const [userData, setUserData] = useState({});
     const [loadingScr, setLoadingScr] = useState(false);
-    const [loadingText, setLoadingText] = useState('Yes! Delete');
+    const [loadingText, setLoadingText] = useState("Yes! Delete");
     const [fromDate, setFromDate] = useState(Date(currentdateYDM));
     const [toDate, setToDate] = useState(Date(currentdateYDM));
     const [modelShow, setModelShow] = useState(false);
     const [deleteModelShow, setDeleteModelShow] = useState(false);
-    const [transactionId, setTransactionId] = useState('');
+    const [transactionId, setTransactionId] = useState("");
+    const [tranModes, setTransModes] = useState(MODES);
+
+    async function getGodownsData() {
+        let formattedGodownsList = await getGodownsMode();
+        setTransModes((val) => ({ ...val, ...formattedGodownsList }));
+    }
 
     useEffect(() => {
         axios
@@ -45,6 +52,8 @@ const ConsigneeTransactions = (props) => {
             .catch((err) => {
                 console.log(err);
             });
+
+        getGodownsData();
     }, [partyCode]);
 
     const dateWiseTransactions = () => {
@@ -74,7 +83,7 @@ const ConsigneeTransactions = (props) => {
         axios
             .put(`${API_URL}/deletepartytransaction`, { transactionId: tId })
             .then((response) => {
-                setLoadingText('Deleting');
+                setLoadingText("Deleting");
                 setTimeout(() => {
                     window.location.reload();
                     setDeleteModelShow(false);
@@ -88,7 +97,7 @@ const ConsigneeTransactions = (props) => {
     return (
         <>
             <div className="col-md-12 pt-2">
-                <div className={loadingScr ? 'loading' : ''}></div>
+                <div className={loadingScr ? "loading" : ""}></div>
 
                 <div className="userdetails">
                     <div className="col-md-8">
@@ -104,7 +113,8 @@ const ConsigneeTransactions = (props) => {
                         </div>
                         <div className="party-details-text">
                             <div className="boldtxt">
-                                <i className="fa fa-map-marker iconwidth" aria-hidden="true"></i> Area
+                                <i className="fa fa-map-marker iconwidth" aria-hidden="true"></i>{" "}
+                                Area
                             </div>
                             <span className="dash">:</span>
                             {userData.dealer_area}
@@ -118,14 +128,22 @@ const ConsigneeTransactions = (props) => {
                         </div>
                         <div className="party-details-text">
                             <div className="boldtxt">
-                                <i className="fa fa-envelope sizeadjust iconwidth" aria-hidden="true"></i> E-mail
+                                <i
+                                    className="fa fa-envelope sizeadjust iconwidth"
+                                    aria-hidden="true"
+                                ></i>{" "}
+                                E-mail
                             </div>
                             <span className="dash">:</span>
                             <a href={`mailto:${userData.email}`}>{userData.email}</a>
                         </div>
                         <div className="party-details-text">
                             <div className="boldtxt">
-                                <i className="fa fa-address-card-o sizeadjust iconwidth" aria-hidden="true"></i> Address
+                                <i
+                                    className="fa fa-address-card-o sizeadjust iconwidth"
+                                    aria-hidden="true"
+                                ></i>{" "}
+                                Address
                             </div>
                             <span className="dash">:</span>
                             <span>{userData.address}</span>
@@ -136,23 +154,27 @@ const ConsigneeTransactions = (props) => {
                             <PartyReport partyCode={partyCode} />
                         </div>
                         <div className="d-flex portal-date-picker">
-                            <i onClick={() => window.location.reload()} className="fa fa-refresh reset-trans" aria-hidden="true"></i>
+                            <i
+                                onClick={() => window.location.reload()}
+                                className="fa fa-refresh reset-trans"
+                                aria-hidden="true"
+                            ></i>
                             <div className="dp-from">
                                 <DayPickerInput
                                     formatDate={formatDate}
                                     parseDate={parseDate}
-                                    placeholder={'MM/DD/YYYY - From'}
+                                    placeholder={"MM/DD/YYYY - From"}
                                     onDayChange={(date) => setFromDate(date)}
-                                    style={{ fontSize: '12px' }}
+                                    style={{ fontSize: "12px" }}
                                 />
                             </div>
                             <div className="dp-to">
                                 <DayPickerInput
                                     formatDate={formatDate}
                                     parseDate={parseDate}
-                                    placeholder={'MM/DD/YYYY - To'}
+                                    placeholder={"MM/DD/YYYY - To"}
                                     onDayChange={(date) => setToDate(date)}
-                                    style={{ fontSize: '12px' }}
+                                    style={{ fontSize: "12px" }}
                                 />
                             </div>
                             <div onClick={dateWiseTransactions} className="fetchbtn">
@@ -167,7 +189,13 @@ const ConsigneeTransactions = (props) => {
                         <>
                             <div className="d-flex open-date">
                                 <div className="sub-title">Opening Date - &nbsp;</div>
-                                <div className="product">{convertDate(userData.openingbalance[0].manualopeningdate, 0, true)}</div>
+                                <div className="product">
+                                    {convertDate(
+                                        userData.openingbalance[0].manualopeningdate,
+                                        0,
+                                        true,
+                                    )}
+                                </div>
                             </div>
                             <div className="delivered-main d-flex">
                                 <div className="sub-title">Delivered - &nbsp;</div>
@@ -175,8 +203,9 @@ const ConsigneeTransactions = (props) => {
                                     userData.openingbalance.map((item, inx) => {
                                         return (
                                             <div key={`obdel_${inx}`} className="product">
-                                                {' '}
-                                                {PRODUCTS[item.productcode]} : {item.delivered.toFixed(2)}
+                                                {" "}
+                                                {PRODUCTS[item.productcode]} :{" "}
+                                                {item.delivered.toFixed(2)}
                                             </div>
                                         );
                                     })}
@@ -188,8 +217,9 @@ const ConsigneeTransactions = (props) => {
                                     userData.openingbalance.map((item, inx) => {
                                         return (
                                             <div key={`obproduct_${inx}`} className="product">
-                                                {' '}
-                                                {PRODUCTS[item.productcode]} : {item.billed.toFixed(2)}
+                                                {" "}
+                                                {PRODUCTS[item.productcode]} :{" "}
+                                                {item.billed.toFixed(2)}
                                             </div>
                                         );
                                     })}
@@ -201,7 +231,9 @@ const ConsigneeTransactions = (props) => {
                     {allTrans.allTransactions &&
                         allTrans.allTransactions.length > 0 &&
                         allTrans.allTransactions.map((data, inx) => {
-                            let finalTransDate = data.transactiondate ? data.transactiondate : data.createdAt;
+                            let finalTransDate = data.transactiondate
+                                ? data.transactiondate
+                                : data.createdAt;
                             return (
                                 <div className="d-flex flex-column" key={`dealertrans_${inx}`}>
                                     <div className="trans-card-main">
@@ -209,13 +241,29 @@ const ConsigneeTransactions = (props) => {
                                             <div>
                                                 <div className="date">
                                                     <b className="mr-2">Date :</b>
-                                                    {convertDate(finalTransDate.slice(0, 10), 0, true)}
+                                                    {convertDate(
+                                                        finalTransDate.slice(0, 10),
+                                                        0,
+                                                        true,
+                                                    )}
                                                 </div>
-                                                <div data-toggle="tooltip" data-placement="top" title={data.vehicle_number} className="date">
-                                                    <b className="mr-2">Vehicle No :</b> {data.vehiclenumber}
+                                                <div
+                                                    data-toggle="tooltip"
+                                                    data-placement="top"
+                                                    title={data.vehicle_number}
+                                                    className="date"
+                                                >
+                                                    <b className="mr-2">Vehicle No :</b>{" "}
+                                                    {data.vehiclenumber}
                                                 </div>
-                                                <div data-toggle="tooltip" data-placement="top" title={data.consignee_name} className="date">
-                                                    <b className="mr-2">Consignee :</b> {data.consigneefirmname}
+                                                <div
+                                                    data-toggle="tooltip"
+                                                    data-placement="top"
+                                                    title={data.consignee_name}
+                                                    className="date"
+                                                >
+                                                    <b className="mr-2">Consignee :</b>{" "}
+                                                    {data.consigneefirmname}
                                                 </div>
                                             </div>
 
@@ -226,7 +274,10 @@ const ConsigneeTransactions = (props) => {
                                                         onClick={() => onReturnClick(data._id)}
                                                     >
                                                         <span>
-                                                            <i className="fa fa-reply-all return-img" aria-hidden="true"></i>
+                                                            <i
+                                                                className="fa fa-reply-all return-img"
+                                                                aria-hidden="true"
+                                                            ></i>
                                                         </span>
                                                         <span>Return Items</span>
                                                     </div>
@@ -237,11 +288,14 @@ const ConsigneeTransactions = (props) => {
                                                     onClick={() => onDeleteClick(data._id)}
                                                 >
                                                     <span>
-                                                        <i className="fa fa-trash del-icon" aria-hidden="true"></i>
+                                                        <i
+                                                            className="fa fa-trash del-icon"
+                                                            aria-hidden="true"
+                                                        ></i>
                                                     </span>
                                                     <span>Delete Transaction</span>
                                                 </div>
-                                                {data.trans_comment !== '' && (
+                                                {data.trans_comment !== "" && (
                                                     <div className="returntxt c-pointer redtxt commentspopup">
                                                         <OverlayComp comment={data.trans_comment} />
                                                     </div>
@@ -253,19 +307,30 @@ const ConsigneeTransactions = (props) => {
                                             {data.products.length > 0 &&
                                                 data.products.map((item, inx) => {
                                                     return (
-                                                        <div className="product" key={`transprod_${inx}`}>
-                                                            <div className="title">{PRODUCTS[item.productcode]} :</div>
+                                                        <div
+                                                            className="product"
+                                                            key={`transprod_${inx}`}
+                                                        >
+                                                            <div className="title">
+                                                                {PRODUCTS[item.productcode]} :
+                                                            </div>
                                                             <div className="values d-flex flex-column">
                                                                 <span>
                                                                     <b>Delivered: </b>
-                                                                    <span className="greentxt">{item.delivered.toFixed(2)} mt</span>
+                                                                    <span className="greentxt">
+                                                                        {item.delivered.toFixed(2)}{" "}
+                                                                        mt
+                                                                    </span>
                                                                 </span>
                                                                 <span>
                                                                     <b>Billed: </b>
-                                                                    <span className="redtxt">{item.billed.toFixed(2)} mt</span>
+                                                                    <span className="redtxt">
+                                                                        {item.billed.toFixed(2)} mt
+                                                                    </span>
                                                                 </span>
                                                                 <span>
-                                                                    <b>Mode :</b> {MODES[item.mode.value]}
+                                                                    <b>Mode :</b>{" "}
+                                                                    {tranModes[item.mode.value]}
                                                                 </span>
                                                             </div>
                                                         </div>
@@ -279,8 +344,12 @@ const ConsigneeTransactions = (props) => {
                                                 <b>Return: </b>
                                                 {data.returns.map((item, inx) => {
                                                     return (
-                                                        <span key={`returnprod_${inx}`} className="ml-3">
-                                                            {PRODUCTS[item.productcode]}: {item.quantity} mt
+                                                        <span
+                                                            key={`returnprod_${inx}`}
+                                                            className="ml-3"
+                                                        >
+                                                            {PRODUCTS[item.productcode]}:{" "}
+                                                            {item.quantity} mt
                                                         </span>
                                                     );
                                                 })}
@@ -291,7 +360,9 @@ const ConsigneeTransactions = (props) => {
                             );
                         })}
 
-                    {allTrans.allTransactions && allTrans.allTransactions.length <= 0 && <EmptyDataBannerComp />}
+                    {allTrans.allTransactions && allTrans.allTransactions.length <= 0 && (
+                        <EmptyDataBannerComp />
+                    )}
                 </div>
                 {allTrans.totalCount && (
                     <div className="finaltotalreport">
@@ -319,12 +390,17 @@ const ConsigneeTransactions = (props) => {
                     show={modelShow}
                     onHide={() => setModelShow(false)}
                     hideFooter={false}
-                    footerContent={() => 'Warning: Enter the values correctly'}
+                    footerContent={() => "Warning: Enter the values correctly"}
                     title="Return Items"
                     size="lg"
                     headerImg="/images/return.png"
                 >
-                    <Return party_code={partyCode} tid={transactionId} firm_name={userData.firm_name} party_name={userData.name} />
+                    <Return
+                        party_code={partyCode}
+                        tid={transactionId}
+                        firm_name={userData.firm_name}
+                        party_name={userData.name}
+                    />
                 </Popup>
             )}
 
@@ -333,7 +409,7 @@ const ConsigneeTransactions = (props) => {
                     show={deleteModelShow}
                     onHide={() => setDeleteModelShow(false)}
                     hideFooter={false}
-                    footerContent={() => 'Note: Enter the values correctly'}
+                    footerContent={() => "Note: Enter the values correctly"}
                     title="Confirm Deletion"
                     size="md"
                     headerImg="/images/deleteicon.png"
@@ -341,11 +417,17 @@ const ConsigneeTransactions = (props) => {
                     <div className="popupdel d-flex align-items-center justify-content-center">
                         <div className="mr-3">Are you sure you want to delete ? </div>
                         <button
-                            disabled={loadingText === 'Deleting' ? true : false}
-                            className={`deletebtn ${loadingText === 'Deleting' ? 'disable-btn' : ''}`}
+                            disabled={loadingText === "Deleting" ? true : false}
+                            className={`deletebtn ${
+                                loadingText === "Deleting" ? "disable-btn" : ""
+                            }`}
                             onClick={() => deleteTrans(transactionId)}
                         >
-                            {loadingText === 'Deleting' ? <img className="loading-gif" src="./images/loading.gif" alt="" /> : ''}
+                            {loadingText === "Deleting" ? (
+                                <img className="loading-gif" src="./images/loading.gif" alt="" />
+                            ) : (
+                                ""
+                            )}
                             {loadingText}
                         </button>
                     </div>
