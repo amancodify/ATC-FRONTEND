@@ -37,6 +37,14 @@ export const TRANSACTION_MODES = {
         type: 'GODOWN',
         value: 'CH004',
     },
+    CH005: {
+        type: 'GODOWN',
+        value: 'CH005',
+    },
+    ch006: {
+        type: 'GODOWN',
+        value: 'ch006',
+    },
     RAIL: {
         type: 'TRANSPORT',
         value: 'RAIL',
