@@ -45,11 +45,11 @@ export const TRANSACTION_MODES = {
         type: 'GODOWN',
         value: 'ch006',
     },
-    CH007: {
+    CH008: {
         type: 'GODOWN',
         value: 'CH007',
     },
-    CH008: {
+    CH009: {
         type: 'GODOWN',
         value: 'CH008',
     },
