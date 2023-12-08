@@ -54,7 +54,7 @@ const ViewConsignee = () => {
           />
           <i className="fa fa-search search-icon" aria-hidden="true"></i>
         </div>
-        <div className="details-controller">
+        <div className="details-controller ml-3">
           <div className="dealers-count">
             Showing {workingData && workingData.length} Consignees
           </div>

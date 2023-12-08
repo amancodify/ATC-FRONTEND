@@ -76,8 +76,8 @@ const PartyCard = ({
 
     return (
         <>
-            <div className="row align-items-center data-card-main">
-                <a href={`#/dealer/${partyCode}`} className="col-md-10 col-sm-10 data-card">
+            <div className="align-items-center data-card-main">
+                <a href={`#/dealer/${partyCode}`} className="col-lg-12 col-md-10 col-sm-10 data-card">
                     <div className={`display-letter ${tagcolor}`}>{partyArea}</div>
                     <div className="createdon">
                         {nudgeSent && <span className="nudge-sent-text">The user has been Nudged!</span>}

@@ -1312,7 +1312,6 @@ a:link {
 
 .view-section-main {
     margin-left: 20%;
-    width: 100%;
     position: relative;
     @media only screen and (max-width: 600px) {
         margin-left: 0px;
@@ -1320,17 +1319,14 @@ a:link {
 }
 
 .view-section {
-    padding: 0px 80px;
+    padding: 10px 40px;
     @media only screen and (max-width: 600px) {
         padding: 0px 10px;
     }
     .scroll-section {
-        overflow-y: scroll;
-        max-height: 85vh;
-        overflow-x: hidden;
         padding-bottom: 20px;
-        padding-left: 30px;
         margin-top: 15px;
+        margin-left: 10px;
         @media only screen and (max-width: 600px) {
             padding-left: 10px;
         }
@@ -1346,10 +1342,10 @@ a:link {
             display: block;
             height: 45px;
             width: 100%;
-            border-radius: 4px;
+            border-radius: 50px;
             border: none;
             outline: none;
-            padding: 10px;
+            padding: 10px 20px;
             background-color: rgb(0, 1, 48);
             border: 1px solid rgb(189, 189, 189);
             color: rgb(201, 201, 201);
@@ -1368,9 +1364,9 @@ a:link {
         }
         .search-icon {
             position: absolute;
-            right: 9%;
-            top: 13px;
-            color: rgb(61, 61, 61);
+            right: 5%;
+            top: 42px;
+            color: rgb(155, 155, 155);
             font-size: 20px;
             font-weight: 400;
             margin-right: 10px;
@@ -1389,6 +1385,7 @@ a:link {
         display: flex;
         align-items: center;
         justify-content: space-between;
+        margin-left: 10px;
         @media only screen and (max-width: 600px) {
             margin-left: 0px;
             margin-right: 15px;
@@ -1413,7 +1410,6 @@ a:link {
 
 .data-card-main {
     max-height: 550px;
-    width: 110%;
     .card-full {
         display: flex;
         justify-content: space-between;
@@ -2497,7 +2493,6 @@ a:link {
     bottom: 0;
     background-color: rgb(243, 243, 243);
     border: 0.5px solid rgb(192, 192, 192);
-    margin-left: -5px;
     @media only screen and (max-width: 600px) {
         width: 102%;
         font-size: 11px;

@@ -30,7 +30,7 @@ const AtcPortalMain = () => {
         return (
             <HashRouter>
                 <div className="atcportal-main">
-                    <div className="row">
+                    <div>
                         <ControllerSection loginName={loginname} logoutHandler={logout} />
                         <div className="view-section-main">
                             <Route exact path="/" component={Home} />
