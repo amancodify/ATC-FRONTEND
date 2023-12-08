@@ -30,28 +30,26 @@ const AtcPortalMain = () => {
         return (
             <HashRouter>
                 <div className="atcportal-main">
-                    <div>
-                        <ControllerSection loginName={loginname} logoutHandler={logout} />
-                        <div className="view-section-main">
-                            <Route exact path="/" component={Home} />
-                            <Route path="/createdealer" component={CreateDealer} />
-                            <Route path="/addconsignee" component={AddConsignee} />
-                            <Route path="/godown" component={Atcgodown} />
-                            <Route path="/creategodown" component={AtcCreategodown} />
-                            <Route path="/addproduct" component={AtcAddProduct} />
-                            <Route path="/viewgodown/:id" component={AtcViewgodown} />
-                            <Route path="/dealer/:id" component={AtcViewDealer} />
-                            <Route path="/editprofile/:id" component={AtcEditDealer} />
-                            <Route path="/editgodown/:id" component={AtcEditGodown} />
-                            <Route path="/transactions/:id" component={AtcTransactionsView} />
-                            <Route path="/godownrefilltransactions/:id" component={AtcGodwonRefillTrans} />
-                            <Route path="/godownpartytransaction/:id" component={AtcGodwonPartyTrans} />
-                            <Route path="/godownpartyreturns/:id" component={ATCGodownpartyreturns} />
-                            <Route path="/reports" component={ATCReports} />
-                            <Route path="/consignees" component={ConsigneeHome} />
-                            <Route path="/consignee/:id" component={ViewConsignee} />
-                            <Route path="/viewconsigneetransactions/:id" component={viewConsigneeTrans} />
-                        </div>
+                    <ControllerSection loginName={loginname} logoutHandler={logout} />
+                    <div className="view-section-main">
+                        <Route exact path="/" component={Home} />
+                        <Route path="/createdealer" component={CreateDealer} />
+                        <Route path="/addconsignee" component={AddConsignee} />
+                        <Route path="/godown" component={Atcgodown} />
+                        <Route path="/creategodown" component={AtcCreategodown} />
+                        <Route path="/addproduct" component={AtcAddProduct} />
+                        <Route path="/viewgodown/:id" component={AtcViewgodown} />
+                        <Route path="/dealer/:id" component={AtcViewDealer} />
+                        <Route path="/editprofile/:id" component={AtcEditDealer} />
+                        <Route path="/editgodown/:id" component={AtcEditGodown} />
+                        <Route path="/transactions/:id" component={AtcTransactionsView} />
+                        <Route path="/godownrefilltransactions/:id" component={AtcGodwonRefillTrans} />
+                        <Route path="/godownpartytransaction/:id" component={AtcGodwonPartyTrans} />
+                        <Route path="/godownpartyreturns/:id" component={ATCGodownpartyreturns} />
+                        <Route path="/reports" component={ATCReports} />
+                        <Route path="/consignees" component={ConsigneeHome} />
+                        <Route path="/consignee/:id" component={ViewConsignee} />
+                        <Route path="/viewconsigneetransactions/:id" component={viewConsigneeTrans} />
                     </div>
                 </div>
             </HashRouter>

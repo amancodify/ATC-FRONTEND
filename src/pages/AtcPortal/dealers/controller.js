@@ -107,16 +107,16 @@ const ControllerSection = ({
                             </div>
                         </a>
                     </div>
-                    <div className="poweredby-txt">
-                        Powered By{" "}
-                        <span>
-                            <img
-                                className="logo-poweredby"
-                                src="/images/atc-logo-white.png"
-                                alt=""
-                            />
-                        </span>
-                    </div>
+                </div>
+                <div className="poweredby-txt">
+                    Powered By{" "}
+                    <span>
+                        <img
+                            className="logo-poweredby"
+                            src="/images/atc-logo-white.png"
+                            alt=""
+                        />
+                    </span>
                 </div>
             </div>
         </>
