@@ -106,7 +106,7 @@ a:link {
     }
     .home-banner-img {
         .banner-img {
-            width: 130%;
+            width: 150%;
             position: absolute;
             top: -150px;
             @media only screen and (max-width: 600px) {
@@ -1139,6 +1139,7 @@ a:link {
         margin-bottom: 5px;
         font-family: "Poppins";
         font-weight: 700;
+        font-size: 16px;
         letter-spacing: 1px;
         cursor: pointer;
         @media only screen and (max-width: 600px) {
@@ -1964,7 +1965,7 @@ a:link {
     }
 
     .product-view-main {
-        margin: 20px;
+        margin: 0px 20px;
         .heading {
             background-color: #000142;
             height: 50px;
@@ -2200,8 +2201,8 @@ a:link {
     .delete-trans {
         position: absolute;
         right: 0px;
-        height: 30px;
-        width: 30px;
+        height: 25px;
+        width: 25px;
         top: 0px;
         background-color: rgb(255, 67, 67);
         color: white;
@@ -2333,7 +2334,7 @@ a:link {
         text-overflow: ellipsis;
         overflow: hidden;
         white-space: nowrap;
-        width: 210px;
+        width: 220px;
         @media only screen and (max-width: 600px) {
             font-size: 8px;
         }
@@ -2378,6 +2379,7 @@ a:link {
     .product {
         display: flex;
         margin-left: 35px;
+        min-width: 180px;
         @media only screen and (max-width: 600px) {
             margin-left: 0px;
             width: auto;
@@ -2488,11 +2490,13 @@ a:link {
     align-items: center;
     justify-content: center;
     width: 80%;
-    height: 60px;
+    height: 50px;
     position: fixed;
-    bottom: 0;
-    background-color: rgb(243, 243, 243);
-    border: 0.5px solid rgb(192, 192, 192);
+    bottom: -1px;
+    left: 21%;
+    background: rgb(2,0,36);
+    background: radial-gradient(circle, rgba(2,0,36,1) 27%, rgba(9,9,121,1) 77%, rgba(2,0,36,1) 100%);
+    color: rgb(236, 236, 236);;
     @media only screen and (max-width: 600px) {
         width: 102%;
         font-size: 11px;
@@ -2503,7 +2507,7 @@ a:link {
         position: absolute;
         left: 20px;
         font-size: 14px;
-        color: rgb(35, 35, 35);
+        color: rgb(236, 236, 236);
         transition: all 0.2s ease-in-out;
         &:hover {
             transform: translateX(-4px);
@@ -2515,16 +2519,11 @@ a:link {
 }
 
 .main-viewtrans {
-    // overflow-y: scroll;
-    // overflow-x: hidden;
-    // max-height: 58vh;
     margin-bottom: "200px" !important;
 }
 
 .godown-trans {
-    overflow-y: scroll;
-    overflow-x: hidden;
-    max-height: 72vh;
+    min-height: 100%;
 }
 
 .partygodtrans-title {
@@ -2767,7 +2766,6 @@ a:link {
 .reset-trans {
     font-size: 22px;
     margin-right: 10px;
-    margin-top: 3px;
     cursor: pointer;
     color: rgb(0, 0, 88);
     transition: all 0.2s ease-in-out;
@@ -2796,12 +2794,8 @@ a:link {
 }
 
 .loading {
-    // position: absolute;
-    // bottom: 0;
-    // left: 0;
-    // width: 100%;
-    height: 75vh;
-    background: rgb(255, 255, 255);
+    width: 100%;
+    height: 90vh;
     color: #666666;
     font-weight: bold;
     pointer-events: none;
@@ -3110,7 +3104,8 @@ a:link {
     padding: 5px 10px;
     width: 90%;
     border-radius: 2px;
-    background-color: rgb(224, 0, 75);
+    background: rgb(2,0,36);
+    background: radial-gradient(circle, rgba(2,0,36,1) 27%, rgba(9,9,121,1) 77%, rgba(2,0,36,1) 100%);
     color: white;
     font-size: 12px;
     position: relative;
@@ -3140,6 +3135,10 @@ a:link {
     }
     .down-icon {
         width: 20px;
+    }
+    .up-arrow-icon{
+        width: 20px;
+        transform: rotate(180deg);
     }
     .product {
         margin: 5px;
@@ -3561,7 +3560,7 @@ a:link {
 
 .back-btn-gt {
     position: absolute;
-    top: 80px;
+    top: 90px;
     left: 6%;
     color: rgb(0, 7, 135);
     @media only screen and (max-width: 600px) {

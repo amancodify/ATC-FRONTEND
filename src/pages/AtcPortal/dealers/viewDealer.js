@@ -11,42 +11,36 @@ import { PRODUCTS_TEXTS } from "./constants";
 import Button from "@mui/material/Button";
 
 const ViewDealer = (props) => {
-    let partyCode = props.match.params.id;
-    let [modelShow, setModelShow] = useState(false);
-    let [showTransPopup, setShowTransPopup] = useState(false);
-    let [showOpeningBal, setShowOpeningBal] = useState(false);
-    let [showCommentsPopup, setShowCommentsPopup] = useState(false);
-    let [singleDealersData, setSingleDealersData] = useState({});
-    let [loading, setLoading] = useState(true);
-    let [menuShow, setMenuShow] = useState(false);
+    const partyCode = props.match.params.id;
+    const [modelShow, setModelShow] = useState(false);
+    const [showTransPopup, setShowTransPopup] = useState(false);
+    const [showOpeningBal, setShowOpeningBal] = useState(false);
+    const [showCommentsPopup, setShowCommentsPopup] = useState(false);
+    const [singleDealersData, setSingleDealersData] = useState({});
+    const [loading, setLoading] = useState(true);
+    const [menuShow, setMenuShow] = useState(false);
     const [showPartGraph, setShowPartyGraph] = useState(false);
     const [productCounts, setProductCounts] = useState({});
-
     const ref = useRef(null);
+
     useOnClickOutside(ref, () => setMenuShow(false));
 
     useEffect(() => {
-        axios
-            .get(`${API_URL}/dealers/${partyCode}`)
-            .then((response) => {
-                setSingleDealersData(response.data);
+        const fetchData = async () => {
+            try {
+                const [dealersResponse, statusResponse] = await Promise.all([
+                    axios.get(`${API_URL}/dealers/${partyCode}`),
+                    axios.post(`${API_URL}/getpartystatus`, { partyCode }),
+                ]);
+                setSingleDealersData(dealersResponse.data);
+                setProductCounts(statusResponse.data.data);
                 setLoading(false);
-            })
-            .catch((err) => {
-                console.log(err);
+            } catch (err) {
+                console.error(err);
                 setLoading(false);
-            });
-
-        axios
-            .post(`${API_URL}/getpartystatus`, { partyCode })
-            .then((response) => {
-                setProductCounts(response.data.data);
-                setLoading(false);
-            })
-            .catch((err) => {
-                console.log(err);
-                setLoading(false);
-            });
+            }
+        };
+        fetchData();
     }, [partyCode]);
 
     let {
@@ -57,7 +51,6 @@ const ViewDealer = (props) => {
         dealer_area,
         mobile,
         email,
-        photo,
         opening_bal_done,
         is_damage_dealer,
     } = singleDealersData || {};
@@ -66,16 +59,14 @@ const ViewDealer = (props) => {
     if (productCounts.outstanding === 0) {
         totalbaltxt = "[NIL]";
     }
-    const deleteUser = () => {
-        axios
-            .delete(`${API_URL}/dealers/delete/${partyCode}`)
-            .then((response) => {
-                window.location.replace("#/");
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    };
+    const deleteUser = async () => {
+        try {
+          await axios.delete(`${API_URL}/dealers/delete/${partyCode}`);
+          window.location.replace("#/");
+        } catch (err) {
+          console.error(err);
+        }
+      };
 
     let disabledCss = opening_bal_done ? "" : "disable-btn-action";
     let cursorCss = opening_bal_done ? "" : "cursor-nodrop";
@@ -94,15 +85,15 @@ const ViewDealer = (props) => {
                             <div className="col-md-2 d-flex flex-column align-items-center justify-content-center">
                                 <img
                                     className="userimg mt-1"
-                                    src={photo ? photo : "https://www.w3schools.com/howto/img_avatar.png"}
+                                    src= "https://www.w3schools.com/howto/img_avatar.png"
                                     alt=""
                                 />
-                                <div
+                                {/* <div
                                     className="text-center c-pointer mt-2 graph-text"
                                     onClick={() => setShowPartyGraph(true)}
                                 >
                                     <i className="fa fa-bar-chart mr-1" aria-hidden="true"></i>Show Graph
-                                </div>
+                                </div> */}
                             </div>
                             <div className="col-md-8">
                                 <div className="firmname">
@@ -117,21 +108,29 @@ const ViewDealer = (props) => {
                                 </div>
                                 <div className="party-details-text">
                                     <div className="boldtxt">
-                                        <i className="fa fa-map-marker iconwidth" aria-hidden="true"></i> Area
+                                        <i
+                                            className="fa fa-map-marker iconwidth"
+                                            aria-hidden="true"
+                                        ></i>{" "}
+                                        Area
                                     </div>
                                     <span className="dash">:</span>
                                     {dealer_area}
                                 </div>
                                 <div className="party-details-text">
                                     <div className="boldtxt">
-                                        <i className="fa fa-phone iconwidth" aria-hidden="true"></i> Contact
+                                        <i className="fa fa-phone iconwidth" aria-hidden="true"></i>{" "}
+                                        Contact
                                     </div>
                                     <span className="dash">:</span>
                                     <a href={`tel:${mobile}`}>+91-{mobile}</a>
                                 </div>
                                 <div className="party-details-text">
                                     <div className="boldtxt">
-                                        <i className="fa fa-envelope sizeadjust iconwidth" aria-hidden="true"></i>{" "}
+                                        <i
+                                            className="fa fa-envelope sizeadjust iconwidth"
+                                            aria-hidden="true"
+                                        ></i>{" "}
                                         E-mail
                                     </div>
                                     <span className="dash">:</span>
@@ -139,7 +138,10 @@ const ViewDealer = (props) => {
                                 </div>
                                 <div className="party-details-text">
                                     <div className="boldtxt">
-                                        <i className="fa fa-address-card-o sizeadjust iconwidth" aria-hidden="true"></i>{" "}
+                                        <i
+                                            className="fa fa-address-card-o sizeadjust iconwidth"
+                                            aria-hidden="true"
+                                        ></i>{" "}
                                         Address
                                     </div>
                                     <span className="dash">:</span>
@@ -164,7 +166,9 @@ const ViewDealer = (props) => {
                                                 className="d-flex align-items-center justify-content-end edit-main"
                                                 href={`#/editprofile/${partyCode}`}
                                             >
-                                                <span className="edit-label">Edit Party Details</span>
+                                                <span className="edit-label">
+                                                    Edit Party Details
+                                                </span>
                                             </a>
                                             <div className="saperator"></div>
                                             <div className="d-flex align-items-center justify-content-end menu-option-grid">
@@ -175,7 +179,9 @@ const ViewDealer = (props) => {
                                                 onClick={() => setShowCommentsPopup(true)}
                                                 className="d-flex align-items-center justify-content-end menu-option-grid"
                                             >
-                                                <span className="edit-label">View/Add Comments</span>
+                                                <span className="edit-label">
+                                                    View/Add Comments
+                                                </span>
                                             </div>
                                         </div>
                                     )}
@@ -184,7 +190,10 @@ const ViewDealer = (props) => {
                         </div>
                         <div className="row product-view-main">
                             {!opening_bal_done && (
-                                <div onClick={() => setShowOpeningBal(true)} className="opening-bal">
+                                <div
+                                    onClick={() => setShowOpeningBal(true)}
+                                    className="opening-bal"
+                                >
                                     Opening Balance
                                 </div>
                             )}
@@ -200,12 +209,21 @@ const ViewDealer = (props) => {
                                 productCounts.products.map((item, inx) => {
                                     let calculatedVal = (item.delivered - item.billed).toFixed(2);
                                     return (
-                                        <div className="col-md-12 product-value" key={`atcprodscount_${inx}`}>
-                                            <span className="hd1">{PRODUCTS_TEXTS[item.productcode]}</span>
+                                        <div
+                                            className="col-md-12 product-value"
+                                            key={`atcprodscount_${inx}`}
+                                        >
+                                            <span className="hd1">
+                                                {PRODUCTS_TEXTS[item.productcode]}
+                                            </span>
                                             <span className="hd2">{item.delivered.toFixed(2)}</span>
                                             <span className="hd3">{item.billed.toFixed(2)}</span>
-                                            <span className="hd4">{calculatedVal > 0 ? calculatedVal : 0}</span>
-                                            <span className="hd5">{calculatedVal < 0 ? calculatedVal * -1 : 0}</span>
+                                            <span className="hd4">
+                                                {calculatedVal > 0 ? calculatedVal : 0}
+                                            </span>
+                                            <span className="hd5">
+                                                {calculatedVal < 0 ? calculatedVal * -1 : 0}
+                                            </span>
                                         </div>
                                     );
                                 })}
@@ -213,10 +231,12 @@ const ViewDealer = (props) => {
                             <div className="col-md-12 heading">
                                 <span className="hd1">Sub-Total</span>
                                 <span className="hd2">
-                                    {productCounts.totaldelivered && productCounts.totaldelivered.toFixed(2)}
+                                    {productCounts.totaldelivered &&
+                                        productCounts.totaldelivered.toFixed(2)}
                                 </span>
                                 <span className="hd3">
-                                    {productCounts.totaldelivered && productCounts.totalbilled.toFixed(2)}
+                                    {productCounts.totaldelivered &&
+                                        productCounts.totalbilled.toFixed(2)}
                                 </span>
                             </div>
                             <div className="col-md-12 party-total-grid">
@@ -298,7 +318,9 @@ const ViewDealer = (props) => {
                     show={showOpeningBal}
                     onHide={() => setShowOpeningBal(false)}
                     hideFooter={false}
-                    footerContent={() => "Note: This will be the first ever Opening Balance, update carefully !!"}
+                    footerContent={() =>
+                        "Note: This will be the first ever Opening Balance, update carefully !!"
+                    }
                     title={`Opening Balance - ${firm_name}`}
                     size="lg"
                     headerImg="/images/openproduct.png"

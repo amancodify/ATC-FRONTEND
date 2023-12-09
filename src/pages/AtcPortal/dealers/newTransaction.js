@@ -10,7 +10,7 @@ import { getGodownsMode } from "../utils";
 const NewPartyTransaction = ({ partyCode, firmName, partyName, email, damageDealer }) => {
     const { handleSubmit, register } = useForm();
     const [errorMsg, setErrorMsg] = useState("");
-    const [loadingText, setLoadingText] = useState("Submit");
+    const [loadingText, setLoadingText] = useState("Create Transactions");
     const [products, setProducts] = useState([]);
     const [usedProducts, setUsedProducts] = useState([]);
     const [currenctProductTrans, setCurrentProductTrans] = useState({});
@@ -48,7 +48,7 @@ const NewPartyTransaction = ({ partyCode, firmName, partyName, email, damageDeal
 
     const onSubmit = (values) => {
         if (finalProducts.length > 0) {
-            setLoadingText("Creating");
+            setLoadingText("Creating...");
             let transactionData = {
                 products: finalProducts,
                 partyCode: partyCode,
@@ -212,7 +212,7 @@ const NewPartyTransaction = ({ partyCode, firmName, partyName, email, damageDeal
                         </div>
                         {finalProducts.length <= 0 && (
                             <>
-                                <div className="noproducts-view-main">No Products added yet.</div>
+                                <div className="noproducts-view-main">No Records added yet.</div>
                             </>
                         )}
                         {finalProducts.length > 0 &&
@@ -360,7 +360,7 @@ const NewPartyTransaction = ({ partyCode, firmName, partyName, email, damageDeal
                                 }}
                                 className="btn add-btn"
                             >
-                                {addMore ? "Remove" : "Add New Product +"}
+                                {addMore ? "Remove" : "Add New Record +"}
                             </div>
                         </div>
 

@@ -137,265 +137,287 @@ const AllTransactions = (props) => {
 
     return (
         <>
-            <div className="col-md-12 pt-2">
-                <div className="userdetails">
-                    <div className="col-md-8">
-                        <div className="firmname-big">
-                            {userData.firm_name} - {userData.party_code}
-                        </div>
-                        <div className="party-details-text">
-                            <div className="boldtxt">
-                                <i className="fa fa-user iconwidth"></i> Owner
-                            </div>
-                            <span className="dash">:</span>
-                            <span>{userData.name}</span>
-                        </div>
-                        <div className="party-details-text">
-                            <div className="boldtxt">
-                                <i className="fa fa-map-marker iconwidth" aria-hidden="true"></i>{" "}
-                                Area
-                            </div>
-                            <span className="dash">:</span>
-                            {userData.dealer_area}
-                        </div>
-                        <div className="party-details-text">
-                            <div className="boldtxt">
-                                <i className="fa fa-phone iconwidth" aria-hidden="true"></i> Contact
-                            </div>
-                            <span className="dash">:</span>
-                            <a href={`tel:${userData.mobile}`}>+91-{userData.mobile}</a>
-                        </div>
-                        <div className="party-details-text">
-                            <div className="boldtxt">
-                                <i
-                                    className="fa fa-envelope sizeadjust iconwidth"
-                                    aria-hidden="true"
-                                ></i>{" "}
-                                E-mail
-                            </div>
-                            <span className="dash">:</span>
-                            <a href={`mailto:${userData.email}`}>{userData.email}</a>
-                        </div>
-                        <div className="party-details-text">
-                            <div className="boldtxt">
-                                <i
-                                    className="fa fa-address-card-o sizeadjust iconwidth"
-                                    aria-hidden="true"
-                                ></i>{" "}
-                                Address
-                            </div>
-                            <span className="dash">:</span>
-                            <span>{userData.address}</span>
-                        </div>
-                    </div>
-                    <div className="d-flex flex-column">
-                        <div className="firmname report-icons d-flex">
-                            <PartyReport allTrans={allTrans} partyData={userData} />
-                        </div>
-                        <div className="d-flex align-items-center portal-date-picker">
-                            <i
-                                onClick={() => window.location.reload()}
-                                className="fa fa-refresh reset-trans"
-                                aria-hidden="true"
-                            ></i>
-                            <div className="dp-from">
-                                <DayPickerInput
-                                    formatDate={formatDate}
-                                    parseDate={parseDate}
-                                    placeholder={"MM/DD/YYYY - From"}
-                                    onDayChange={(date) => setFromDate(date)}
-                                    style={{ fontSize: "12px" }}
-                                    value={fromDate}
-                                />
-                            </div>
-                            <div className="dp-to">
-                                <DayPickerInput
-                                    formatDate={formatDate}
-                                    parseDate={parseDate}
-                                    placeholder={"MM/DD/YYYY - To"}
-                                    onDayChange={(date) => setToDate(date)}
-                                    style={{ fontSize: "12px" }}
-                                    value={toDate}
-                                />
-                            </div>
-                            <div onClick={() => fetchPartyTransaction()} className="fetchbtn">
-                                {loadingScr ? "Fetching..." : "Fetch"}
-                            </div>
-                        </div>
-                    </div>
+            {loadingScr ? (
+                <div className="loading">
+                    <i className="fa fa-cog fa-spin"></i>
+                    <span className="ml-3 pb-1">Loading...</span>
                 </div>
-                <div className="openingbal-show mb-2" onClick={() => setExpandOB(!expandOB)}>
-                    <div className="headers-cont">
-                        <div className="title">View Opening Balance</div>
-                        <img
-                            className="down-icon"
-                            src="https://www.freeiconspng.com/thumbs/white-arrow-png/white-down-arrow-png-2.png"
-                            alt=""
-                        />
-                    </div>
-                    {expandOB && userData.openingbalance && userData.openingbalance.length > 0 && (
-                        <div className="mt-2">
-                            <div className="d-flex align-items-center open-date">
-                                <div className="sub-title">Opening Date - &nbsp;</div>
-                                <div className="product">
-                                    {convertDate(
-                                        userData.openingbalance[0].manualopeningdate,
-                                        0,
-                                        true,
-                                    )}
+            ) : (
+                <div className="col-md-12 pt-2">
+                    <div className="userdetails">
+                        <div className="col-md-8">
+                            <div className="firmname-big">
+                                {userData.firm_name} - {userData.party_code}
+                            </div>
+                            <div className="party-details-text">
+                                <div className="boldtxt">
+                                    <i className="fa fa-user iconwidth"></i> Owner
+                                </div>
+                                <span className="dash">:</span>
+                                <span>{userData.name}</span>
+                            </div>
+                            <div className="party-details-text">
+                                <div className="boldtxt">
+                                    <i
+                                        className="fa fa-map-marker iconwidth"
+                                        aria-hidden="true"
+                                    ></i>{" "}
+                                    Area
+                                </div>
+                                <span className="dash">:</span>
+                                {userData.dealer_area}
+                            </div>
+                            <div className="party-details-text">
+                                <div className="boldtxt">
+                                    <i className="fa fa-phone iconwidth" aria-hidden="true"></i>{" "}
+                                    Contact
+                                </div>
+                                <span className="dash">:</span>
+                                <a href={`tel:${userData.mobile}`}>+91-{userData.mobile}</a>
+                            </div>
+                            <div className="party-details-text">
+                                <div className="boldtxt">
+                                    <i
+                                        className="fa fa-envelope sizeadjust iconwidth"
+                                        aria-hidden="true"
+                                    ></i>{" "}
+                                    E-mail
+                                </div>
+                                <span className="dash">:</span>
+                                <a href={`mailto:${userData.email}`}>{userData.email}</a>
+                            </div>
+                            <div className="party-details-text">
+                                <div className="boldtxt">
+                                    <i
+                                        className="fa fa-address-card-o sizeadjust iconwidth"
+                                        aria-hidden="true"
+                                    ></i>{" "}
+                                    Address
+                                </div>
+                                <span className="dash">:</span>
+                                <span>{userData.address}</span>
+                            </div>
+                        </div>
+                        <div className="d-flex flex-column">
+                            <div className="firmname report-icons d-flex">
+                                <PartyReport allTrans={allTrans} partyData={userData} />
+                            </div>
+                            <div className="d-flex align-items-center portal-date-picker">
+                                <i
+                                    onClick={() => window.location.reload()}
+                                    className="fa fa-refresh reset-trans"
+                                    aria-hidden="true"
+                                ></i>
+                                <div className="dp-from">
+                                    <DayPickerInput
+                                        formatDate={formatDate}
+                                        parseDate={parseDate}
+                                        placeholder={"MM/DD/YYYY - From"}
+                                        onDayChange={(date) => setFromDate(date)}
+                                        style={{ fontSize: "12px" }}
+                                        value={fromDate}
+                                    />
+                                </div>
+                                <div className="dp-to">
+                                    <DayPickerInput
+                                        formatDate={formatDate}
+                                        parseDate={parseDate}
+                                        placeholder={"MM/DD/YYYY - To"}
+                                        onDayChange={(date) => setToDate(date)}
+                                        style={{ fontSize: "12px" }}
+                                        value={toDate}
+                                    />
+                                </div>
+                                <div onClick={() => fetchPartyTransaction()} className="fetchbtn">
+                                    {loadingScr ? "Fetching..." : "Fetch"}
                                 </div>
                             </div>
-                            <div className="delivered-main d-flex align-items-center">
-                                <div className="sub-title">Delivered - &nbsp;</div>
-                                {userData.openingbalance &&
-                                    userData.openingbalance.map((item, inx) => {
-                                        return (
-                                            <div key={`obdel_${inx}`} className="product">
-                                                {PRODUCTS[item.productcode]} :{" "}
-                                                {item.delivered.toFixed(2)}
-                                            </div>
-                                        );
-                                    })}
-                            </div>
-
-                            <div className="biiled-main d-flex align-items-center">
-                                <div className="sub-title">Billed - &nbsp;</div>
-                                {userData.openingbalance &&
-                                    userData.openingbalance.map((item, inx) => {
-                                        return (
-                                            <div key={`obproduct_${inx}`} className="product">
-                                                {" "}
-                                                {PRODUCTS[item.productcode]} :{" "}
-                                                {item.billed.toFixed(2)}
-                                            </div>
-                                        );
-                                    })}
-                            </div>
                         </div>
-                    )}
-                </div>
-                <div className="main-viewtrans mb-5">
-                    {allTrans.allTransactions &&
-                        allTrans.allTransactions.length > 0 &&
-                        allTrans.allTransactions.map((data, inx) => {
-                            let finalTransDate = data.transactiondate
-                                ? data.transactiondate
-                                : data.createdAt;
-                            return (
-                                <div className="d-flex flex-column" key={`dealertrans_${inx}`}>
-                                    <div className="trans-card-main">
-                                        <div className="d-flex flex-column justify-content-between trans-left-elems">
-                                            <div style={{ lineHeight: "17px" }}>
-                                                <div className="date">
-                                                    <b className="mr-2">Date :</b>
-                                                    {moment(finalTransDate).format("ll")}
-                                                </div>
-                                                <div
-                                                    data-toggle="tooltip"
-                                                    data-placement="top"
-                                                    title={data.vehicle_number}
-                                                    className="date"
-                                                >
-                                                    <b className="mr-2">Vehicle No :</b>{" "}
-                                                    {data.vehiclenumber}
-                                                </div>
-                                                <div
-                                                    data-toggle="tooltip"
-                                                    data-placement="top"
-                                                    title={data.consignee_name}
-                                                    className="date"
-                                                >
-                                                    <b className="mr-2">Consignee :</b>{" "}
-                                                    {data.consigneefirmname}
-                                                </div>
-                                            </div>
+                    </div>
+                    <div className="openingbal-show mb-2" onClick={() => setExpandOB(!expandOB)}>
+                        <div className="headers-cont">
+                            <div className="title">View Opening Balance</div>
+                            <img
+                                className={expandOB ? "up-arrow-icon" : "down-icon"}
+                                src="https://www.freeiconspng.com/thumbs/white-arrow-png/white-down-arrow-png-2.png"
+                                alt=""
+                            />
+                        </div>
+                        {expandOB &&
+                            userData.openingbalance &&
+                            userData.openingbalance.length > 0 && (
+                                <div className="mt-2">
+                                    <div className="d-flex align-items-center open-date">
+                                        <div className="sub-title">Opening Date - &nbsp;</div>
+                                        <div className="product">
+                                            {convertDate(
+                                                userData.openingbalance[0].manualopeningdate,
+                                                0,
+                                                true,
+                                            )}
                                         </div>
-
-                                        <div className="products-main">
-                                            {data.products.length > 0 &&
-                                                data.products.map((item, inx) => {
-                                                    return (
-                                                        <div
-                                                            className="product"
-                                                            key={`transprod_${inx}`}
-                                                        >
-                                                            <div className="title">
-                                                                {PRODUCTS[item.productcode]} :
-                                                            </div>
-                                                            <div
-                                                                className="values d-flex flex-column"
-                                                                style={{ lineHeight: "17px" }}
-                                                            >
-                                                                <span>
-                                                                    <b>Delivered: </b>
-                                                                    <span className="greentxt">
-                                                                        {item.delivered.toFixed(2)}{" "}
-                                                                        mt
-                                                                    </span>
-                                                                </span>
-                                                                <span>
-                                                                    <b>Billed: </b>
-                                                                    <span className="redtxt">
-                                                                        {item.billed.toFixed(2)} mt
-                                                                    </span>
-                                                                </span>
-                                                                <span>
-                                                                    <b>Mode :</b>{" "}
-                                                                    {tranModes[item.mode.value]}
-                                                                </span>
-                                                            </div>
-                                                        </div>
-                                                    );
-                                                })}
-                                        </div>
-                                        <Actions data={data} />
                                     </div>
-                                    {data.returns.length > 0 && (
-                                        <div className="return-main">
-                                            <div className="return-submain">
-                                                <b>Return: </b>
-                                                {data.returns.map((item, inx) => {
-                                                    return (
-                                                        <span
-                                                            key={`returnprod_${inx}`}
-                                                            className="ml-3"
-                                                        >
-                                                            {PRODUCTS[item.productcode]}:{" "}
-                                                            {item.quantity} mt
-                                                        </span>
-                                                    );
-                                                })}
-                                            </div>
-                                        </div>
-                                    )}
-                                </div>
-                            );
-                        })}
+                                    <div className="delivered-main d-flex align-items-center">
+                                        <div className="sub-title">Delivered - &nbsp;</div>
+                                        {userData.openingbalance &&
+                                            userData.openingbalance.map((item, inx) => {
+                                                return (
+                                                    <div
+                                                        key={`obdel_${inx}`}
+                                                        className="product mx-4"
+                                                    >
+                                                        {PRODUCTS[item.productcode]} :{" "}
+                                                        {item.delivered.toFixed(2)}
+                                                    </div>
+                                                );
+                                            })}
+                                    </div>
 
-                    {allTrans.allTransactions && allTrans.allTransactions.length <= 0 && (
-                        <EmptyDataBannerComp />
+                                    <div className="biiled-main d-flex align-items-center">
+                                        <div className="sub-title">Billed - &nbsp;</div>
+                                        {userData.openingbalance &&
+                                            userData.openingbalance.map((item, inx) => {
+                                                return (
+                                                    <div
+                                                        key={`obproduct_${inx}`}
+                                                        className="product mx-4"
+                                                    >
+                                                        {" "}
+                                                        {PRODUCTS[item.productcode]} :{" "}
+                                                        {item.billed.toFixed(2)}
+                                                    </div>
+                                                );
+                                            })}
+                                    </div>
+                                </div>
+                            )}
+                    </div>
+                    <div className="main-viewtrans mb-5">
+                        {allTrans.allTransactions &&
+                            allTrans.allTransactions.length > 0 &&
+                            allTrans.allTransactions.map((data, inx) => {
+                                let finalTransDate = data.transactiondate
+                                    ? data.transactiondate
+                                    : data.createdAt;
+                                return (
+                                    <div className="d-flex flex-column" key={`dealertrans_${inx}`}>
+                                        <div className="trans-card-main">
+                                            <div className="d-flex flex-column justify-content-between trans-left-elems">
+                                                <div style={{ lineHeight: "17px" }}>
+                                                    <div className="date">
+                                                        <b className="mr-2">Date :</b>
+                                                        {moment(finalTransDate).format("ll")}
+                                                    </div>
+                                                    <div
+                                                        data-toggle="tooltip"
+                                                        data-placement="top"
+                                                        title={data.vehicle_number}
+                                                        className="date"
+                                                    >
+                                                        <b className="mr-2">Vehicle No :</b>{" "}
+                                                        {data.vehiclenumber}
+                                                    </div>
+                                                    <div
+                                                        data-toggle="tooltip"
+                                                        data-placement="top"
+                                                        title={data.consignee_name}
+                                                        className="date"
+                                                    >
+                                                        <b className="mr-2">Consignee :</b>{" "}
+                                                        {data.consigneefirmname}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div className="products-main">
+                                                {data.products.length > 0 &&
+                                                    data.products.map((item, inx) => {
+                                                        return (
+                                                            <div
+                                                                className="product"
+                                                                key={`transprod_${inx}`}
+                                                            >
+                                                                <div className="title">
+                                                                    {PRODUCTS[item.productcode]} :
+                                                                </div>
+                                                                <div
+                                                                    className="values d-flex flex-column"
+                                                                    style={{ lineHeight: "17px" }}
+                                                                >
+                                                                    <span>
+                                                                        <b>Delivered: </b>
+                                                                        <span className="greentxt">
+                                                                            {item.delivered.toFixed(
+                                                                                2,
+                                                                            )}{" "}
+                                                                            mt
+                                                                        </span>
+                                                                    </span>
+                                                                    <span>
+                                                                        <b>Billed: </b>
+                                                                        <span className="redtxt">
+                                                                            {item.billed.toFixed(2)}{" "}
+                                                                            mt
+                                                                        </span>
+                                                                    </span>
+                                                                    <span>
+                                                                        <b>Mode :</b>{" "}
+                                                                        {tranModes[item.mode.value]}
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        );
+                                                    })}
+                                            </div>
+                                            <Actions data={data} />
+                                        </div>
+                                        {data.returns.length > 0 && (
+                                            <div className="return-main">
+                                                <div className="return-submain">
+                                                    <b>Return: </b>
+                                                    {data.returns.map((item, inx) => {
+                                                        return (
+                                                            <span
+                                                                key={`returnprod_${inx}`}
+                                                                className="ml-3"
+                                                            >
+                                                                {PRODUCTS[item.productcode]}:{" "}
+                                                                {item.quantity} mt
+                                                            </span>
+                                                        );
+                                                    })}
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                );
+                            })}
+
+                        {allTrans.allTransactions && allTrans.allTransactions.length <= 0 && (
+                            <EmptyDataBannerComp />
+                        )}
+                    </div>
+                    {allTrans.totalCount && (
+                        <div className="finaltotalreport">
+                            <a href={`#/dealer/${partyCode}`} className="back-btn">
+                                <i className="fa fa-arrow-left" aria-hidden="true"></i> Back
+                            </a>
+                            <div className="val">
+                                <b>Delivered: </b>
+                                {allTrans.totalCount.totaldelivered.toFixed(2)} mt
+                            </div>
+                            <div className="bttl">
+                                <b>Billed: </b>
+                                {allTrans.totalCount.totalbilled.toFixed(2)} mt
+                            </div>
+                            <div className="bttl">
+                                <b>Outstanding: </b>
+                                {allTrans.totalCount.outstanding.toFixed(2)} mt
+                            </div>
+                        </div>
                     )}
                 </div>
-                {allTrans.totalCount && (
-                    <div className="finaltotalreport">
-                        <a href={`#/dealer/${partyCode}`} className="back-btn">
-                            <i className="fa fa-arrow-left" aria-hidden="true"></i> Back
-                        </a>
-                        <div className="val">
-                            <b>Delivered: </b>
-                            {allTrans.totalCount.totaldelivered.toFixed(2)} mt
-                        </div>
-                        <div className="bttl">
-                            <b>Billed: </b>
-                            {allTrans.totalCount.totalbilled.toFixed(2)} mt
-                        </div>
-                        <div className="bttl">
-                            <b>Outstanding: </b>
-                            {allTrans.totalCount.outstanding.toFixed(2)} mt
-                        </div>
-                    </div>
-                )}
-            </div>
+            )}
 
             {modelShow && (
                 <Popup

@@ -53,12 +53,12 @@ const ViewGodwon = ((props) => {
     return (
         <>
             {
-                loading &&
+                loading ?
                 <div className="loading">
                     <i className="fa fa-spinner fa-pulse"></i>
                     <span className="ml-3 pb-1">Loading...</span>
                 </div>
-            }
+                :
             <div className="col-md-12">
                 <div className="viewgodown-main">
                     <a href={`#/godown`} className="back-btn back-btn-godown "><i className="fa fa-arrow-left" aria-hidden="true"></i> Back</a>
@@ -113,6 +113,8 @@ const ViewGodwon = ((props) => {
                     </div>
                 </div>
             </div>
+
+            }
             {
                 showTransPopup &&
                 <Popup

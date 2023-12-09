@@ -15,7 +15,7 @@ const ControllerSection = ({
     return (
         <>
             <div className="col-md-3 controller-section">
-                <div className="d-flex flex-column ml-4">
+                <div className="d-flex flex-column">
                     <a href="#/" className="brand-name">AMAN TRADING COMPANY</a>
                 </div>
                 <hr className="hr-line" />

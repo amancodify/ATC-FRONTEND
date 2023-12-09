@@ -12,6 +12,7 @@ const GraphDisplay = ({ partyCode }) => {
             .post(`${API_URL}/monthlygraphdata`, { partyCode: partyCode })
             .then((response) => {
                 setGraphData(response.data.data);
+                console.log(response.data);
             })
             .catch((err) => {
                 console.log(err);
