@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { getFancyDateFormat } from "../../../utils/dateConverter";
+import { lastUpdatedDateFormat } from "../../../utils/dateConverter";
 import axios from "axios";
 import API_URL from "../../../config";
 
@@ -56,8 +56,7 @@ const PartyCard = ({
         totaltext = "";
         colorcss = "yellow-text";
     }
-    let todaysDate = getFancyDateFormat(Date.now());
-    let updatedDate = getFancyDateFormat(updatedAt);
+    let updatedDate = lastUpdatedDateFormat(updatedAt);
 
     const [nudgeSent, setNudgeSent] = useState(false);
 
@@ -94,7 +93,7 @@ const PartyCard = ({
                             </span>
                         )}
                         <span>
-                            Last Updated: <em>{todaysDate === updatedDate ? "Today" : updatedDate}</em>
+                            Last Updated: <em>{updatedDate}</em>
                         </span>
                     </div>
                     <div className="card-full">

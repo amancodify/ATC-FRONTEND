@@ -1,3 +1,5 @@
+import moment from "moment";
+
 let MONTHS = [
   "Jan",
   "Feb",
@@ -42,4 +44,16 @@ export const getFancyDateFormat = (date) => {
   // let timeText = date.toString().split("T")[1].split(".")[0];
   let datetext = `${MONTHS[mainDate.getMonth()]} ${(mainDate.getDate())}, ${mainDate.getFullYear()}`;
   return datetext;
+};
+
+export const lastUpdatedDateFormat = (dateString) => {
+  const currentDate = moment();
+  const inputDate = moment(dateString);
+  if (currentDate.diff(inputDate, 'hours') < 24) {
+    // Within the last 24 hours, show in "hours ago" format
+    return inputDate.fromNow();
+  } else {
+    // More than 24 hours ago, show in the specified format
+    return inputDate.format('Do MMM, YYYY [at] h:mm A');
+  }
 };
