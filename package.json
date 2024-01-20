@@ -4,10 +4,10 @@
   "private": true,
   "dependencies": {
     "@babel/types": "^7.22.5",
-    "@emotion/react": "^11.10.0",
-    "@emotion/styled": "^11.10.0",
+    "@emotion/react": "^11.11.3",
+    "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.8.4",
-    "@mui/material": "^5.10.1",
+    "@mui/material": "^5.15.5",
     "@react-pdf/renderer": "^1.6.9",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.0",

@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { lastUpdatedDateFormat } from "../../../utils/dateConverter";
-import axios from "axios";
-import API_URL from "../../../config";
+// import axios from "axios";
+// import API_URL from "../../../config";
 
 const PartyCard = ({
     firmName,
@@ -58,20 +58,20 @@ const PartyCard = ({
     }
     let updatedDate = lastUpdatedDateFormat(updatedAt);
 
-    const [nudgeSent, setNudgeSent] = useState(false);
+    // const [nudgeSent, setNudgeSent] = useState(false);
 
-    const nudgeUser = () => {
-        let sendData = {
-            partyCode,
-            type: "ACCOUNT_STATUS",
-        };
+    // const nudgeUser = () => {
+    //     let sendData = {
+    //         partyCode,
+    //         type: "ACCOUNT_STATUS",
+    //     };
 
-        axios.post(`${API_URL}/nudgeuser`, sendData).then((response) => {
-            if (response.data) {
-                setNudgeSent(true);
-            }
-        });
-    };
+    //     axios.post(`${API_URL}/nudgeuser`, sendData).then((response) => {
+    //         if (response.data) {
+    //             setNudgeSent(true);
+    //         }
+    //     });
+    // };
 
     return (
         <>
@@ -79,7 +79,7 @@ const PartyCard = ({
                 <a href={`#/dealer/${partyCode}`} className="col-lg-12 col-md-10 col-sm-10 data-card">
                     <div className={`display-letter ${tagcolor}`}>{partyArea}</div>
                     <div className="createdon">
-                        {nudgeSent && <span className="nudge-sent-text">The user has been Nudged!</span>}
+                        {/* {nudgeSent && <span className="nudge-sent-text">The user has been Nudged!</span>}
                         {!nudgeSent && (
                             <span
                                 onClick={(event) => {
@@ -91,7 +91,7 @@ const PartyCard = ({
                                 <i className="fa fa-hand-o-right nudge-icon" aria-hidden="true"></i>{" "}
                                 <span className="text">Nudge User</span>
                             </span>
-                        )}
+                        )} */}
                         <span>
                             Last Updated: <em>{updatedDate}</em>
                         </span>
@@ -99,7 +99,7 @@ const PartyCard = ({
                     <div className="card-full">
                         <div className="d-flex align-items-center justify-content-center">
                             <img
-                                src={imgUrl ? imgUrl : "https://www.w3schools.com/howto/img_avatar.png"}
+                                src={"https://www.w3schools.com/howto/img_avatar.png"}
                                 className="icon"
                                 alt=""
                             />
@@ -130,7 +130,6 @@ const PartyCard = ({
                                     {totaltext}
                                 </span>
                             </div>
-                            <img src="images/arrowright.png" alt="" className="viewbtn"></img>
                         </div>
                     </div>
                 </a>

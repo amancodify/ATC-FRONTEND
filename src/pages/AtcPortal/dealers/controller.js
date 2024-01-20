@@ -49,7 +49,7 @@ const ControllerSection = ({
                                 <div className="text">Dealers</div>
                             </div>
                         </a>
-                        <a href="#/consignees" className="add">
+                        {/* <a href="#/consignees" className="add">
                             <div className={`add d-flex align-items-center pl-4 ${isCurrentTab(2) ? "active-tab" : ""}`} onClick={() => setCurrentTab(2)} >
                                 <img
                                     src="/images/home-white.png"
@@ -58,7 +58,7 @@ const ControllerSection = ({
                                 />
                                 <div className="text">Consignees</div>
                             </div>
-                        </a>
+                        </a> */}
                         <a href="#/godown" className="add">
                             <div className={`add d-flex align-items-center pl-4 ${isCurrentTab(3) ? "active-tab" : ""}`} onClick={() => setCurrentTab(3)}>
                                 <img
@@ -88,12 +88,12 @@ const ControllerSection = ({
                                 <div className="text">Add Dealer</div>
                             </div>
                         </a>
-                        <a href="#/addconsignee" className="add">
+                        {/* <a href="#/addconsignee" className="add">
                             <div className={`add d-flex align-items-center pl-4 ${isCurrentTab(6) ? "active-tab" : ""}`} onClick={() => setCurrentTab(6)}>
                                 <img src="/images/adduser-white.png" className="icon" alt="" />
                                 <div className="text">Add Consignee</div>
                             </div>
-                        </a>
+                        </a> */}
                         <a href="#/creategodown" className="add">
                             <div className={`add d-flex align-items-center pl-4 ${isCurrentTab(7) ? "active-tab" : ""}`} onClick={() => setCurrentTab(7)}>
                                 <img src="/images/addgodwon-white.png" className="icon" alt="" />

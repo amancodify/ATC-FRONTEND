@@ -1522,7 +1522,6 @@ a:link {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            width: 350px;
             margin-left: 20px;
             .title {
                 color: rgb(66, 66, 66);
@@ -1893,7 +1892,7 @@ a:link {
         font-size: 12px;
     }
     .boldtxt {
-        width: 90px;
+        min-width: 120px;
     }
     .dash {
         width: 20px;
@@ -1931,6 +1930,7 @@ a:link {
         }
         .iconwidth {
             width: 18px;
+            margin-right: 10px;
         }
         @media only screen and (max-width: 600px) {
             margin: 20px;

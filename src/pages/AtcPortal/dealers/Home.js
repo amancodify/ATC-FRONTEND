@@ -97,7 +97,7 @@ const Home = () => {
                         onChange={(event) => onTextSearch(event)}
                         className="searchbox-field"
                         autoComplete="off"
-                        placeholder="Search by Party code or Firm name"
+                        placeholder="Search by Party code or Party name"
                     />
                     {searchText ? (
                         <i
@@ -207,7 +207,7 @@ const Home = () => {
                                         onClick={() => setCurrentPage(currentPage + 1)}
                                         className="d-flex align-items-center justify-content-center load-more"
                                     >
-                                        Load More{" "}
+                                        Load More
                                         <i
                                             style={{ fontSize: "22px", marginLeft: "10px" }}
                                             class="fa fa-angle-down"

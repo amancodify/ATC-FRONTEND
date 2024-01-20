@@ -61,15 +61,43 @@ const ViewDealer = (props) => {
     }
     const deleteUser = async () => {
         try {
-          await axios.delete(`${API_URL}/dealers/delete/${partyCode}`);
-          window.location.replace("#/");
+            await axios.delete(`${API_URL}/dealers/delete/${partyCode}`);
+            window.location.replace("#/");
         } catch (err) {
-          console.error(err);
+            console.error(err);
         }
-      };
+    };
 
     let disabledCss = opening_bal_done ? "" : "disable-btn-action";
     let cursorCss = opening_bal_done ? "" : "cursor-nodrop";
+
+    const dealerDataToDisplay = [
+        {
+            title: "Owner",
+            titleIcon: "fa fa-user",
+            value: name,
+        },
+        {
+            title: "Area",
+            titleIcon: "fa fa-map-marker",
+            value: dealer_area,
+        },
+        {
+            title: "Contact",
+            titleIcon: "fa fa-phone",
+            value: "+91" + mobile,
+        },
+        {
+            title: "E-mail",
+            titleIcon: "fa fa-envelope",
+            value: email,
+        },
+        {
+            title: "Address",
+            titleIcon: "fa fa-address-card-o",
+            value: address,
+        },
+    ];
 
     return (
         <>
@@ -85,68 +113,35 @@ const ViewDealer = (props) => {
                             <div className="col-md-2 d-flex flex-column align-items-center justify-content-center">
                                 <img
                                     className="userimg mt-1"
-                                    src= "https://www.w3schools.com/howto/img_avatar.png"
+                                    src="https://www.w3schools.com/howto/img_avatar.png"
                                     alt=""
                                 />
-                                {/* <div
-                                    className="text-center c-pointer mt-2 graph-text"
-                                    onClick={() => setShowPartyGraph(true)}
-                                >
-                                    <i className="fa fa-bar-chart mr-1" aria-hidden="true"></i>Show Graph
-                                </div> */}
                             </div>
                             <div className="col-md-8">
                                 <div className="firmname">
                                     {firm_name} - {party_code}
                                 </div>
-                                <div className="party-details-text">
-                                    <div className="boldtxt">
-                                        <i className="fa fa-user iconwidth"></i> Owner
-                                    </div>
-                                    <span className="dash">:</span>
-                                    <span>{name}</span>
-                                </div>
-                                <div className="party-details-text">
-                                    <div className="boldtxt">
-                                        <i
-                                            className="fa fa-map-marker iconwidth"
-                                            aria-hidden="true"
-                                        ></i>{" "}
-                                        Area
-                                    </div>
-                                    <span className="dash">:</span>
-                                    {dealer_area}
-                                </div>
-                                <div className="party-details-text">
-                                    <div className="boldtxt">
-                                        <i className="fa fa-phone iconwidth" aria-hidden="true"></i>{" "}
-                                        Contact
-                                    </div>
-                                    <span className="dash">:</span>
-                                    <a href={`tel:${mobile}`}>+91-{mobile}</a>
-                                </div>
-                                <div className="party-details-text">
-                                    <div className="boldtxt">
-                                        <i
-                                            className="fa fa-envelope sizeadjust iconwidth"
-                                            aria-hidden="true"
-                                        ></i>{" "}
-                                        E-mail
-                                    </div>
-                                    <span className="dash">:</span>
-                                    <a href={`mailto:${email}`}>{email}</a>
-                                </div>
-                                <div className="party-details-text">
-                                    <div className="boldtxt">
-                                        <i
-                                            className="fa fa-address-card-o sizeadjust iconwidth"
-                                            aria-hidden="true"
-                                        ></i>{" "}
-                                        Address
-                                    </div>
-                                    <span className="dash">:</span>
-                                    {address}
-                                </div>
+                                <table>
+                                    {dealerDataToDisplay.map((item, inx) => {
+                                        return (
+                                            <>
+                                                <tr
+                                                    className="party-details-text"
+                                                    key={`dealer_data_${inx}`}
+                                                >
+                                                    <td className="boldtxt d-flex align-items-center">
+                                                        <i
+                                                            className={`${item.titleIcon} iconwidth`}
+                                                        />
+                                                        <span>{item.title}</span>
+                                                    </td>
+                                                    <td className="dash">:</td>
+                                                    <td>{item.value}</td>
+                                                </tr>
+                                            </>
+                                        );
+                                    })}
+                                </table>
                             </div>
 
                             <div className="col-md-2 dealers-menu-main">
@@ -155,13 +150,6 @@ const ViewDealer = (props) => {
                                     {menuShow && (
                                         <div className="menu-list" ref={ref}>
                                             <div className="pointer"></div>
-
-                                            {/* <div
-                                        className="d-flex align-items-center justify-content-end menu-option-grid"
-                                        onClick={() => setModelShow(true)}
-                                    >
-                                        <span className="edit-label">Delete User</span>
-                                    </div> */}
                                             <a
                                                 className="d-flex align-items-center justify-content-end edit-main"
                                                 href={`#/editprofile/${partyCode}`}
@@ -170,7 +158,7 @@ const ViewDealer = (props) => {
                                                     Edit Party Details
                                                 </span>
                                             </a>
-                                            <div className="saperator"></div>
+                                            <div className="saperator" />
                                             <div className="d-flex align-items-center justify-content-end menu-option-grid">
                                                 <span className="edit-label">Add Consinee</span>
                                             </div>

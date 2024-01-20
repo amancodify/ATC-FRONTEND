@@ -2,18 +2,18 @@
 import React, { useState, useEffect, useRef } from "react";
 import "react-day-picker/lib/style.css";
 import axios from "axios";
+import moment from "moment";
 import DayPickerInput from "react-day-picker/DayPickerInput";
-import { formatDate, parseDate } from "react-day-picker/moment";
 import Popup from "../../../components/common/PopUp";
 import Return from "./Return";
-import { convertDate } from "../../../utils/dateConverter";
 import OverlayComp from "../../../components/common/overlay";
 import API_URL from "../../../config";
 import PartyReport from "../dealers/partyReport";
 import EmptyDataBannerComp from "./emptyDataBanner";
+import { formatDate, parseDate } from "react-day-picker/moment";
+import { convertDate } from "../../../utils/dateConverter";
 import { PRODUCTS, MODES } from "./constants";
 import { useOnClickOutside } from "../dealers/outsideClick";
-import moment from "moment";
 import { getGodownsMode } from "../utils";
 
 const AllTransactions = (props) => {
@@ -29,6 +29,34 @@ const AllTransactions = (props) => {
     const [transactionId, setTransactionId] = useState("");
     const [expandOB, setExpandOB] = useState(false);
     const [tranModes, setTransModes] = useState(MODES);
+
+    const dealerDataToDisplay = [
+        {
+            title: "Owner",
+            titleIcon: "fa fa-user",
+            value: userData.name,
+        },
+        {
+            title: "Area",
+            titleIcon: "fa fa-map-marker",
+            value: userData.dealer_area,
+        },
+        {
+            title: "Contact",
+            titleIcon: "fa fa-phone",
+            value: "+91" + userData.mobile,
+        },
+        {
+            title: "E-mail",
+            titleIcon: "fa fa-envelope",
+            value: userData.email,
+        },
+        {
+            title: "Address",
+            titleIcon: "fa fa-address-card-o",
+            value: userData.address,
+        },
+    ];
 
     const fetchPartyTransaction = () => {
         setLoadingScr(true);
@@ -149,54 +177,25 @@ const AllTransactions = (props) => {
                             <div className="firmname-big">
                                 {userData.firm_name} - {userData.party_code}
                             </div>
-                            <div className="party-details-text">
-                                <div className="boldtxt">
-                                    <i className="fa fa-user iconwidth"></i> Owner
-                                </div>
-                                <span className="dash">:</span>
-                                <span>{userData.name}</span>
-                            </div>
-                            <div className="party-details-text">
-                                <div className="boldtxt">
-                                    <i
-                                        className="fa fa-map-marker iconwidth"
-                                        aria-hidden="true"
-                                    ></i>{" "}
-                                    Area
-                                </div>
-                                <span className="dash">:</span>
-                                {userData.dealer_area}
-                            </div>
-                            <div className="party-details-text">
-                                <div className="boldtxt">
-                                    <i className="fa fa-phone iconwidth" aria-hidden="true"></i>{" "}
-                                    Contact
-                                </div>
-                                <span className="dash">:</span>
-                                <a href={`tel:${userData.mobile}`}>+91-{userData.mobile}</a>
-                            </div>
-                            <div className="party-details-text">
-                                <div className="boldtxt">
-                                    <i
-                                        className="fa fa-envelope sizeadjust iconwidth"
-                                        aria-hidden="true"
-                                    ></i>{" "}
-                                    E-mail
-                                </div>
-                                <span className="dash">:</span>
-                                <a href={`mailto:${userData.email}`}>{userData.email}</a>
-                            </div>
-                            <div className="party-details-text">
-                                <div className="boldtxt">
-                                    <i
-                                        className="fa fa-address-card-o sizeadjust iconwidth"
-                                        aria-hidden="true"
-                                    ></i>{" "}
-                                    Address
-                                </div>
-                                <span className="dash">:</span>
-                                <span>{userData.address}</span>
-                            </div>
+                            <table>
+                                {dealerDataToDisplay.map((item, inx) => {
+                                    return (
+                                        <>
+                                            <tr
+                                                className="party-details-text"
+                                                key={`dealer_data_trans_${inx}`}
+                                            >
+                                                <td className="boldtxt d-flex align-items-center">
+                                                    <i className={`${item.titleIcon} mr-2`} />
+                                                    <span>{item.title}</span>
+                                                </td>
+                                                <td className="dash">:</td>
+                                                <td>{item.value}</td>
+                                            </tr>
+                                        </>
+                                    );
+                                })}
+                            </table>
                         </div>
                         <div className="d-flex flex-column">
                             <div className="firmname report-icons d-flex">
