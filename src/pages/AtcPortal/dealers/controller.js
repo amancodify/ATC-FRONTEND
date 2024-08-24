@@ -20,7 +20,7 @@ const ControllerSection = ({
                 </div>
                 <hr className="hr-line" />
                 <div className="showloggedinuser">
-                    <img className="userimg" src="./images/aman.jpg" alt="" />
+                    <img className="userimg" src="./images/logo.png" alt="" />
                     <div className="loginname">Hi, {loginName.split(" ")[0]}</div>
                     <div className="settings-main" ref={ref}>
                         <img onClick={() => setShowLogout(!showLogout)} src="https://www.materialui.co/materialIcons/navigation/arrow_drop_down_white_192x192.png" alt="" className="iconvector" />
