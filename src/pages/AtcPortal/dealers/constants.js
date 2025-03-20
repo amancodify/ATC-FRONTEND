@@ -4,7 +4,8 @@ export const PRODUCTS_TEXTS = {
     psc: 'PSC',
     lppc: 'LPPC',
     cc: 'CC',
-    'Cc HDPE' : 'CC HDPE'
+    'Cc HDPE' : 'CC HDPE',
+    marble: 'MARBLE'
 };
 
 export const REFILL_MODE_TEXTS = {
@@ -82,7 +83,8 @@ export const PRODUCTS = {
     opc: 'OPC',
     psc: 'PSC',
     cc: 'CC',
-    'Cc HDPE' : 'CC HDPE'
+    'Cc HDPE' : 'CC HDPE',
+    marble: 'MARBLE'
 };
 
 export const MODES = {

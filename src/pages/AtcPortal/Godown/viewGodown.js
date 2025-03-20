@@ -88,7 +88,7 @@ const ViewGodwon = ((props) => {
                             <span className="hd3">Damage Stock (mt)</span>
                         </div>
 
-                        {godownCountData.products && godownCountData.products.map((item, inx) => {
+                        {godownCountData?.products && godownCountData?.products.map((item, inx) => {
                             return (
                                 <div className="col-md-12 product-value" key={`godowncount${inx}`}>
                                     <span className="hd1">{item.productname}</span>
@@ -98,11 +98,11 @@ const ViewGodwon = ((props) => {
                             )
                         })}
 
-                        {godownCountData.totalFresh &&
+                        {godownCountData?.totalFresh &&
                             <div className="col-md-12 heading">
                                 <span className="hd1">Total</span>
-                                <span className="total-fresh hd2">{godownCountData.totalFresh.toFixed(2)} mt</span>
-                                <span className="total-damage hd3">{godownCountData.totalDamage.toFixed(2)} mt</span>
+                                <span className="total-fresh hd2">{godownCountData?.totalFresh.toFixed(2)} mt</span>
+                                <span className="total-damage hd3">{godownCountData?.totalDamage.toFixed(2)} mt</span>
                             </div>
                         }
                         <div className="col-md-12 actions">
