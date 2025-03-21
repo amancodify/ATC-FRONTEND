@@ -4,8 +4,10 @@ import { Form, Button } from 'react-bootstrap';
 import axios from 'axios';
 import API_URL from "../../../config";
 // import { getCurrentDate } from "../../utils/dateConverter";
-import { PRODUCTS_TEXTS, TRANSACTION_MODES } from "./constants";
+import { getStoredProducts, getStoredTransMode } from "../utils";
 
+const PRODUCTS = getStoredProducts();
+const TRANS_MODES = getStoredTransMode();
 
 const ReturnBags = ({ tid, party_code, firm_name, party_name }) => {
     const { handleSubmit, register } = useForm();
@@ -55,7 +57,7 @@ const ReturnBags = ({ tid, party_code, firm_name, party_name }) => {
                             quantity: parseFloat(values[`quantity${i}`]),
                             producttype: values[`producttype${i}`],
                             productcode: values[`productcode${i}`],
-                            returnmode: TRANSACTION_MODES[values[`mode${i}`]],
+                            returnmode: TRANS_MODES[values[`mode${i}`]],
                             partycode: party_code,
                             reason: values['reason']
                         };
@@ -122,7 +124,7 @@ const ReturnBags = ({ tid, party_code, firm_name, party_name }) => {
                                                 })}
                                             >
                                                 <option disabled value="">Select Product</option>
-                                                <option value={item.productcode}>{PRODUCTS_TEXTS[item.productcode]}</option>
+                                                <option value={item.productcode}>{PRODUCTS[item.productcode].name}</option>
                                             </select>
                                             <Form.Control onChange={onChangeHandler} className="transaction-fields" type="number" placeholder={`Qty(max ${item.delivered} mt)`} name={`quantity${inx}`} step="0.001" min="0.0" max={item.delivered}
                                                 ref={register({

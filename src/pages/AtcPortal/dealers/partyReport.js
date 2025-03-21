@@ -3,324 +3,119 @@ import ReactExport from 'react-data-export';
 import { convertDate } from '../../../utils/dateConverter';
 
 const PartyReport = ({ allTrans, partyData }) => {
-    const ExcelFile = ReactExport.ExcelFile;
-    const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
+    const { ExcelFile, ExcelSheet } = ReactExport;
 
-    // For border add this style below
-    // border: {top: { style: "thin", color: "FF00FFFF" }, left: { style: "thin", color: "FF00FFFF" }, right: { style: "thin", color: "FF00FFFF" }, bottom: { style: "thin", color: "FF00FFFF" }}
+    // Common cell style
+    const commonStyle = {
+        font: { sz: '10', bold: true, color: { rgb: 'FF350C0C' } },
+        fill: { patternType: 'solid', fgColor: { rgb: 'FF00FFFF' } },
+    };
 
-    let reportData = [];
+    // Generate opening balance data
+    const generateOpeningBalanceData = (openingBalance) =>
+        openingBalance.map((item) => [
+            { value: `${item.productcode} Delivered`, style: commonStyle },
+            { value: `${item.delivered} mt`, style: commonStyle },
+            { value: `${item.productcode} Billed`, style: commonStyle },
+            { value: `${item.billed} mt`, style: commonStyle },
+        ]);
 
-    if (partyData.openingbalance) {
-        let openingBalData = partyData.openingbalance.map((item) => {
-            let result = [];
-            result.push(
-                {
-                    value: `${item.productcode} Delivered`,
-                    style: {
-                        font: { sz: '10', bold: true, color: { rgb: 'FF350C0C' } },
-                        fill: { patternType: 'solid', fgColor: { rgb: 'FF00FFFF' } },
-                    },
-                },
-                {
-                    value: item.delivered + ' mt',
-                    style: {
-                        alignment: { horizontal: 'left' },
-                        font: { sz: '10', bold: true, color: { rgb: 'FF350C0C' } },
-                        fill: { patternType: 'solid', fgColor: { rgb: 'FF00FFFF' } },
-                    },
-                },
-                {
-                    value: `${item.productcode} Billed`,
-                    style: {
-                        font: { sz: '10', bold: true, color: { rgb: 'FF350C0C' } },
-                        fill: { patternType: 'solid', fgColor: { rgb: 'FF00FFFF' } },
-                    },
-                },
-                {
-                    value: item.billed + ' mt',
-                    style: {
-                        alignment: { horizontal: 'left' },
-                        font: { sz: '10', bold: true, color: { rgb: 'FF350C0C' } },
-                        fill: { patternType: 'solid', fgColor: { rgb: 'FF00FFFF' } },
-                    },
-                }
-            );
-            return result;
-        });
+    // Generate firm details data
+    const generateFirmDetails = (partyData) => [
+        [{ value: 'Firm Name', style: commonStyle }, { value: partyData.firm_name, style: commonStyle }],
+        [{ value: 'Owner', style: commonStyle }, { value: partyData.name, style: commonStyle }],
+        [{ value: 'Party Code', style: commonStyle }, { value: partyData.party_code, style: commonStyle }],
+    ];
 
-        reportData = [
-            [
-                { value: '' },
-                { value: '' },
-                { value: '' },
-                { value: '' },
-                { value: '' },
-                { value: '' },
-                { value: '' },
-                { value: '' },
-                { value: '' },
-                { value: '' },
-                { value: '' },
-                { value: '' },
-                { value: '' },
-                { value: '' },
-                { value: '' },
-            ],
-            [
-                {
-                    value: 'Firm Name',
-                    style: {
-                        font: { sz: '10', bold: true, color: { rgb: 'FF350C0C' } },
-                        fill: { patternType: 'solid', fgColor: { rgb: 'FF00FFFF' } },
-                    },
-                },
-                {
-                    value: partyData.firm_name,
-                    style: {
-                        font: { sz: '10', bold: true, color: { rgb: 'FF350C0C' } },
-                        fill: { patternType: 'solid', fgColor: { rgb: 'FF00FFFF' } },
-                    },
-                },
-            ],
-            [
-                {
-                    value: 'Owner',
-                    style: {
-                        font: { sz: '10', bold: true, color: { rgb: 'FF350C0C' } },
-                        fill: { patternType: 'solid', fgColor: { rgb: 'FF00FFFF' } },
-                    },
-                },
-                {
-                    value: partyData.name,
-                    style: {
-                        font: { sz: '10', bold: true, color: { rgb: 'FF350C0C' } },
-                        fill: { patternType: 'solid', fgColor: { rgb: 'FF00FFFF' } },
-                    },
-                },
-            ],
-            [
-                {
-                    value: 'Party Code',
-                    style: {
-                        font: { sz: '10', bold: true, color: { rgb: 'FF350C0C' } },
-                        fill: { patternType: 'solid', fgColor: { rgb: 'FF00FFFF' } },
-                    },
-                },
-                {
-                    value: partyData.party_code,
-                    style: {
-                        font: { sz: '10', bold: true, color: { rgb: 'FF350C0C' } },
-                        fill: { patternType: 'solid', fgColor: { rgb: 'FF00FFFF' } },
-                    },
-                },
-            ],
-            [{ value: '' }],
-            [
-                {
-                    value: 'Opening Balance',
-                    style: {
-                        font: { sz: '10', bold: true, color: { rgb: 'FFD60056' } },
-                        fill: { patternType: 'solid', fgColor: { rgb: 'FF00FFFF' } },
-                    },
-                },
-            ],
-            ...openingBalData,
-            [{ value: '' }],
-        ];
-    }
+    // Generate summary data (Total Delivered, Billed, Outstanding)
+    const generateSummaryData = (totalCount) => [
+        [{ value: 'Total Delivered', style: commonStyle }, { value: `${totalCount.totaldelivered.toFixed(2)} mt`, style: commonStyle }],
+        [{ value: 'Total Billed', style: commonStyle }, { value: `${totalCount.totalbilled.toFixed(2)} mt`, style: commonStyle }],
+        [{ value: 'Total Outstanding', style: commonStyle }, { value: `${totalCount.outstanding.toFixed(2)} mt`, style: commonStyle }],
+    ];
 
-    if (allTrans.totalCount) {
-        reportData.push(
-            [
-                {
-                    value: 'Total Delivered',
-                    style: {
-                        font: { sz: '10', bold: true, color: { rgb: 'FF350C0C' } },
-                        fill: { patternType: 'solid', fgColor: { rgb: 'FF00FFFF' } },
-                    },
-                },
-                {
-                    value: `${allTrans.totalCount.totaldelivered.toFixed(2)} mt`,
-                    style: {
-                        alignment: { horizontal: 'left' },
-                        font: { sz: '10', bold: true, color: { rgb: 'FF350C0C' } },
-                        fill: { patternType: 'solid', fgColor: { rgb: 'FF00FFFF' } },
-                    },
-                },
-            ],
-            [
-                {
-                    value: 'Total Billed',
-                    style: {
-                        font: { sz: '10', bold: true, color: { rgb: 'FF350C0C' } },
-                        fill: { patternType: 'solid', fgColor: { rgb: 'FF00FFFF' } },
-                    },
-                },
-                {
-                    value: `${allTrans.totalCount.totalbilled.toFixed(2)} mt`,
-                    style: {
-                        alignment: { horizontal: 'left' },
-                        font: { sz: '10', bold: true, color: { rgb: 'FF350C0C' } },
-                        fill: { patternType: 'solid', fgColor: { rgb: 'FF00FFFF' } },
-                    },
-                },
-            ],
-            [
-                {
-                    value: 'Total Outstanding',
-                    style: {
-                        font: { sz: '10', bold: true, color: { rgb: 'FF350C0C' } },
-                        fill: { patternType: 'solid', fgColor: { rgb: 'FF00FFFF' } },
-                    },
-                },
-                {
-                    value: `${allTrans.totalCount.outstanding.toFixed(2)} mt`,
-                    style: {
-                        alignment: { horizontal: 'left' },
-                        font: { sz: '10', bold: true, color: { rgb: 'FF350C0C' } },
-                        fill: { patternType: 'solid', fgColor: { rgb: 'FF00FFFF' } },
-                    },
-                },
-            ],
-            [{ value: '' }]
-        );
-    }
+    // Generate transaction data
+    const generateTransactionData = (allTransactions) => {
+        const reportData = [];
+        allTransactions.forEach((item) => {
+            const totalReturns = item.returns.reduce((acc, data) => {
+                acc[data.productcode] = data.quantity || 0;
+                return acc;
+            }, {});
 
-    if (allTrans.allTransactions && allTrans.allTransactions.length > 0) {
-        allTrans.allTransactions.map((item) => {
-            let totalReturns = {};
-            item.returns.map((data) => {
-                return (totalReturns[`${data.productcode}`] = data.quantity);
-            });
-
-            item.products.map((data) => {
-                let returnValue = totalReturns[data.productcode] ? totalReturns[data.productcode] : 0;
-                let dataToPush = [
+            item.products.forEach((data) => {
+                reportData.push([
                     { value: convertDate(item.transactiondate, 0, true), style: { font: { sz: '12' }, alignment: { horizontal: 'center' } } },
                     { value: data.productcode, style: { font: { sz: '12' }, alignment: { horizontal: 'center' } } },
                     { value: data.delivered, style: { font: { sz: '12' }, alignment: { horizontal: 'center' } } },
                     { value: data.billed, style: { font: { sz: '12' }, alignment: { horizontal: 'center' } } },
                     { value: data.mode.value, style: { font: { sz: '12' }, alignment: { horizontal: 'center' } } },
                     { value: item.vehiclenumber, style: { font: { sz: '12' }, alignment: { horizontal: 'center' } } },
-                    { value: item.consigneefirmname ? item.consigneefirmname : '', style: { font: { sz: '12' }, alignment: { horizontal: 'center' } } },
-                    { value: returnValue, style: { font: { sz: '12' }, alignment: { horizontal: 'center' } } },
+                    { value: item.consigneefirmname || '', style: { font: { sz: '12' }, alignment: { horizontal: 'center' } } },
+                    { value: totalReturns[data.productcode] || 0, style: { font: { sz: '12' }, alignment: { horizontal: 'center' } } },
                     { value: item.trans_comment || '', style: { font: { sz: '12' }, alignment: { horizontal: 'center' } } },
-                ];
-                reportData.push(dataToPush);
-                return true;
+                ]);
             });
-            return true;
         });
+        return reportData;
+    };
+
+    // Generate main report data
+    let reportData = [[{ value: '' }]];
+
+    if (partyData.openingbalance) {
+        reportData = [
+            ...reportData,
+            ...generateFirmDetails(partyData),
+            [{ value: '' }],
+            [{ value: 'Opening Balance', style: commonStyle }],
+            ...generateOpeningBalanceData(partyData.openingbalance),
+            [{ value: '' }],
+        ];
     }
 
+    if (allTrans.totalCount) {
+        reportData = [...reportData, ...generateSummaryData(allTrans.totalCount), [{ value: '' }]];
+    }
+
+    if (allTrans.allTransactions?.length) {
+        reportData = [...reportData, ...generateTransactionData(allTrans.allTransactions)];
+    }
+
+    // Define Excel sheet structure
     const atcReportData = [
         {
             columns: [
-                {
-                    title: 'Date',
-                    width: { wpx: 90 },
-                    style: {
-                        alignment: { horizontal: 'center' },
-                        font: { sz: '14', bold: true, color: { rgb: 'FFFFFFFF' } },
-                        fill: { patternType: 'solid', fgColor: { rgb: 'FF303030' } },
-                    },
-                },
-                {
-                    title: 'Product',
-                    width: { wpx: 80 },
-                    style: {
-                        alignment: { horizontal: 'center' },
-                        font: { sz: '14', bold: true, color: { rgb: 'FFFFFFFF' } },
-                        fill: { patternType: 'solid', fgColor: { rgb: 'FF303030' } },
-                    },
-                },
-                {
-                    title: 'Delivered',
-                    width: { wpx: 80 },
-                    style: {
-                        alignment: { horizontal: 'center' },
-                        font: { sz: '14', bold: true, color: { rgb: 'FFFFFFFF' } },
-                        fill: { patternType: 'solid', fgColor: { rgb: 'FF303030' } },
-                    },
-                },
-                {
-                    title: 'Billed',
-                    width: { wpx: 100 },
-                    style: {
-                        alignment: { horizontal: 'center' },
-                        font: { sz: '14', bold: true, color: { rgb: 'FFFFFFFF' } },
-                        fill: { patternType: 'solid', fgColor: { rgb: 'FF303030' } },
-                    },
-                },
-                {
-                    title: 'Mode',
-                    width: { wpx: 100 },
-                    style: {
-                        alignment: { horizontal: 'center' },
-                        font: { sz: '14', bold: true, color: { rgb: 'FFFFFFFF' } },
-                        fill: { patternType: 'solid', fgColor: { rgb: 'FF303030' } },
-                    },
-                },
-                {
-                    title: 'Vehicle No',
-                    width: { wpx: 100 },
-                    style: {
-                        alignment: { horizontal: 'center' },
-                        font: { sz: '14', bold: true, color: { rgb: 'FFFFFFFF' } },
-                        fill: { patternType: 'solid', fgColor: { rgb: 'FF303030' } },
-                    },
-                },
-                {
-                    title: 'Consignee',
-                    width: { wpx: 100 },
-                    style: {
-                        alignment: { horizontal: 'center' },
-                        font: { sz: '14', bold: true, color: { rgb: 'FFFFFFFF' } },
-                        fill: { patternType: 'solid', fgColor: { rgb: 'FF303030' } },
-                    },
-                },
-                {
-                    title: 'Total Return',
-                    width: { wpx: 120 },
-                    style: {
-                        alignment: { horizontal: 'center' },
-                        font: { sz: '14', bold: true, color: { rgb: 'FFFFFFFF' } },
-                        fill: { patternType: 'solid', fgColor: { rgb: 'FF303030' } },
-                    },
-                },
-                {
-                    title: 'Comments',
-                    width: { wpx: 100 },
-                    style: {
-                        alignment: { horizontal: 'center' },
-                        font: { sz: '14', bold: true, color: { rgb: 'FFFFFFFF' } },
-                        fill: { patternType: 'solid', fgColor: { rgb: 'FF303030' } },
-                    },
-                },
+                { title: 'Date', width: { wpx: 90 }, style: commonStyle },
+                { title: 'Product', width: { wpx: 80 }, style: commonStyle },
+                { title: 'Delivered', width: { wpx: 80 }, style: commonStyle },
+                { title: 'Billed', width: { wpx: 100 }, style: commonStyle },
+                { title: 'Mode', width: { wpx: 100 }, style: commonStyle },
+                { title: 'Vehicle No', width: { wpx: 100 }, style: commonStyle },
+                { title: 'Consignee', width: { wpx: 100 }, style: commonStyle },
+                { title: 'Total Return', width: { wpx: 120 }, style: commonStyle },
+                { title: 'Comments', width: { wpx: 100 }, style: commonStyle },
             ],
             data: reportData,
         },
     ];
 
     return (
-        <>
-            <div>
-                <ExcelFile
-                    element={
-                        <div className="d-flex align-items-center cursor-pointer">
-                            <i className="print-pdf-icon fa fa-download mr-2" aria-hidden="true"></i>
-                            <span className="report-title">
-                                <u>Download Party Transactions Report</u>
-                            </span>
-                        </div>
-                    }
-                    filename={`PartyReport_${partyData.firm_name}_${partyData.party_code}`}
-                >
-                    <ExcelSheet dataSet={atcReportData} name="ATC_Report" />
-                </ExcelFile>
-            </div>
-        </>
+        <div>
+            <ExcelFile
+                element={
+                    <div className="d-flex align-items-center cursor-pointer">
+                        <i className="print-pdf-icon fa fa-download mr-2" aria-hidden="true"></i>
+                        <span className="report-title">
+                            <u>Download Party Transactions Report</u>
+                        </span>
+                    </div>
+                }
+                filename={`PartyReport_${partyData.firm_name}_${partyData.party_code}`}
+            >
+                <ExcelSheet dataSet={atcReportData} name="ATC_Report" />
+            </ExcelFile>
+        </div>
     );
 };
 

@@ -7,8 +7,10 @@ import AddCommentComp from "./addComment";
 import API_URL from "../../../config";
 import { useOnClickOutside } from "./outsideClick";
 import GraphComp from "../../../components/common/graph";
-import { PRODUCTS_TEXTS } from "./constants";
 import Button from "@mui/material/Button";
+import { getStoredProducts } from "../utils";
+
+const PRODUCTS = getStoredProducts();
 
 const ViewDealer = (props) => {
     const partyCode = props.match.params.id;
@@ -202,7 +204,7 @@ const ViewDealer = (props) => {
                                             key={`atcprodscount_${inx}`}
                                         >
                                             <span className="hd1">
-                                                {PRODUCTS_TEXTS[item.productcode]}
+                                                {PRODUCTS[item.productcode].name}
                                             </span>
                                             <span className="hd2">{item.delivered.toFixed(2)}</span>
                                             <span className="hd3">{item.billed.toFixed(2)}</span>

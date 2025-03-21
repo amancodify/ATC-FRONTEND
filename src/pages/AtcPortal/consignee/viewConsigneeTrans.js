@@ -10,12 +10,12 @@ import OverlayComp from "../../../components/common/overlay";
 import API_URL from "../../../config";
 import PartyReport from "../dealers/partyReport";
 import EmptyDataBannerComp from "../dealers/emptyDataBanner";
-import { PRODUCTS, MODES } from "../dealers/constants";
-import { getGodownsMode } from "../utils";
+import { getStoredProducts, getStoredTransMode } from "../utils";
 
 const ConsigneeTransactions = (props) => {
     const d = new Date();
     const currentdateYDM = `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`;
+    const PRODUCTS = getStoredProducts();
 
     const partyCode = props.match.params.id;
     const [allTrans, setAllTrans] = useState([]);
@@ -27,11 +27,11 @@ const ConsigneeTransactions = (props) => {
     const [modelShow, setModelShow] = useState(false);
     const [deleteModelShow, setDeleteModelShow] = useState(false);
     const [transactionId, setTransactionId] = useState("");
-    const [tranModes, setTransModes] = useState(MODES);
+    const [tranModes, setTransModes] = useState({});
 
-    async function getGodownsData() {
-        let formattedGodownsList = await getGodownsMode();
-        setTransModes((val) => ({ ...val, ...formattedGodownsList }));
+    function getGodownsData() {
+        let formattedGodownsList = getStoredTransMode();
+        setTransModes(formattedGodownsList);
     }
 
     useEffect(() => {
@@ -204,7 +204,7 @@ const ConsigneeTransactions = (props) => {
                                         return (
                                             <div key={`obdel_${inx}`} className="product">
                                                 {" "}
-                                                {PRODUCTS[item.productcode]} :{" "}
+                                                {PRODUCTS[item.productcode].name} :{" "}
                                                 {item.delivered.toFixed(2)}
                                             </div>
                                         );
@@ -218,7 +218,7 @@ const ConsigneeTransactions = (props) => {
                                         return (
                                             <div key={`obproduct_${inx}`} className="product">
                                                 {" "}
-                                                {PRODUCTS[item.productcode]} :{" "}
+                                                {PRODUCTS[item.productcode].name} :{" "}
                                                 {item.billed.toFixed(2)}
                                             </div>
                                         );
@@ -312,7 +312,7 @@ const ConsigneeTransactions = (props) => {
                                                             key={`transprod_${inx}`}
                                                         >
                                                             <div className="title">
-                                                                {PRODUCTS[item.productcode]} :
+                                                                {PRODUCTS[item.productcode].name} :
                                                             </div>
                                                             <div className="values d-flex flex-column">
                                                                 <span>
@@ -348,7 +348,7 @@ const ConsigneeTransactions = (props) => {
                                                             key={`returnprod_${inx}`}
                                                             className="ml-3"
                                                         >
-                                                            {PRODUCTS[item.productcode]}:{" "}
+                                                            {PRODUCTS[item.productcode].name}:{" "}
                                                             {item.quantity} mt
                                                         </span>
                                                     );

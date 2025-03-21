@@ -12,9 +12,8 @@ import PartyReport from "../dealers/partyReport";
 import EmptyDataBannerComp from "./emptyDataBanner";
 import { formatDate, parseDate } from "react-day-picker/moment";
 import { convertDate } from "../../../utils/dateConverter";
-import { PRODUCTS, MODES } from "./constants";
 import { useOnClickOutside } from "../dealers/outsideClick";
-import { getGodownsMode } from "../utils";
+import { getStoredProducts, getStoredTransMode } from "../utils";
 
 const AllTransactions = (props) => {
     const partyCode = props.match.params.id;
@@ -28,7 +27,9 @@ const AllTransactions = (props) => {
     const [deleteModelShow, setDeleteModelShow] = useState(false);
     const [transactionId, setTransactionId] = useState("");
     const [expandOB, setExpandOB] = useState(false);
-    const [tranModes, setTransModes] = useState(MODES);
+    const [tranModes, setTransModes] = useState({});
+
+    const PRODUCTS = getStoredProducts();
 
     const dealerDataToDisplay = [
         {
@@ -82,9 +83,9 @@ const AllTransactions = (props) => {
             });
     };
 
-    async function getGodownsData() {
-        let formattedGodownsList = await getGodownsMode();
-        setTransModes((val) => ({ ...val, ...formattedGodownsList }));
+    function getGodownsData() {
+        let formattedGodownsList = getStoredTransMode();
+        setTransModes(formattedGodownsList);
     }
 
     useEffect(() => {
@@ -265,7 +266,7 @@ const AllTransactions = (props) => {
                                                         key={`obdel_${inx}`}
                                                         className="product mx-4"
                                                     >
-                                                        {PRODUCTS[item.productcode]} :{" "}
+                                                        {PRODUCTS[item.productcode].name} :{" "}
                                                         {item.delivered.toFixed(2)}
                                                     </div>
                                                 );
@@ -282,7 +283,7 @@ const AllTransactions = (props) => {
                                                         className="product mx-4"
                                                     >
                                                         {" "}
-                                                        {PRODUCTS[item.productcode]} :{" "}
+                                                        {PRODUCTS[item.productcode].name} :{" "}
                                                         {item.billed.toFixed(2)}
                                                     </div>
                                                 );
@@ -337,7 +338,7 @@ const AllTransactions = (props) => {
                                                                 key={`transprod_${inx}`}
                                                             >
                                                                 <div className="title">
-                                                                    {PRODUCTS[item.productcode]} :
+                                                                    {PRODUCTS[item.productcode].name} :
                                                                 </div>
                                                                 <div
                                                                     className="values d-flex flex-column"
@@ -380,7 +381,7 @@ const AllTransactions = (props) => {
                                                                 key={`returnprod_${inx}`}
                                                                 className="ml-3"
                                                             >
-                                                                {PRODUCTS[item.productcode]}:{" "}
+                                                                {PRODUCTS[item.productcode].name}:{" "}
                                                                 {item.quantity} mt
                                                             </span>
                                                         );

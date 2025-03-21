@@ -4,7 +4,7 @@ import Popup from '../../../components/common/PopUp';
 import API_URL from '../../../config';
 import { useOnClickOutside } from '../dealers/outsideClick';
 import GraphComp from '../../../components/common/graph';
-import { PRODUCTS_TEXTS } from '../dealers/constants';
+import { getStoredProducts } from "../utils";
 
 const ViewConsignee = (props) => {
     let partyCode = props.match.params.id;
@@ -17,6 +17,8 @@ const ViewConsignee = (props) => {
     const ref = useRef(null);
     useOnClickOutside(ref, () => setMenuShow(false));
     console.log(menuShow);
+
+    const PRODUCTS = getStoredProducts();
 
     useEffect(() => {
         axios
@@ -119,7 +121,7 @@ const ViewConsignee = (props) => {
                             let calculatedVal = (item.delivered - item.billed).toFixed(2);
                             return (
                                 <div className="col-md-12 product-value" key={`atcprodscount_${inx}`}>
-                                    <span className="hd1">{PRODUCTS_TEXTS[item.productcode]}</span>
+                                    <span className="hd1">{PRODUCTS[item.productcode].name}</span>
                                     <span className="hd2">{item.delivered.toFixed(2)}</span>
                                     <span className="hd3">{item.billed.toFixed(2)}</span>
                                     <span className="hd4">{calculatedVal > 0 ? calculatedVal : 0}</span>

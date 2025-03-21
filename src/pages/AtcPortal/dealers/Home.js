@@ -48,8 +48,88 @@ const Home = () => {
     };
 
     useEffect(() => {
-        triggerSearch(searchText, godownFilters, damageUserFilter); 
+        triggerSearch(searchText, godownFilters, damageUserFilter);
     }, [searchText, godownFilters, damageUserFilter, currentPage]);
+
+    useEffect(() => {
+        axios
+            .get(`${API_URL}/products`)
+            .then((response) => {
+                const productsSet = response.data.data.reduce((acc, item) => {
+                    acc[item.productcode] = {
+                        name: item.productname,
+                        code: item.productcode,
+                    };
+                    return acc;
+                }, {});
+
+                const storedProducts = JSON.parse(localStorage.getItem("products")) || {};
+
+                if (Object.keys(storedProducts).length !== Object.keys(productsSet).length) {
+                    localStorage.setItem("products", JSON.stringify(productsSet));
+                }
+            })
+            .catch((err) => console.error("Error fetching products:", err));
+    }, []);
+
+    useEffect(() => {
+        axios
+            .get(`${API_URL}/godowns`)
+            .then((response) => {
+                const godownsList = response.data.data;
+                const godownObject = godownsList.reduce((acc, item) => {
+                    acc[item.godowncode.toUpperCase()] = {
+                        type: "GODOWN",
+                        value: item.godowncode.toUpperCase(),
+                        name: item.godownname,
+                    };
+                    return acc;
+                }, {});
+                // Additional objects to append
+                const additionalObjects = {
+                    RAIL: {
+                        type: "TRANSPORT",
+                        value: "RAIL",
+                        name: "Railway"
+                    },
+                    ROAD: {
+                        type: "TRANSPORT",
+                        value: "ROAD",
+                        name: "Transport",
+                    },
+                    STOCKTRANSFER: {
+                        type: "TRANSPORT",
+                        value: "STOCKTRANSFER",
+                        name: "Stock Transfer"
+                    },
+                    OTHER_DEPOT: {
+                        type: "TRANSPORT",
+                        value: "OTHER_DEPOT",
+                        name: "Other Depot"
+                    },
+                    NA: {
+                        type: "NA",
+                        value: "NA",
+                        name: "Not Applicable(NA)"
+                    },
+                };
+
+                // Merge additional objects at the end
+                const finalObject = {
+                    ...godownObject,
+                    ...additionalObjects,
+                };
+
+                const storedModes = JSON.parse(localStorage.getItem("transaction_modes")) || {};
+
+                if (
+                  Object.keys(storedModes).length !== Object.keys(finalObject).length
+                ) {
+                  localStorage.setItem("transaction_modes", JSON.stringify(finalObject));
+                }
+            })
+            .catch((err) => console.error("Error fetching products:", err));
+    }, []);
 
     const onTextSearch = (event) => {
         setAllDealers([]);

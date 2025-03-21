@@ -4,10 +4,11 @@ import { Form, Button } from "react-bootstrap";
 import axios from "axios";
 import API_URL from "../../../config";
 import { getCurrentDate } from "../../../utils/dateConverter";
-import { PRODUCTS_TEXTS, TRANSACTION_MODES, MODES } from "./constants";
-import { getGodownsMode } from "../utils";
+import { getStoredProducts, getStoredTransMode } from "../utils";
 
 const NewPartyTransaction = ({ partyCode, firmName, partyName, email, damageDealer }) => {
+    const PRODUCTS = getStoredProducts();
+    const TRANS_MODES = getStoredTransMode();
     const { handleSubmit, register } = useForm();
     const [errorMsg, setErrorMsg] = useState("");
     const [loadingText, setLoadingText] = useState("Create Transactions");
@@ -16,7 +17,6 @@ const NewPartyTransaction = ({ partyCode, firmName, partyName, email, damageDeal
     const [currenctProductTrans, setCurrentProductTrans] = useState({});
     const [finalProducts, setFinalProducts] = useState([]);
     const [addMore, setAddMore] = useState(true);
-    const [transactionModes, setTransactionModes] = useState(MODES);
     // const [consignee, setConsignee] = useState([]);
     // const [selectedConsignee, setSelectedConsignee] = useState("");
 
@@ -29,21 +29,6 @@ const NewPartyTransaction = ({ partyCode, firmName, partyName, email, damageDeal
             .catch((err) => {
                 console.log(err);
             });
-
-        async function getGodownsData() {
-            let formattedGodownsList = await getGodownsMode();
-            setTransactionModes((val) => ({ ...val, ...formattedGodownsList }));
-        }
-
-        getGodownsData();
-
-        // axios.post(`${API_URL}/getpartyconsignees`, { partycode: partyCode })
-        //     .then(response => {
-        //         setConsignee(response.data);
-        //     })
-        //     .catch(err => {
-        //         console.log(err);
-        //     })
     }, []);
 
     const onSubmit = (values) => {
@@ -110,7 +95,7 @@ const NewPartyTransaction = ({ partyCode, firmName, partyName, email, damageDeal
             }
 
             if (!currenctProductTrans["mode"] || delivered === 0) {
-                currenctProductTrans["mode"] = TRANSACTION_MODES["NA"];
+                currenctProductTrans["mode"] = TRANS_MODES["NA"];
             }
 
             if (!billed) {
@@ -142,7 +127,7 @@ const NewPartyTransaction = ({ partyCode, firmName, partyName, email, damageDeal
 
         switch (name) {
             case "mode":
-                currenctDataCopy[name] = TRANSACTION_MODES[value];
+                currenctDataCopy[name] = TRANS_MODES[value];
                 break;
             case "delivered":
                 currenctDataCopy[name] = parseFloat(value);
@@ -220,10 +205,10 @@ const NewPartyTransaction = ({ partyCode, firmName, partyName, email, damageDeal
                                 return (
                                     <>
                                         <div className="prodview-main">
-                                            <span>{PRODUCTS_TEXTS[item.productcode]}</span>
+                                            <span>{PRODUCTS[item.productcode].name}</span>
                                             <span>{item.delivered} mt</span>
                                             <span>{item.billed} mt</span>
-                                            <span>{transactionModes[item.mode.value]}</span>
+                                            <span>{TRANS_MODES[item.mode.value].name}</span>
                                             <span>{item.producttype}</span>
 
                                             <div
@@ -313,10 +298,10 @@ const NewPartyTransaction = ({ partyCode, firmName, partyName, email, damageDeal
                                     <option disabled value="">
                                         Select Mode
                                     </option>
-                                    {Object.keys(transactionModes).map((item) => {
+                                    {Object.keys(TRANS_MODES).map((item) => {
                                         return (
-                                            <option key={`modes_val_${item}`} value={item}>
-                                                {transactionModes[item]}
+                                            <option key={`modes_val_${item}`} value={TRANS_MODES[item].value}>
+                                                {TRANS_MODES[item].name}
                                             </option>
                                         );
                                     })}
