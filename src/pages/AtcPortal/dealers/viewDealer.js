@@ -204,7 +204,7 @@ const ViewDealer = (props) => {
                                             key={`atcprodscount_${inx}`}
                                         >
                                             <span className="hd1">
-                                                {PRODUCTS[item.productcode].name}
+                                                {PRODUCTS[item.productcode]?.name}
                                             </span>
                                             <span className="hd2">{item.delivered.toFixed(2)}</span>
                                             <span className="hd3">{item.billed.toFixed(2)}</span>

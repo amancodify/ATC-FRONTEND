@@ -15,7 +15,6 @@ export const getGodownsMode = async () => {
     }
 };
 
-// utils/storage.js
 export const getStoredProducts = () => {
     try {
       const data = localStorage.getItem('products');

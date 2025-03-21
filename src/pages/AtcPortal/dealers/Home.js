@@ -63,11 +63,8 @@ const Home = () => {
                     return acc;
                 }, {});
 
-                const storedProducts = JSON.parse(localStorage.getItem("products")) || {};
-
-                if (Object.keys(storedProducts).length !== Object.keys(productsSet).length) {
-                    localStorage.setItem("products", JSON.stringify(productsSet));
-                }
+                localStorage.removeItem('products');
+                localStorage.setItem("products", JSON.stringify(productsSet));
             })
             .catch((err) => console.error("Error fetching products:", err));
     }, []);
@@ -95,7 +92,12 @@ const Home = () => {
                     ROAD: {
                         type: "TRANSPORT",
                         value: "ROAD",
-                        name: "Transport",
+                        name: "Road",
+                    },
+                    DIRECT: {
+                        type: "TRANSPORT",
+                        value: "DIRECT",
+                        name: "Direct",
                     },
                     STOCKTRANSFER: {
                         type: "TRANSPORT",
@@ -120,13 +122,8 @@ const Home = () => {
                     ...additionalObjects,
                 };
 
-                const storedModes = JSON.parse(localStorage.getItem("transaction_modes")) || {};
-
-                if (
-                  Object.keys(storedModes).length !== Object.keys(finalObject).length
-                ) {
-                  localStorage.setItem("transaction_modes", JSON.stringify(finalObject));
-                }
+                localStorage.removeItem('transaction_modes');
+                localStorage.setItem("transaction_modes", JSON.stringify(finalObject));
             })
             .catch((err) => console.error("Error fetching products:", err));
     }, []);

@@ -17,6 +17,12 @@ import { getStoredProducts, getStoredTransMode } from "../utils";
 
 const AllTransactions = (props) => {
     const partyCode = props.match.params.id;
+    const storedProducts = getStoredProducts();
+    const storedTransModes = getStoredTransMode();
+
+    const [PRODUCTS, setProducts] = useState([]);
+    const [TRANS_MODES, setTransModes] = useState({});
+
     const [allTrans, setAllTrans] = useState([]);
     const [userData, setUserData] = useState({});
     const [loadingScr, setLoadingScr] = useState(false);
@@ -27,9 +33,6 @@ const AllTransactions = (props) => {
     const [deleteModelShow, setDeleteModelShow] = useState(false);
     const [transactionId, setTransactionId] = useState("");
     const [expandOB, setExpandOB] = useState(false);
-    const [tranModes, setTransModes] = useState({});
-
-    const PRODUCTS = getStoredProducts();
 
     const dealerDataToDisplay = [
         {
@@ -83,14 +86,10 @@ const AllTransactions = (props) => {
             });
     };
 
-    function getGodownsData() {
-        let formattedGodownsList = getStoredTransMode();
-        setTransModes(formattedGodownsList);
-    }
-
     useEffect(() => {
         fetchPartyTransaction();
-        getGodownsData();
+        setProducts(storedProducts);
+        setTransModes(storedTransModes);
     }, []);
 
     const onReturnClick = (tid) => {
@@ -362,7 +361,7 @@ const AllTransactions = (props) => {
                                                                     </span>
                                                                     <span>
                                                                         <b>Mode :</b>{" "}
-                                                                        {tranModes[item.mode.value]}
+                                                                        {TRANS_MODES[item.mode.value]?.name}
                                                                     </span>
                                                                 </div>
                                                             </div>
