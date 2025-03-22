@@ -63,18 +63,18 @@ const EditDealer = (props) => {
             <Form onSubmit={handleSubmit(onSubmit)} className="container">
               <div className="row">
                 <Form.Group controlId="firmCode" className="col-md-6 col-sm-12">
-                  <Form.Label>Firm Code*</Form.Label>
+                  <Form.Label>Dealer Code*</Form.Label>
                   <Form.Control
                     disabled
                     defaultValue={singleDealersData.party_code}
                     required
                     type="text"
-                    placeholder="Enter Firm Code"
+                    placeholder="Enter Dealer Code"
                     name="firmCode"
                     ref={register({
                       required: "Required",
                       pattern: {
-                        message: "Invalid Firm Code",
+                        message: "Invalid Dealer Code",
                       },
                     })}
                   />

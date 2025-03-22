@@ -56,12 +56,12 @@ const CreateDealer = (() => {
                 <Form onSubmit={handleSubmit(onSubmit)} className="container">
                     <div className="row">
                         <Form.Group controlId="formBasicName" className="col-md-6 col-sm-12">
-                            <Form.Label>Firm Code*</Form.Label>
-                            <Form.Control required type="text" placeholder="Enter Firm Code" name="firmCode"
+                            <Form.Label>Dealer Code*</Form.Label>
+                            <Form.Control required type="text" placeholder="Enter Dealer Code" name="firmCode"
                                 ref={register({
                                     required: 'Required',
                                     pattern: {
-                                        message: "Invalid Firm Code"
+                                        message: "Invalid Dealer Code"
                                     }
                                 })}
                             />
