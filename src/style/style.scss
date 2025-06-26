@@ -10,7 +10,7 @@
 
 ::placeholder {
     color: rgb(156, 156, 156);
-    font-size: 11px;
+    font-size: 14px;
 }
 
 hr {
@@ -1333,39 +1333,42 @@ a:link {
     }
     .searchbox {
         width: 100%;
-        margin: 20px 0px;
+        margin: 20px 0;
+        
         @media only screen and (max-width: 600px) {
-            margin: 20px 0px 4px 0px;
+            margin: 20px 0 4px 0;
         }
+
         .searchbox-field {
             position: relative;
             display: block;
-            height: 45px;
             width: 100%;
-            border-radius: 50px;
-            border: none;
+            height: 55px;
+            border-radius: 35px;
+            border: 1px solid #e0e0e0;
             outline: none;
             padding: 10px 20px;
-            background-color: rgb(0, 1, 48);
-            border: 1px solid rgb(189, 189, 189);
-            color: rgb(201, 201, 201);
-            font-size: 16px;
+            background: #000c3b;
+            color: #ffffff;
+            font-size: 18px;
             transition: all 0.2s ease-in-out;
             @media only screen and (max-width: 600px) {
                 width: 93%;
                 font-size: 16px;
                 height: 40px;
-                padding: 0px 44px 2px 30px;
+                padding: 0 44px 2px 30px;
                 margin-left: 15px;
             }
             &:focus {
-                box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+                box-shadow: 0 4px 16px rgba(60,64,67,0.25), 0 1.5px 6px rgba(60,64,67,0.15);
+                background: #fff;
+                color: #000c3b;
             }
         }
         .search-icon {
             position: absolute;
-            right: 5%;
-            top: 42px;
+            right: 4%;
+            top: 47px;
             color: rgb(155, 155, 155);
             font-size: 20px;
             font-weight: 400;
