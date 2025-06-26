@@ -16,13 +16,11 @@ const ControllerSection = ({
     return (
         <>
             <div className="col-md-3 controller-section">
-                <div className="d-flex flex-column">
-                    <Link to="/atcportal/" className="brand-name">AMAN TRADING COMPANY</Link>
-                </div>
-                <hr className="hr-line" />
                 <div className="showloggedinuser">
-                    <img className="userimg" src="./images/logo.png" alt="" />
-                    <div className="loginname">Hi, {loginName.split(" ")[0]}</div>
+                    <div className="d-flex flex-column align-items-center justify-content-center">
+                        <img src="/images/aiuser.jpg" alt="" className="userimg" />
+                        <div className="loginname">Welcome {loginName.split(" ")[0]} !</div>
+                    </div>
                     <div className="settings-main" ref={ref}>
                         <img onClick={() => setShowLogout(!showLogout)} src="https://www.materialui.co/materialIcons/navigation/arrow_drop_down_white_192x192.png" alt="" className="iconvector" />
                         {
@@ -110,14 +108,7 @@ const ControllerSection = ({
                     </div>
                 </div>
                 <div className="poweredby-txt">
-                    Powered By{" "}
-                    <span>
-                        <img
-                            className="logo-poweredby"
-                            src="/images/atc-logo-white.png"
-                            alt=""
-                        />
-                    </span>
+                    Aman Trading Company
                 </div>
             </div>
         </>

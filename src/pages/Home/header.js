@@ -7,7 +7,7 @@ const Header = () => {
             <div className="row mb-md-8 align-items-center sub-container">
                 <div className="col-md-7">
                     <div className="home-banner-img">
-                        <img className="banner-img" src="/images/home-banner-business.png" alt="" />
+                        <img className="banner-img" src="/images/homeBanner.jpg" alt="" />
                     </div>
                 </div>
                 <div className="col-md-5 home-left">

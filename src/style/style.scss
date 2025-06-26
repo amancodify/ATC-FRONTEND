@@ -106,7 +106,7 @@ a:link {
     }
     .home-banner-img {
         .banner-img {
-            width: 150%;
+            width: 120%;
             position: absolute;
             top: -150px;
             @media only screen and (max-width: 600px) {
@@ -147,7 +147,7 @@ a:link {
 }
 
 .atcfull {
-    color: rgb(2, 20, 115);
+    color: rgb(20, 12, 69);
     font-size: 50px;
     line-height: 60px;
     font-family: "Poppins";
@@ -156,7 +156,7 @@ a:link {
 
 .tagline {
     font-size: 22px;
-    color: rgb(255, 196, 0);
+    color: rgb(109, 208, 144);
     letter-spacing: 2.2px;
     font-family: "Poppins";
     font-weight: 700;
@@ -399,13 +399,14 @@ a:link {
     margin-top: 30px;
     width: 150px;
     cursor: pointer;
+    background-color: rgb(20, 12, 69) !important;
     transition: all 0.3s ease-in-out;
     @media only screen and (max-width: 600px) {
         padding: 10px;
         min-width: 120px;
     }
     &:hover {
-        background-color: #004798;
+        background-color: #0061cf !important;
     }
     .text {
         margin-bottom: 2px;
@@ -1101,6 +1102,20 @@ a:link {
     font-size: 24px;
 }
 
+.brand-name {
+    text-align: center;
+    color: rgb(255, 255, 255);
+    font-family: "Poppins";
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    @media only screen and (max-width: 600px) {
+        margin-top: 0px;
+        font-size: 20px;
+    }
+}
+
 .atcportal-main {
     overflow: hidden;
     margin-top: 50px;
@@ -1110,6 +1125,7 @@ a:link {
         background: rgb(2,0,36);
         background: #100029;
         position: fixed;
+        border-top: 1px solid #444444;
         @media only screen and (max-width: 600px) {
             min-height: 0px;
             max-width: 100%;
@@ -1133,7 +1149,7 @@ a:link {
     }
     .brand-name {
         text-align: center;
-        color: gold;
+        color: rgb(255, 255, 255);
         margin-top: 20px;
         margin-bottom: 5px;
         font-family: "Poppins";
@@ -1225,7 +1241,7 @@ a:link {
     justify-content: center;
     align-items: center;
     position: relative;
-    margin-bottom: 30px;
+    margin: 30px;
     @media only screen and (max-width: 600px) {
         flex-direction: row;
         justify-content: flex-start;
@@ -1235,20 +1251,22 @@ a:link {
         margin-right: 20px;
     }
     .loginname {
-        font-size: 18px;
+        font-size: 16px;
         text-align: center;
         color: rgb(255, 255, 255);
         font-family: "Poppins";
         font-weight: 600;
+        margin: 20px 0 40px 0;
         @media only screen and (max-width: 600px) {
             font-size: 16px;
             margin-right: 25px;
         }
     }
     .userimg {
-        width: 40%;
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
         border-radius: 100%;
-        margin-bottom: 10px;
         @media only screen and (max-width: 600px) {
             width: 50px;
             margin-right: 20px;
