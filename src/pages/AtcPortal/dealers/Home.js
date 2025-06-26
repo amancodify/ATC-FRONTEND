@@ -26,7 +26,7 @@ const Home = () => {
     const triggerSearch = (searchString, godownFilters, isDamageDealer) => {
         setLoading(true);
         let allFilters = {
-            searchText: searchString, // Fixed typo: was "saerchText"
+            saerchText: searchString,
             godowns: godownFilters,
             isDamageDealer: isDamageDealer,
             page: currentPage,
