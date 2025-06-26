@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Popup from '../../../components/common/PopUp';
 import API_URL from '../../../config';
@@ -6,8 +7,8 @@ import { useOnClickOutside } from '../dealers/outsideClick';
 import GraphComp from '../../../components/common/graph';
 import { getStoredProducts } from "../utils";
 
-const ViewConsignee = (props) => {
-    let partyCode = props.match.params.id;
+const ViewConsignee = () => {
+    const { id: partyCode } = useParams();
     let [singleDealersData, setSingleDealersData] = useState({});
     let [loading, setLoading] = useState(true);
     let [menuShow, setMenuShow] = useState(false);

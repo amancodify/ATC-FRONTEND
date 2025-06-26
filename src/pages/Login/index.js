@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Redirect } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import axios from "axios";
 import { login, isLoggedIn } from "../../utils/auth";
 import API_URL from "../../config";
@@ -104,7 +104,7 @@ const UserLogin = () => {
             </>
         );
     } else {
-        return <Redirect to="/atcportal" />;
+        return <Navigate to="/atcportal" replace />;
     }
 };
 

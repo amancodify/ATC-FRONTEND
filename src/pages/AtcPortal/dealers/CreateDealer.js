@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useForm } from "react-hook-form";
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import CheckboxComp from '../../../components/common/Form/Checkbox';
 import API_URL from "../../../config";
 
 const CreateDealer = (() => {
-    const { handleSubmit, register, errors } = useForm();
+    const { handleSubmit, register, formState: { errors } } = useForm();
+    const navigate = useNavigate();
     let [formSent, setFormSent] = useState(false);
     let [formResponse, setFormResponse] = useState({});
     let [filename, setFileName] = useState("");
@@ -35,7 +37,7 @@ const CreateDealer = (() => {
                 if (response.data.status === 200) {
                     setFormSent(true);
                     setFileName("");
-                    setTimeout(()=> {window.location.replace("#/")}, 700);
+                    setTimeout(()=> {navigate("/atcportal/")}, 700);
                 }
             })
     }
@@ -57,8 +59,8 @@ const CreateDealer = (() => {
                     <div className="row">
                         <Form.Group controlId="formBasicName" className="col-md-6 col-sm-12">
                             <Form.Label>Dealer Code*</Form.Label>
-                            <Form.Control required type="text" placeholder="Enter Dealer Code" name="firmCode"
-                                ref={register({
+                            <Form.Control required type="text" placeholder="Enter Dealer Code"
+                                {...register("firmCode", {
                                     required: 'Required',
                                     pattern: {
                                         message: "Invalid Dealer Code"
@@ -69,8 +71,8 @@ const CreateDealer = (() => {
                         </Form.Group>
                         <Form.Group controlId="firmname" className="col-md-6 col-sm-12">
                             <Form.Label>Firm Name*</Form.Label>
-                            <Form.Control required type="text" placeholder="Enter Firm Name" name="firmName"
-                                ref={register({
+                            <Form.Control required type="text" placeholder="Enter Firm Name"
+                                {...register("firmName", {
                                     required: 'Required',
                                     pattern: {
                                         message: "Invalid Firm Name"
@@ -83,8 +85,8 @@ const CreateDealer = (() => {
                     <div className="row">
                         <Form.Group controlId="gender" className="col-md-6 col-sm-12">
                             <Form.Label>Gender*</Form.Label>
-                            <select defaultValue="Select Option" name="gender" className="form-control"
-                                ref={register({
+                            <select defaultValue="Select Option" className="form-control"
+                                {...register("gender", {
                                     required: 'Required',
                                     pattern: {
                                         message: "Value Must be Selected"
@@ -101,8 +103,8 @@ const CreateDealer = (() => {
                         </Form.Group>
                         <Form.Group controlId="dealerArea" className="col-md-6 col-sm-12">
                             <Form.Label>Dealer's Area*</Form.Label>
-                            <select defaultValue="" name="dealerArea" className="form-control"
-                                ref={register({
+                            <select defaultValue="" className="form-control"
+                                {...register("dealerArea", {
                                     required: 'Required',
                                     pattern: {
                                         message: "Value Must be Selected"
@@ -121,8 +123,8 @@ const CreateDealer = (() => {
                     <div className="row">
                         <Form.Group controlId="ownerName" className="col-md-6 col-sm-12">
                             <Form.Label>Owner Name*</Form.Label>
-                            <Form.Control required type="text" placeholder="Enter Owner's Fullname " name="ownerName"
-                                ref={register({
+                            <Form.Control required type="text" placeholder="Enter Owner's Fullname "
+                                {...register("ownerName", {
                                     required: 'Required',
                                     pattern: {
                                         message: "Invalid Name"
@@ -133,8 +135,8 @@ const CreateDealer = (() => {
                         </Form.Group>
                         <Form.Group controlId="formBasicPhone" className="col-md-6 col-sm-12">
                             <Form.Label>Mobile*</Form.Label>
-                            <Form.Control required type="tel" placeholder="Enter Mobile" name="mobile"
-                                ref={register({
+                            <Form.Control required type="tel" placeholder="Enter Mobile"
+                                {...register("mobile", {
                                     required: 'Required',
                                     pattern: {
                                         message: "Invalid Mobile Number"
@@ -147,8 +149,8 @@ const CreateDealer = (() => {
                     <div className="row">
                         <Form.Group controlId="formBasicEmail" className="col-md-6 col-sm-12">
                             <Form.Label>Email</Form.Label>
-                            <Form.Control type="email" placeholder="Enter Email Address" name="email"
-                                ref={register({
+                            <Form.Control type="email" placeholder="Enter Email Address"
+                                {...register("email", {
                                     pattern: {
                                         message: "invalid Email Address"
                                     }
@@ -167,8 +169,8 @@ const CreateDealer = (() => {
                     <div className="row">
                         <Form.Group controlId="formBasicAddress" className="col-md-12 col-sm-12">
                             <Form.Label>Address*</Form.Label>
-                            <Form.Control required as="textarea" placeholder="Enter Permanent Address" rows="2" name="address"
-                                ref={register({
+                            <Form.Control required as="textarea" placeholder="Enter Permanent Address" rows="2"
+                                {...register("address", {
                                     pattern: {
                                         message: "Invalid Address"
                                     }
@@ -184,7 +186,7 @@ const CreateDealer = (() => {
                                 name="damagedealer"
                                 checked={false}
                                 className=""
-                                refdata={register({
+                                refdata={register("damagedealer", {
                                     pattern: {
                                         message: "Select the Checkbox"
                                     }
@@ -194,7 +196,7 @@ const CreateDealer = (() => {
                         </Form.Group>
                     </div>
                     <div className="d-flex justify-content-center align-items-center mt-4">
-                        <i onClick={() => window.location.reload()} className="fa fa-refresh refresh-btn" aria-hidden="true"></i>
+                        <i onClick={() => navigate(0)} className="fa fa-refresh refresh-btn" aria-hidden="true"></i>
                         <Button variant="primary" type="submit" className="create-btn px-4" >Create Dealer</Button>
                     </div>
                 </Form>

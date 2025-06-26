@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import { Link } from "react-router-dom";
 import { useOnClickOutside } from './outsideClick';
 
 const ControllerSection = ({
@@ -16,7 +17,7 @@ const ControllerSection = ({
         <>
             <div className="col-md-3 controller-section">
                 <div className="d-flex flex-column">
-                    <a href="#/" className="brand-name">AMAN TRADING COMPANY</a>
+                    <Link to="/atcportal/" className="brand-name">AMAN TRADING COMPANY</Link>
                 </div>
                 <hr className="hr-line" />
                 <div className="showloggedinuser">
@@ -39,7 +40,7 @@ const ControllerSection = ({
                 <div className="options">
                     <div className="viewcontrols">
                         <div className="titles-section pl-4">View </div>
-                        <a href="#/" className="add">
+                        <Link to="/atcportal/" className="add">
                             <div className={`add d-flex align-items-center pl-4 ${isCurrentTab(1) ? "active-tab" : ""}`} onClick={() => setCurrentTab(1)}>
                                 <img
                                     src="/images/home-white.png"
@@ -48,8 +49,8 @@ const ControllerSection = ({
                                 />
                                 <div className="text">Dealers</div>
                             </div>
-                        </a>
-                        {/* <a href="#/consignees" className="add">
+                        </Link>
+                        {/* <Link to="/atcportal/consignees" className="add">
                             <div className={`add d-flex align-items-center pl-4 ${isCurrentTab(2) ? "active-tab" : ""}`} onClick={() => setCurrentTab(2)} >
                                 <img
                                     src="/images/home-white.png"
@@ -58,8 +59,8 @@ const ControllerSection = ({
                                 />
                                 <div className="text">Consignees</div>
                             </div>
-                        </a> */}
-                        <a href="#/godown" className="add">
+                        </Link> */}
+                        <Link to="/atcportal/godown" className="add">
                             <div className={`add d-flex align-items-center pl-4 ${isCurrentTab(3) ? "active-tab" : ""}`} onClick={() => setCurrentTab(3)}>
                                 <img
                                     src="/images/addgodwon-white.png"
@@ -68,8 +69,8 @@ const ControllerSection = ({
                                 />
                                 <div className="text">Godowns</div>
                             </div>
-                        </a>
-                        <a href="#/reports" className="add">
+                        </Link>
+                        <Link to="/atcportal/reports" className="add">
                             <div className={`add d-flex align-items-center pl-4 ${isCurrentTab(4) ? "active-tab" : ""}`} onClick={() => setCurrentTab(4)}>
                                 <img
                                     src="/images/addgodwon-white.png"
@@ -78,34 +79,34 @@ const ControllerSection = ({
                                 />
                                 <div className="text">Reports</div>
                             </div>
-                        </a>
+                        </Link>
                     </div>
                     <div className="createcontrols">
                         <div className="titles-section pl-4">Create</div>
-                        <a href="#/createdealer" className="add">
+                        <Link to="/atcportal/createdealer" className="add">
                             <div className={`add d-flex align-items-center pl-4 ${isCurrentTab(5) ? "active-tab" : ""}`} onClick={() => setCurrentTab(5)}>
                                 <img src="/images/adduser-white.png" className="icon" alt="" />
                                 <div className="text">Add Dealer</div>
                             </div>
-                        </a>
-                        {/* <a href="#/addconsignee" className="add">
+                        </Link>
+                        {/* <Link to="/atcportal/addconsignee" className="add">
                             <div className={`add d-flex align-items-center pl-4 ${isCurrentTab(6) ? "active-tab" : ""}`} onClick={() => setCurrentTab(6)}>
                                 <img src="/images/adduser-white.png" className="icon" alt="" />
                                 <div className="text">Add Consignee</div>
                             </div>
-                        </a> */}
-                        <a href="#/creategodown" className="add">
+                        </Link> */}
+                        <Link to="/atcportal/creategodown" className="add">
                             <div className={`add d-flex align-items-center pl-4 ${isCurrentTab(7) ? "active-tab" : ""}`} onClick={() => setCurrentTab(7)}>
                                 <img src="/images/addgodwon-white.png" className="icon" alt="" />
                                 <div className="text">Add Godown</div>
                             </div>
-                        </a>
-                        <a href="#/addproduct" className="add">
+                        </Link>
+                        <Link to="/atcportal/addproduct" className="add">
                             <div className={`add d-flex align-items-center pl-4 ${isCurrentTab(8) ? "active-tab" : ""}`} onClick={() => setCurrentTab(8)}>
                                 <img src="/images/addgodwon-white.png" className="icon" alt="" />
                                 <div className="text">Add Product</div>
                             </div>
-                        </a>
+                        </Link>
                     </div>
                 </div>
                 <div className="poweredby-txt">

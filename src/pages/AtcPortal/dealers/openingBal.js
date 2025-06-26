@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { Form, Button } from "react-bootstrap";
 import axios from "axios";
 import API_URL from "../../../config";
@@ -13,6 +14,7 @@ function convertDate() {
 
 const OpeningBalance = ({ partyCode, openingDone }) => {
   const { handleSubmit, register } = useForm();
+  const navigate = useNavigate();
   const [formSent, setFormSent] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [products, setProducts] = useState([]);
@@ -35,9 +37,9 @@ const OpeningBalance = ({ partyCode, openingDone }) => {
       })
       .catch(err => {
         console.log(err);
-        window.location.replace("#/godown");
+        navigate("/atcportal/godown");
       })
-  }, []);
+  }, [navigate]);
 
   const handleOnChange = (event, productCode) => {
     let value = event.target.value;

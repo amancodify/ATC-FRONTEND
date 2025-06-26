@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactExport from 'react-data-export';
+import ReactExport from '../../../utils/excelExport';
 
 const ExcelReport = ({ fetchedData }) => {
     const { ExcelFile, ExcelFile: { ExcelSheet } } = ReactExport;

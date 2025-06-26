@@ -89,7 +89,7 @@ const AddComment = ({ partyCode }) => {
             {
               commentsList.length > 0 && commentsList.map((item, inx) => {
                 return (
-                  <div className="comment-text" key={`partycomment_${inx}`}><span className="comment-date">{item.createdAt.toString().slice(0, 10)}</span>{item.comment}</div>
+                  <div className="comment-text" key={`partycomment_${inx}`}><span className="comment-date">{item.createdAt ? item.createdAt.toString().slice(0, 10) : ''}</span>{item.comment}</div>
                 )
               })
             }

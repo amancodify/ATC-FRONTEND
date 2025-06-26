@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useForm } from "react-hook-form";
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import API_URL from "../../../config";
 
 const AddProduct = (() => {
-    const { handleSubmit, register, errors } = useForm();
+    const { handleSubmit, register, formState: { errors } } = useForm();
+    const navigate = useNavigate();
     let [formSent, setFormSent] = useState(false);
     let [formResponse, setFormResponse] = useState({});
     let [loadingScr, setLoadingScr] = useState(false);
@@ -19,7 +21,7 @@ const AddProduct = (() => {
                 setFormResponse(response.data);
                 if (response.data.status === 200) {
                     setFormSent(true);
-                    setTimeout(() => { window.location.replace("#/") }, 300);
+                    setTimeout(() => { navigate("/atcportal/") }, 300);
                 }
             })
     }
@@ -37,8 +39,8 @@ const AddProduct = (() => {
                     <div className="row">
                         <Form.Group controlId="productname" className="col-md-12 col-sm-12">
                             <Form.Label>Product Name*</Form.Label>
-                            <Form.Control required type="text" placeholder="Enter Product Name" name="productname"
-                                ref={register({
+                            <Form.Control required type="text" placeholder="Enter Product Name"
+                                {...register("productname", {
                                     required: 'Required',
                                     pattern: {
                                         message: "Invalid Product Name"
@@ -51,8 +53,8 @@ const AddProduct = (() => {
                     <div className="row">
                         <Form.Group controlId="productdetails" className="col-md-12 col-sm-12">
                             <Form.Label>Product Description*</Form.Label>
-                            <Form.Control required as="textarea" placeholder="Enter Product Details" rows="2" name="productdetails"
-                                ref={register({
+                            <Form.Control required as="textarea" placeholder="Enter Product Details" rows="2"
+                                {...register("productdetails", {
                                     pattern: {
                                         message: "Invalid product details"
                                     }
@@ -62,7 +64,7 @@ const AddProduct = (() => {
                         </Form.Group>
                     </div>
                     <div className="d-flex justify-content-center align-items-center mt-4">
-                        <i onClick={() => window.location.reload()} className="fa fa-refresh refresh-btn" aria-hidden="true"></i>
+                        <i onClick={() => navigate(0)} className="fa fa-refresh refresh-btn" aria-hidden="true"></i>
                         <Button variant="primary" type="submit" className="create-btn px-4" >Add Product</Button>
                     </div>
                 </Form>

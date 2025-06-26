@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
-import "react-day-picker/lib/style.css";
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from "axios";
-import DayPickerInput from "react-day-picker/DayPickerInput";
-import { formatDate, parseDate } from "react-day-picker/moment";
 import Popup from "../../../components/common/PopUp";
 import Return from "../dealers/Return";
 import { convertDate } from "../../../utils/dateConverter";
@@ -12,18 +10,18 @@ import PartyReport from "../dealers/partyReport";
 import EmptyDataBannerComp from "../dealers/emptyDataBanner";
 import { getStoredProducts, getStoredTransMode } from "../utils";
 
-const ConsigneeTransactions = (props) => {
+const ConsigneeTransactions = () => {
+    const { id: partyCode } = useParams();
+    const navigate = useNavigate();
     const d = new Date();
-    const currentdateYDM = `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`;
+    const currentDateFormatted = d.toISOString().split('T')[0]; // YYYY-MM-DD format
     const PRODUCTS = getStoredProducts();
-
-    const partyCode = props.match.params.id;
     const [allTrans, setAllTrans] = useState([]);
     const [userData, setUserData] = useState({});
     const [loadingScr, setLoadingScr] = useState(false);
     const [loadingText, setLoadingText] = useState("Yes! Delete");
-    const [fromDate, setFromDate] = useState(Date(currentdateYDM));
-    const [toDate, setToDate] = useState(Date(currentdateYDM));
+    const [fromDate, setFromDate] = useState(currentDateFormatted);
+    const [toDate, setToDate] = useState(currentDateFormatted);
     const [modelShow, setModelShow] = useState(false);
     const [deleteModelShow, setDeleteModelShow] = useState(false);
     const [transactionId, setTransactionId] = useState("");
@@ -160,20 +158,20 @@ const ConsigneeTransactions = (props) => {
                                 aria-hidden="true"
                             ></i>
                             <div className="dp-from">
-                                <DayPickerInput
-                                    formatDate={formatDate}
-                                    parseDate={parseDate}
-                                    placeholder={"MM/DD/YYYY - From"}
-                                    onDayChange={(date) => setFromDate(date)}
+                                <input
+                                    type="date"
+                                    value={fromDate}
+                                    onChange={(e) => setFromDate(e.target.value)}
+                                    className="form-control"
                                     style={{ fontSize: "12px" }}
                                 />
                             </div>
                             <div className="dp-to">
-                                <DayPickerInput
-                                    formatDate={formatDate}
-                                    parseDate={parseDate}
-                                    placeholder={"MM/DD/YYYY - To"}
-                                    onDayChange={(date) => setToDate(date)}
+                                <input
+                                    type="date"
+                                    value={toDate}
+                                    onChange={(e) => setToDate(e.target.value)}
+                                    className="form-control"
                                     style={{ fontSize: "12px" }}
                                 />
                             </div>
@@ -242,7 +240,7 @@ const ConsigneeTransactions = (props) => {
                                                 <div className="date">
                                                     <b className="mr-2">Date :</b>
                                                     {convertDate(
-                                                        finalTransDate.slice(0, 10),
+                                                        finalTransDate && finalTransDate.slice ? finalTransDate.slice(0, 10) : finalTransDate,
                                                         0,
                                                         true,
                                                     )}
@@ -366,9 +364,12 @@ const ConsigneeTransactions = (props) => {
                 </div>
                 {allTrans.totalCount && (
                     <div className="finaltotalreport">
-                        <a href={`#/dealer/${partyCode}`} className="back-btn">
+                        <button 
+                            onClick={() => navigate(`/dealer/${partyCode}`)} 
+                            className="back-btn"
+                        >
                             <i className="fa fa-arrow-left" aria-hidden="true"></i> Back
-                        </a>
+                        </button>
                         <div className="val">
                             <b>Delivered: </b>
                             {allTrans.totalCount.totaldelivered.toFixed(2)} mt

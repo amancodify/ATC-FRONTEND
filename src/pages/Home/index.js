@@ -1,4 +1,3 @@
-import React from 'react';
 import Bangur from './bangur';
 import WhatWeDo from './whatwedo';
 import Header from './header';

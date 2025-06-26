@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { useOnClickOutside } from '../dealers/outsideClick';
 import MenuOptions from '../../../components/common/MenuOptions';
 import axios from 'axios';
@@ -6,6 +7,7 @@ import API_URL from '../../../config';
 import Popup from '../../../components/common/PopUp';
 
 const ConsigneeCard = ({ consigneeData }) => {
+    const navigate = useNavigate();
     let { firmname, partycode, name, email, mobile, consigneecode, lastupdated, partydata, photo, createddate, address, buydamage } = consigneeData;
     if (!photo) {
         photo = 'https://cdn.iconscout.com/icon/free/png-256/avatar-373-456325.png';
@@ -27,7 +29,7 @@ const ConsigneeCard = ({ consigneeData }) => {
             .post(`${API_URL}/deleteconsignee`, { consigneeCode: consigneecode })
             .then((response) => {
                 if (response.data) {
-                    window.location.replace('#/');
+                    navigate('/atcportal/');
                 } else {
                     setErrMsg('Delete not allowed! This consignee transactions exist!');
                     setModelShow(false);
@@ -71,9 +73,9 @@ const ConsigneeCard = ({ consigneeData }) => {
             <hr />
             <div className="associated-dealer" data-toggle="tooltip" data-placement="top" title={partydata.firm_name}>
                 <div className="label">Associated Dealer</div>
-                <a className="dealer-link" href={`#/dealer/${partycode}`}>
+                <Link className="dealer-link" to={`/atcportal/dealer/${partycode}`}>
                     [{partycode}] {partydata.firm_name}
-                </a>
+                </Link>
             </div>
             <div className="last-updated">Last Updated - {lastupdated}</div>
             <div className="mt-2 actions">
@@ -130,9 +132,9 @@ const ConsigneeCard = ({ consigneeData }) => {
                     <i className="fa fa-address-card cursor-pointer" onClick={() => setShowContactCard(!showContactCard)}></i>
                     {buydamage && <i className="fas fa-house-damage ml-2"></i>}
                 </div>
-                <a className="text" href={`#/consignee/${consigneecode}`}>
+                <Link className="text" to={`/atcportal/consignee/${consigneecode}`}>
                     View Consignee <i class="ml-1 fa fa-arrow-right"></i>
-                </a>
+                </Link>
             </div>
             {modelShow && (
                 <Popup

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { lastUpdatedDateFormat } from "../../../utils/dateConverter";
 import axios from "axios";
 import API_URL from "../../../config";
@@ -76,7 +77,7 @@ const PartyCard = ({
     return (
         <>
             <div className="align-items-center data-card-main">
-                <a href={`#/dealer/${partyCode}`} className="col-lg-12 col-md-10 col-sm-10 data-card">
+                <Link to={`/atcportal/dealer/${partyCode}`} className="col-lg-12 col-md-10 col-sm-10 data-card">
                     <div className={`display-letter ${tagcolor}`}>{partyArea}</div>
                     <div className="createdon">
                         {nudgeSent && <span className="nudge-sent-text">The user has been Notified!</span>}
@@ -133,7 +134,7 @@ const PartyCard = ({
                             </div>
                         </div>
                     </div>
-                </a>
+                </Link>
             </div>
         </>
     );

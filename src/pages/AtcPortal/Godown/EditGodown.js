@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from 'react-router-dom';
 import { Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import API_URL from "../../../config";
 
-const EditGodown = (props) => {
-  let godownCode = props.match.params.id;
-  const { handleSubmit, register, errors } = useForm();
+const EditGodown = () => {
+  const { id: godownCode } = useParams();
+  const navigate = useNavigate();
+  const { handleSubmit, register, formState: { errors } } = useForm();
   let [formSent, setFormSent] = useState(false);
   let [singleGodownData, setSingleGodownData] = useState({});
 
@@ -37,14 +39,19 @@ const EditGodown = (props) => {
       .then((response) => {
         if (response.status === 200) {
           setFormSent(true);
-          setTimeout(() => {window.location.replace(`#viewgodown/${godownCode}`)}, 500);
+          setTimeout(() => {navigate(`/atcportal/viewgodown/${godownCode}`)}, 500);
         }
       });
   };
 
   return (
     <div className="col-md-12 createparty-main">
-      <a href={`#/viewgodown/${godownCode}`} className="back-btn backbtn-edit-godown"><i className="fa fa-arrow-left" aria-hidden="true"></i> Back</a>
+      <button 
+        onClick={() => navigate(`/viewgodown/${godownCode}`)} 
+        className="back-btn backbtn-edit-godown"
+      >
+        <i className="fa fa-arrow-left" aria-hidden="true"></i> Back
+      </button>
       {singleGodownData && singleGodownData.godowncode && (
         <>
           <div className="godown-title-main">

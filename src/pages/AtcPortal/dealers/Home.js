@@ -26,7 +26,7 @@ const Home = () => {
     const triggerSearch = (searchString, godownFilters, isDamageDealer) => {
         setLoading(true);
         let allFilters = {
-            saerchText: searchString,
+            searchText: searchString, // Fixed typo: was "saerchText"
             godowns: godownFilters,
             isDamageDealer: isDamageDealer,
             page: currentPage,
@@ -130,15 +130,15 @@ const Home = () => {
 
     const onTextSearch = (event) => {
         setAllDealers([]);
+        setCurrentPage(1);
         let searchValue = event.target.value;
         setSearchText(searchValue);
-        setCurrentPage(1);
     };
 
     const onGodownFilterChangeHandler = (e) => {
         let currentName = e.target.name;
         let currentValue = e.target.checked;
-        let godownFiltersCopy = godownFilters;
+        let godownFiltersCopy = [...godownFilters]; // Create a proper copy
 
         if (!currentValue && godownFiltersCopy.includes(currentName)) {
             godownFiltersCopy = godownFiltersCopy.filter((item) => {
@@ -150,16 +150,16 @@ const Home = () => {
             godownFiltersCopy = [...godownFiltersCopy, currentName];
         }
 
-        setGodownFilters(godownFiltersCopy);
-        setCurrentPage(1);
         setAllDealers([]);
+        setCurrentPage(1);
+        setGodownFilters(godownFiltersCopy);
     };
 
     const onDamageFilterChangeHandler = (e) => {
         let isDamageDealer = e.target.checked;
-        setDamageUserFilter(isDamageDealer);
-        setCurrentPage(1);
         setAllDealers([]);
+        setCurrentPage(1);
+        setDamageUserFilter(isDamageDealer);
     };
 
     return (

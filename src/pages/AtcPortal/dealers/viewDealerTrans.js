@@ -1,22 +1,20 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useRef } from "react";
-import "react-day-picker/lib/style.css";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import moment from "moment";
-import DayPickerInput from "react-day-picker/DayPickerInput";
 import Popup from "../../../components/common/PopUp";
 import Return from "./Return";
 import OverlayComp from "../../../components/common/overlay";
 import API_URL from "../../../config";
 import PartyReport from "../dealers/partyReport";
 import EmptyDataBannerComp from "./emptyDataBanner";
-import { formatDate, parseDate } from "react-day-picker/moment";
 import { convertDate } from "../../../utils/dateConverter";
 import { useOnClickOutside } from "../dealers/outsideClick";
 import { getStoredProducts, getStoredTransMode } from "../utils";
 
-const AllTransactions = (props) => {
-    const partyCode = props.match.params.id;
+const AllTransactions = () => {
+    const { id: partyCode } = useParams();
+    const navigate = useNavigate();
     const storedProducts = getStoredProducts();
     const storedTransModes = getStoredTransMode();
 
@@ -27,12 +25,23 @@ const AllTransactions = (props) => {
     const [userData, setUserData] = useState({});
     const [loadingScr, setLoadingScr] = useState(false);
     const [loadingText, setLoadingText] = useState("Yes! Delete");
-    const [fromDate, setFromDate] = useState();
-    const [toDate, setToDate] = useState();
+    const [fromDate, setFromDate] = useState('');
+    const [toDate, setToDate] = useState('');
     const [modelShow, setModelShow] = useState(false);
     const [deleteModelShow, setDeleteModelShow] = useState(false);
     const [transactionId, setTransactionId] = useState("");
     const [expandOB, setExpandOB] = useState(false);
+
+    // Helper function to format date like moment().format("ll")
+    const formatDateLL = (dateString) => {
+        const date = new Date(dateString);
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 
+                       'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        const month = months[date.getMonth()];
+        const day = date.getDate();
+        const year = date.getFullYear();
+        return `${month} ${day}, ${year}`;
+    };
 
     const dealerDataToDisplay = [
         {
@@ -208,23 +217,21 @@ const AllTransactions = (props) => {
                                     aria-hidden="true"
                                 ></i>
                                 <div className="dp-from">
-                                    <DayPickerInput
-                                        formatDate={formatDate}
-                                        parseDate={parseDate}
-                                        placeholder={"MM/DD/YYYY - From"}
-                                        onDayChange={(date) => setFromDate(date)}
-                                        style={{ fontSize: "12px" }}
+                                    <input
+                                        type="date"
                                         value={fromDate}
+                                        onChange={(e) => setFromDate(e.target.value)}
+                                        className="form-control"
+                                        style={{ fontSize: "12px" }}
                                     />
                                 </div>
                                 <div className="dp-to">
-                                    <DayPickerInput
-                                        formatDate={formatDate}
-                                        parseDate={parseDate}
-                                        placeholder={"MM/DD/YYYY - To"}
-                                        onDayChange={(date) => setToDate(date)}
-                                        style={{ fontSize: "12px" }}
+                                    <input
+                                        type="date"
                                         value={toDate}
+                                        onChange={(e) => setToDate(e.target.value)}
+                                        className="form-control"
+                                        style={{ fontSize: "12px" }}
                                     />
                                 </div>
                                 <div onClick={() => fetchPartyTransaction()} className="fetchbtn">
@@ -305,7 +312,7 @@ const AllTransactions = (props) => {
                                                 <div style={{ lineHeight: "17px" }}>
                                                     <div className="date">
                                                         <b className="mr-2">Date :</b>
-                                                        {moment(finalTransDate).format("ll")}
+                                                        {formatDateLL(finalTransDate)}
                                                     </div>
                                                     <div
                                                         data-toggle="tooltip"
@@ -398,9 +405,13 @@ const AllTransactions = (props) => {
                     </div>
                     {allTrans.totalCount && (
                         <div className="finaltotalreport">
-                            <a href={`#/dealer/${partyCode}`} className="back-btn">
+                            <button 
+                                onClick={() => navigate(`/atcportal/dealer/${partyCode}`)} 
+                                className="back-btn"
+                                style={{ background: 'none', border: 'none', color: 'inherit', cursor: 'pointer' }}
+                            >
                                 <i className="fa fa-arrow-left" aria-hidden="true"></i> Back
-                            </a>
+                            </button>
                             <div className="val">
                                 <b>Delivered: </b>
                                 {allTrans.totalCount.totaldelivered.toFixed(2)} mt

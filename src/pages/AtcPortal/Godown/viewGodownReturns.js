@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import DayPickerInput from 'react-day-picker/DayPickerInput';
-import 'react-day-picker/lib/style.css';
-import { formatDate, parseDate } from 'react-day-picker/moment';
 import { convertDate } from "../../../utils/dateConverter";
 import API_URL from "../../../config";
 
-const GodownPartyReturns = (props) => {
-    let godownCode = props.match.params.id;
+const GodownPartyReturns = () => {
+    const { id: godownCode } = useParams();
+    const navigate = useNavigate();
     let [godownData, setGodownData] = useState({});
     const d = new Date();
-    const currentdateYDM = `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`;
-    const [fromDate, setFromDate] = useState(Date(currentdateYDM));
-    const [toDate, setToDate] = useState(Date(currentdateYDM));
+    const currentDateFormatted = d.toISOString().split('T')[0]; // YYYY-MM-DD format
+    const [fromDate, setFromDate] = useState(currentDateFormatted);
+    const [toDate, setToDate] = useState(currentDateFormatted);
     useEffect(() => {
         axios.get(`${API_URL}/godwons/${godownCode}`)
             .then(response => {
@@ -37,7 +36,12 @@ const GodownPartyReturns = (props) => {
     return (
         <>
             <div className="col-md-12">
-                <a href={`#/viewgodown/${godownCode}`} className="back-btn back-btn-gt"><i className="fa fa-arrow-left" aria-hidden="true"></i> Go Back To Godown</a>
+                <button 
+                    onClick={() => navigate(`/viewgodown/${godownCode}`)} 
+                    className="back-btn back-btn-gt"
+                >
+                    <i className="fa fa-arrow-left" aria-hidden="true"></i> Go Back To Godown
+                </button>
 
                 <div className="userdetails">
                     <div>
@@ -53,19 +57,19 @@ const GodownPartyReturns = (props) => {
                             <div className="submain">
                                 <i onClick={() => window.location.reload()} className="fa fa-refresh reset-trans" aria-hidden="true"></i>
                                 <div className="d-flex flex-column">
-                                    <DayPickerInput
-                                        formatDate={formatDate}
-                                        parseDate={parseDate}
-                                        placeholder={"MM/DD/YYYY - From"}
-                                        onDayChange={(date) => setFromDate(date)}
+                                    <input
+                                        type="date"
+                                        value={fromDate}
+                                        onChange={(e) => setFromDate(e.target.value)}
+                                        className="form-control"
                                         style={{ "fontSize": "12px", marginRight: "8px" }}
                                     />
                                 </div>
-                                <DayPickerInput
-                                    formatDate={formatDate}
-                                    parseDate={parseDate}
-                                    placeholder={"MM/DD/YYYY - To"}
-                                    onDayChange={(date) => setToDate(date)}
+                                <input
+                                    type="date"
+                                    value={toDate}
+                                    onChange={(e) => setToDate(e.target.value)}
+                                    className="form-control"
                                     style={{ "fontSize": "12px" }}
                                 />
                             </div>
@@ -80,7 +84,7 @@ const GodownPartyReturns = (props) => {
                             return (
                                 <div key={`trans_${inx}`} className="trans-card-main">
                                     <div className="date d-flex flex-column justify-content-between">
-                                        <div className="date"><b className="mr-2">Date :</b>{convertDate(data.return_date.slice(0, 10), 0, true)}</div>
+                                        <div className="date"><b className="mr-2">Date :</b>{convertDate(data.return_date && data.return_date.slice ? data.return_date.slice(0, 10) : data.return_date, 0, true)}</div>
                                         <div className="transactionid"><b>Tid:</b> <span className="colortxt">{transaction_id}</span></div>
                                     </div>
                                     <div className="product d-flex flex-column partygodtrans-title">

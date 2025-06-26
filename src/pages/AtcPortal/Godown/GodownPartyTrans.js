@@ -1,23 +1,36 @@
 import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import DayPickerInput from 'react-day-picker/DayPickerInput';
-import 'react-day-picker/lib/style.css';
-import { formatDate, parseDate } from 'react-day-picker/moment';
 import { convertDate } from '../../../utils/dateConverter';
 import API_URL from '../../../config';
 import EmptyDataBannerComp from '../dealers/emptyDataBanner';
 import GodownPartyTransactionsReport from './godownPartyTransactionReport';
-import moment from 'moment';
 
-const GodownPartyTrans = (props) => {
-    const godownCode = props.match.params.id;
+const GodownPartyTrans = () => {
+    const { id: godownCode } = useParams();
+    const navigate = useNavigate();
     const d = new Date();
-    const currentdateYDM = `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`;
+    const currentDateFormatted = d.toISOString().split('T')[0]; // YYYY-MM-DD format
+
+    // Helper function to format date as "time ago"
+    const getTimeAgo = (dateString) => {
+        const now = new Date();
+        const date = new Date(dateString);
+        const diffMs = now - date;
+        const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+        const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+        
+        if (diffHours < 1) return "a few minutes ago";
+        if (diffHours < 24) return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+        if (diffDays < 30) return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+        const diffMonths = Math.floor(diffDays / 30);
+        return `${diffMonths} month${diffMonths > 1 ? 's' : ''} ago`;
+    };
 
     const [godownData, setGodownData] = useState({});
     const [partyTrans, setPartyTrans] = useState([]);
-    const [fromDate, setFromDate] = useState(Date(currentdateYDM));
-    const [toDate, setToDate] = useState(Date(currentdateYDM));
+    const [fromDate, setFromDate] = useState(currentDateFormatted);
+    const [toDate, setToDate] = useState(currentDateFormatted);
 
     useEffect(() => {
         axios
@@ -43,9 +56,12 @@ const GodownPartyTrans = (props) => {
     return (
         <>
             <div className="col-md-12">
-                <a href={`#/viewgodown/${godownCode}`} className="back-btn back-btn-gt">
+                <button 
+                    onClick={() => navigate(`/viewgodown/${godownCode}`)} 
+                    className="back-btn back-btn-gt"
+                >
                     <i className="fa fa-arrow-left" aria-hidden="true"></i> Go Back To Godown
-                </a>
+                </button>
                 <div className="userdetails">
                     <div>
                         <div className="firmname">
@@ -69,19 +85,19 @@ const GodownPartyTrans = (props) => {
                             <div className="submain">
                                 <i onClick={() => window.location.reload()} className="fa fa-refresh reset-trans" aria-hidden="true"></i>
                                 <div className="d-flex flex-column">
-                                    <DayPickerInput
-                                        formatDate={formatDate}
-                                        parseDate={parseDate}
-                                        placeholder={'MM/DD/YYYY - From'}
-                                        onDayChange={(date) => setFromDate(date)}
+                                    <input
+                                        type="date"
+                                        value={fromDate}
+                                        onChange={(e) => setFromDate(e.target.value)}
+                                        className="form-control"
                                         style={{ fontSize: '12px' }}
                                     />
                                 </div>
-                                <DayPickerInput
-                                    formatDate={formatDate}
-                                    parseDate={parseDate}
-                                    placeholder={'MM/DD/YYYY - To'}
-                                    onDayChange={(date) => setToDate(date)}
+                                <input
+                                    type="date"
+                                    value={toDate}
+                                    onChange={(e) => setToDate(e.target.value)}
+                                    className="form-control"
                                     style={{ fontSize: '12px', margin: '0px 10px' }}
                                 />
                             </div>
@@ -99,8 +115,8 @@ const GodownPartyTrans = (props) => {
                                 <div key={`trans_${inx}`} className="trans-card-main">
                                     <div className="date">
                                         <b className="mr-2">Date :</b>
-                                        {convertDate(finalDate.slice(0, 10), 0, true)}
-                                        <br /> (<b>{moment(finalDate).fromNow()}</b>)
+                                        {convertDate(finalDate && finalDate.slice ? finalDate.slice(0, 10) : finalDate, 0, true)}
+                                        <br /> (<b>{getTimeAgo(finalDate)}</b>)
                                     </div>
                                     {data.userdetails && (
                                         <div className="product d-flex flex-column partygodtrans-title">

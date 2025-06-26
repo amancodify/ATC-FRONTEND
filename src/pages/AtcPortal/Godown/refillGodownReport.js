@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import ReactExport from 'react-data-export';
+import ReactExport from '../../../utils/excelExport';
 import API_URL from '../../../config';
 import { convertDate } from '../../../utils/dateConverter';
 

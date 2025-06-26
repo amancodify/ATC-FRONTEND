@@ -180,11 +180,8 @@ const NewPartyTransaction = ({ partyCode, firmName, partyName, email, damageDeal
                                 required
                                 className="ml-2 date-picker"
                                 type="date"
-                                name="trans_date"
-                                ref={register({
-                                    pattern: {
-                                        message: "Cannot be empty",
-                                    },
+                                {...register("trans_date", {
+                                    required: "Date cannot be empty",
                                 })}
                             />
                         </div>
@@ -227,14 +224,9 @@ const NewPartyTransaction = ({ partyCode, firmName, partyName, email, damageDeal
                                 <select
                                     onChange={handleCurrentTransChange}
                                     required
-                                    defaultValue=""
+                                    value={currenctProductTrans.productcode || ""}
                                     name="productcode"
                                     className="form-control transaction-fields"
-                                    ref={register({
-                                        pattern: {
-                                            message: "Value Must be Selected",
-                                        },
-                                    })}
                                 >
                                     <option disabled value="">
                                         Select Product
@@ -261,13 +253,9 @@ const NewPartyTransaction = ({ partyCode, firmName, partyName, email, damageDeal
                                     type="number"
                                     placeholder="Delivery in MT"
                                     name="delivered"
+                                    value={currenctProductTrans.delivered || ""}
                                     step="0.001"
                                     min="0.0"
-                                    ref={register({
-                                        pattern: {
-                                            message: "Invalid Quantity Amount",
-                                        },
-                                    })}
                                 />
                                 <Form.Control
                                     onChange={handleCurrentTransChange}
@@ -275,25 +263,16 @@ const NewPartyTransaction = ({ partyCode, firmName, partyName, email, damageDeal
                                     type="number"
                                     placeholder="Billing in MT"
                                     name="billed"
+                                    value={currenctProductTrans.billed || ""}
                                     step="0.001"
                                     min="0.0"
-                                    ref={register({
-                                        pattern: {
-                                            message: "Invalid Billing Amount",
-                                        },
-                                    })}
                                 />
                                 <select
                                     onChange={handleCurrentTransChange}
                                     disabled={isModeDisabled}
-                                    defaultValue=""
+                                    value={currenctProductTrans.mode?.value || ""}
                                     name="mode"
                                     className="form-control transaction-fields"
-                                    ref={register({
-                                        pattern: {
-                                            message: "Value Must be Selected",
-                                        },
-                                    })}
                                 >
                                     <option disabled value="">
                                         Select Mode
@@ -311,14 +290,9 @@ const NewPartyTransaction = ({ partyCode, firmName, partyName, email, damageDeal
                                     onChange={handleCurrentTransChange}
                                     required
                                     disabled={isModeDisabled}
-                                    defaultValue=""
+                                    value={currenctProductTrans.producttype || ""}
                                     name="producttype"
                                     className="form-control transaction-fields"
-                                    ref={register({
-                                        pattern: {
-                                            message: "Value Must be Selected",
-                                        },
-                                    })}
                                 >
                                     <option disabled value="">
                                         Product Type
@@ -359,11 +333,8 @@ const NewPartyTransaction = ({ partyCode, firmName, partyName, email, damageDeal
                                     className="transaction-fields"
                                     type="text"
                                     placeholder="Enter Vehicle Number"
-                                    name="vehicle_no"
-                                    ref={register({
-                                        pattern: {
-                                            message: "Cannot be empty",
-                                        },
+                                    {...register("vehicle_no", {
+                                        required: "Vehicle number cannot be empty",
                                     })}
                                 />
                             </div>
@@ -376,11 +347,8 @@ const NewPartyTransaction = ({ partyCode, firmName, partyName, email, damageDeal
                                     className="transaction-fields"
                                     type="text"
                                     placeholder="Enter Consignee Name"
-                                    name="consigneename"
-                                    ref={register({
-                                        pattern: {
-                                            message: "Cannot be empty",
-                                        },
+                                    {...register("consigneename", {
+                                        required: "Consignee name cannot be empty",
                                     })}
                                 />
                             </div>
@@ -405,12 +373,7 @@ const NewPartyTransaction = ({ partyCode, firmName, partyName, email, damageDeal
                                     as="textarea"
                                     placeholder="Any comments here..."
                                     rows="3"
-                                    name="trans_comment"
-                                    ref={register({
-                                        pattern: {
-                                            message: "Invalid Comment",
-                                        },
-                                    })}
+                                    {...register("trans_comment")}
                                 />
                             </Form.Group>
                         </div>

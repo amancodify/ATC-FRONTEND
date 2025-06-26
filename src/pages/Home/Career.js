@@ -2,13 +2,11 @@ import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useForm } from "react-hook-form";
 import axios from 'axios';
-import Input from "../../components/common/Form/Input";
-import TextArea from "../../components/common/Form/TextArea";
 import API_URL from "../../config";
 
 
 const Career = (() => {
-    const { handleSubmit, register, errors } = useForm();
+    const { handleSubmit, register, formState: { errors } } = useForm();
     let [formSent, setFormSent] = useState(false);
     const onSubmit = (values, e) => {
         axios.post(`${API_URL}/sendemail`, values)
@@ -29,63 +27,71 @@ const Career = (() => {
                 <p className="form-title">We’re looking for passionate, energetic and creative individuals to join us. Do you see a profile that would be perfect for you?</p>
                 <Form onSubmit={handleSubmit(onSubmit)}>
                     <Form.Group controlId="formBasicName">
-                        <Input
-                            labeltxt="Name"
-                            // placeholder="Enter Full Name"
-                            inputType="text"
-                            name="name"
-                            inputref={register({
-                                required: 'Required',
-                                pattern: {
-                                    message: "invalid Name"
-                                }
-                            })}
-                        />
+                        <div className="col-md-12 mb-4 inputmain">
+                            <label className="field-lbl">Name</label>
+                            <input
+                                required
+                                type="text"
+                                className="form-control input-field"
+                                {...register("name", {
+                                    required: 'Required',
+                                    pattern: {
+                                        message: "invalid Name"
+                                    }
+                                })}
+                            />
+                        </div>
                         {errors.name && errors.name.message}
                     </Form.Group>
                     <Form.Group controlId="formBasicEmail">
-                        <Input
-                            labeltxt="Email Address"
-                            // placeholder="Enter email"
-                            inputType="email"
-                            name="email"
-                            inputref={register({
-                                required: 'Required',
-                                pattern: {
-                                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                                    message: "invalid Name"
-                                }
-                            })}
-                        />
+                        <div className="col-md-12 mb-4 inputmain">
+                            <label className="field-lbl">Email Address</label>
+                            <input
+                                required
+                                type="email"
+                                className="form-control input-field"
+                                {...register("email", {
+                                    required: 'Required',
+                                    pattern: {
+                                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                                        message: "invalid Email"
+                                    }
+                                })}
+                            />
+                        </div>
                         {errors.email && errors.email.message}
                     </Form.Group>
                     <Form.Group controlId="formBasicPhone">
-                        <Input
-                            labeltxt="Mobile Number"
-                            // placeholder="Enter Mobile"
-                            inputType="number"
-                            name="phone"
-                            inputref={register({
-                                required: 'Required',
-                                pattern: {
-                                    message: "invalid phone Number"
-                                }
-                            })}
-                        />
+                        <div className="col-md-12 mb-4 inputmain">
+                            <label className="field-lbl">Mobile Number</label>
+                            <input
+                                required
+                                type="number"
+                                className="form-control input-field"
+                                {...register("phone", {
+                                    required: 'Required',
+                                    pattern: {
+                                        message: "invalid phone Number"
+                                    }
+                                })}
+                            />
+                        </div>
                         {errors.phone && errors.phone.message}
                     </Form.Group>
                     <Form.Group controlId="formBasicMessage">
-                        <TextArea
-                            labeltxt="Message"
-                            TA_as="textarea"
-                            TA_rows="4"
-                            name="message"
-                            inputref={register({
-                                pattern: {
-                                    message: "invalid email address"
-                                }
-                            })}
-                        />
+                        <div className="col-md-12 mb-4 inputmain">
+                            <label className="field-lbl">Message</label>
+                            <textarea
+                                as="textarea"
+                                rows="4"
+                                className="form-control input-field"
+                                {...register("message", {
+                                    pattern: {
+                                        message: "invalid message"
+                                    }
+                                })}
+                            />
+                        </div>
                         {errors.message && errors.message.message}
                     </Form.Group>
                     <Button variant="primary" type="submit" className="submit-btn" >Submit</Button>

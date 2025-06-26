@@ -1,6 +1,6 @@
 import React from "react";
 import cookie from "js-cookie";
-import { Route, HashRouter, Redirect } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import { isLoggedIn, logout } from "../../utils/auth";
 import Home from "./dealers/Home";
 import CreateDealer from "./dealers/CreateDealer";
@@ -20,7 +20,7 @@ import ControllerSection from "./dealers/controller";
 import AtcAddProduct from "./dealers/addProduct";
 import ConsigneeHome from "./consignee";
 import ViewConsignee from "./consignee/viewConsignee";
-import viewConsigneeTrans from "./consignee/viewConsigneeTrans";
+import ViewConsigneeTrans from "./consignee/viewConsigneeTrans";
 
 const AtcPortalMain = () => {
     let validUser = isLoggedIn();
@@ -28,34 +28,34 @@ const AtcPortalMain = () => {
     if (validUser) {
         const loginname = cookie.get("_loginname");
         return (
-            <HashRouter>
-                <div className="atcportal-main">
-                    <ControllerSection loginName={loginname} logoutHandler={logout} />
-                    <div className="view-section-main">
-                        <Route exact path="/" component={Home} />
-                        <Route path="/createdealer" component={CreateDealer} />
-                        <Route path="/addconsignee" component={AddConsignee} />
-                        <Route path="/godown" component={Atcgodown} />
-                        <Route path="/creategodown" component={AtcCreategodown} />
-                        <Route path="/addproduct" component={AtcAddProduct} />
-                        <Route path="/viewgodown/:id" component={AtcViewgodown} />
-                        <Route path="/dealer/:id" component={AtcViewDealer} />
-                        <Route path="/editprofile/:id" component={AtcEditDealer} />
-                        <Route path="/editgodown/:id" component={AtcEditGodown} />
-                        <Route path="/transactions/:id" component={AtcTransactionsView} />
-                        <Route path="/godownrefilltransactions/:id" component={AtcGodwonRefillTrans} />
-                        <Route path="/godownpartytransaction/:id" component={AtcGodwonPartyTrans} />
-                        <Route path="/godownpartyreturns/:id" component={ATCGodownpartyreturns} />
-                        <Route path="/reports" component={ATCReports} />
-                        <Route path="/consignees" component={ConsigneeHome} />
-                        <Route path="/consignee/:id" component={ViewConsignee} />
-                        <Route path="/viewconsigneetransactions/:id" component={viewConsigneeTrans} />
-                    </div>
+            <div className="atcportal-main">
+                <ControllerSection loginName={loginname} logoutHandler={logout} />
+                <div className="view-section-main">
+                    <Routes>
+                        <Route index element={<Home />} />
+                        <Route path="createdealer" element={<CreateDealer />} />
+                        <Route path="addconsignee" element={<AddConsignee />} />
+                        <Route path="godown" element={<Atcgodown />} />
+                        <Route path="creategodown" element={<AtcCreategodown />} />
+                        <Route path="addproduct" element={<AtcAddProduct />} />
+                        <Route path="viewgodown/:id" element={<AtcViewgodown />} />
+                        <Route path="dealer/:id" element={<AtcViewDealer />} />
+                        <Route path="editprofile/:id" element={<AtcEditDealer />} />
+                        <Route path="editgodown/:id" element={<AtcEditGodown />} />
+                        <Route path="transactions/:id" element={<AtcTransactionsView />} />
+                        <Route path="godownrefilltransactions/:id" element={<AtcGodwonRefillTrans />} />
+                        <Route path="godownpartytransaction/:id" element={<AtcGodwonPartyTrans />} />
+                        <Route path="godownpartyreturns/:id" element={<ATCGodownpartyreturns />} />
+                        <Route path="reports" element={<ATCReports />} />
+                        <Route path="consignees" element={<ConsigneeHome />} />
+                        <Route path="consignee/:id" element={<ViewConsignee />} />
+                        <Route path="viewconsigneetransactions/:id" element={<ViewConsigneeTrans />} />
+                    </Routes>
                 </div>
-            </HashRouter>
+            </div>
         );
     } else {
-        return <Redirect to="/login" />;
+        return <Navigate to="/login" replace />;
     }
 };
 

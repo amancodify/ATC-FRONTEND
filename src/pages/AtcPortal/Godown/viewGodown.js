@@ -1,4 +1,5 @@
 import React from "react";
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import axios from "axios";
 import { useState, useEffect } from "react";
 import Popup from '../../../components/common/PopUp';
@@ -6,8 +7,9 @@ import AtcRefillGodown from "./RefillGodown";
 import GodownDamageForm from "./godownDamage";
 import API_URL from "../../../config";
 
-const ViewGodwon = ((props) => {
-    let godownCode = props.match.params.id;
+const ViewGodwon = () => {
+    const { id: godownCode } = useParams();
+    const navigate = useNavigate();
     let [godownData, setGodownData] = useState({});
     let [godownCountData, setGodownCountData] = useState({});
     let [showTransPopup, setShowTransPopup] = useState(false);
@@ -23,8 +25,7 @@ const ViewGodwon = ((props) => {
             })
             .catch(err => {
                 console.log(err);
-                window.location.replace("#/godown");
-                window.location.reload();
+                navigate("/atcportal/godown");
             });
 
         axios.get(`${API_URL}/godowns/getgodownstats/${godownCode}`)
@@ -35,7 +36,7 @@ const ViewGodwon = ((props) => {
             .catch(err => {
                 console.log(err);
             });
-    }, [godownCode]);
+    }, [godownCode, navigate]);
 
 
     const deletegodown = () => {
@@ -61,7 +62,7 @@ const ViewGodwon = ((props) => {
                 :
             <div className="col-md-12">
                 <div className="viewgodown-main">
-                    <a href={`#/godown`} className="back-btn back-btn-godown "><i className="fa fa-arrow-left" aria-hidden="true"></i> Back</a>
+                    <Link to={`/atcportal/godown`} className="back-btn back-btn-godown "><i className="fa fa-arrow-left" aria-hidden="true"></i> Back</Link>
                     <div className="row">
                         <div className="col-md-6">
                             <img className="vector-img" src="images/godown_vector1.jpg" alt="" />
@@ -75,9 +76,9 @@ const ViewGodwon = ((props) => {
                         </div>
                         <div className="god-icons-del-edit col-md-2 d-flex justify-content-end">
                             {/* <div><i onClick={() => setShowDeletePopup(true)} className="delete-icon fa fa-trash" aria-hidden="true"></i></div> */}
-                            <a className="d-flex align-items-center edit-godown-main" href={`#/editgodown/${godownCode}`}>
+                            <Link className="d-flex align-items-center edit-godown-main" to={`/atcportal/editgodown/${godownCode}`}>
                                 <i className="edit-icon mr-1 fa fa-edit"></i> <span className="edit-label"> Edit Godown </span>
-                            </a>
+                            </Link>
                         </div>
                     </div>
 
@@ -107,8 +108,8 @@ const ViewGodwon = ((props) => {
                         }
                         <div className="col-md-12 actions">
                             <div onClick={() => setShowTransPopup(true)} className="action-link create-txt">Refill Godwon</div>
-                            <a className="action-link view-txt" href={`#/godownrefilltransactions/${godownCode}`}>Refill Transactions</a>
-                            <a className="action-link view-txt" href={`#/godownpartytransaction/${godownCode}`}>Party Transactions</a>
+                            <Link className="action-link view-txt" to={`/atcportal/godownrefilltransactions/${godownCode}`}>Refill Transactions</Link>
+                            <Link className="action-link view-txt" to={`/atcportal/godownpartytransaction/${godownCode}`}>Party Transactions</Link>
                         </div>
                     </div>
                 </div>
@@ -166,7 +167,7 @@ const ViewGodwon = ((props) => {
                 </Popup>
             }
         </>
-    )
-})
+    );
+};
 
 export default ViewGodwon;

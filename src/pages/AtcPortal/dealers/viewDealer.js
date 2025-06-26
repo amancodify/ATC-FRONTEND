@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import Popup from "../../../components/common/PopUp";
 import DealerTransaction from "./newTransaction";
@@ -12,8 +13,9 @@ import { getStoredProducts } from "../utils";
 
 const PRODUCTS = getStoredProducts();
 
-const ViewDealer = (props) => {
-    const partyCode = props.match.params.id;
+const ViewDealer = () => {
+    const { id: partyCode } = useParams();
+    const navigate = useNavigate();
     const [modelShow, setModelShow] = useState(false);
     const [showTransPopup, setShowTransPopup] = useState(false);
     const [showOpeningBal, setShowOpeningBal] = useState(false);
@@ -64,7 +66,7 @@ const ViewDealer = (props) => {
     const deleteUser = async () => {
         try {
             await axios.delete(`${API_URL}/dealers/delete/${partyCode}`);
-            window.location.replace("#/");
+            navigate("/atcportal/");
         } catch (err) {
             console.error(err);
         }
@@ -152,14 +154,14 @@ const ViewDealer = (props) => {
                                     {menuShow && (
                                         <div className="menu-list" ref={ref}>
                                             <div className="pointer"></div>
-                                            <a
+                                            <Link
                                                 className="d-flex align-items-center justify-content-end edit-main"
-                                                href={`#/editprofile/${partyCode}`}
+                                                to={`/atcportal/editprofile/${partyCode}`}
                                             >
                                                 <span className="edit-label">
                                                     Edit Party Details
                                                 </span>
-                                            </a>
+                                            </Link>
                                             <div className="saperator" />
                                             <div className="d-flex align-items-center justify-content-end menu-option-grid">
                                                 <span className="edit-label">Add Consinee</span>
@@ -250,7 +252,7 @@ const ViewDealer = (props) => {
                                     </Button>
                                 </div>
 
-                                <a href={`#/transactions/${partyCode}`}>
+                                <Link to={`/atcportal/transactions/${partyCode}`}>
                                     <Button
                                         style={{ textTransform: "none" }}
                                         variant="contained"
@@ -258,7 +260,7 @@ const ViewDealer = (props) => {
                                     >
                                         View Transactions
                                     </Button>
-                                </a>
+                                </Link>
                             </div>
                         </div>
                     </>

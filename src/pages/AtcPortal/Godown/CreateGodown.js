@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { Form } from 'react-bootstrap';
 import { useForm } from "react-hook-form";
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import API_URL from "../../../config";
 
 
 const CreateGodown = (() => {
-    const { handleSubmit, register, errors } = useForm();
+    const { handleSubmit, register, formState: { errors } } = useForm();
+    const navigate = useNavigate();
     let [formSent, setFormSent] = useState(false);
     const onSubmit = values => {
         let godownCreationData = {
@@ -21,7 +23,7 @@ const CreateGodown = (() => {
             .then(response => {
                 if (response.status === 200) {
                     setFormSent(true);
-                    setTimeout(()=> {window.location.replace(`#/viewgodown/${values.godownCode}`)}, 700);
+                    setTimeout(()=> {navigate(`/atcportal/viewgodown/${values.godownCode}`)}, 700);
                 }
             })
     }
@@ -36,8 +38,8 @@ const CreateGodown = (() => {
                     <div className="row justify-content-center">
                         <Form.Group controlId="godownCode" className="col-md-5">
                             <Form.Label>Godown Code*</Form.Label>
-                            <Form.Control required type="text" placeholder="Enter Godown Code" name="godownCode"
-                                ref={register({
+                            <Form.Control required type="text" placeholder="Enter Godown Code"
+                                {...register("godownCode", {
                                     required: 'Required',
                                     pattern: {
                                         message: "Invalid Godown Code"
@@ -48,8 +50,8 @@ const CreateGodown = (() => {
                         </Form.Group>
                         <Form.Group controlId="godownName" className="col-md-5">
                             <Form.Label>Godown Name*</Form.Label>
-                            <Form.Control required type="text" placeholder="Godown Name" name="godownName"
-                                ref={register({
+                            <Form.Control required type="text" placeholder="Godown Name"
+                                {...register("godownName", {
                                     required: 'Required',
                                     pattern: {
                                         message: "Invalid Godown Name"
@@ -60,8 +62,8 @@ const CreateGodown = (() => {
                         </Form.Group>
                         <Form.Group controlId="inchargeName" className="col-md-10">
                             <Form.Label>Incharge Name*</Form.Label>
-                            <Form.Control required type="text" placeholder="Godown Incharge Name" name="inchargeName"
-                                ref={register({
+                            <Form.Control required type="text" placeholder="Godown Incharge Name"
+                                {...register("inchargeName", {
                                     required: 'Required',
                                     pattern: {
                                         message: "Invalid Incharge Name"
@@ -72,8 +74,8 @@ const CreateGodown = (() => {
                         </Form.Group>
                         <Form.Group controlId="inchargeMobile" className="col-md-5">
                             <Form.Label>Godown Incharge Mobile*</Form.Label>
-                            <Form.Control required type="number" placeholder="Enter Incharge Mobile" name="inchargeMobile"
-                                ref={register({
+                            <Form.Control required type="number" placeholder="Enter Incharge Mobile"
+                                {...register("inchargeMobile", {
                                     required: 'Required',
                                     pattern: {
                                         message: "Invalid Mobile"
@@ -84,8 +86,8 @@ const CreateGodown = (() => {
                         </Form.Group>
                         <Form.Group controlId="godownLocation" className="col-md-5">
                             <Form.Label>Godown Location*</Form.Label>
-                            <select name="godownLocation" defaultValue="" className="form-control"
-                                ref={register({
+                            <select defaultValue="" className="form-control"
+                                {...register("godownLocation", {
                                     required: 'Required',
                                     pattern: {
                                         message: "Value Must be Selected"
@@ -102,8 +104,8 @@ const CreateGodown = (() => {
                         </Form.Group>
                         <Form.Group controlId="address" className="col-md-10">
                             <Form.Label>Address*</Form.Label>
-                            <Form.Control required as="textarea" placeholder="Enter Godown Address" rows="4" name="address"
-                                ref={register({
+                            <Form.Control required as="textarea" placeholder="Enter Godown Address" rows="4"
+                                {...register("address", {
                                     pattern: {
                                         message: "Invalid Address"
                                     }
@@ -113,7 +115,7 @@ const CreateGodown = (() => {
                         </Form.Group>
                     </div>
                     <div className="d-flex justify-content-center align-items-center mt-4">
-                        <i onClick={() => window.location.reload()} className="fa fa-refresh refresh-btn-gdn" aria-hidden="true"></i>
+                        <i onClick={() => navigate(0)} className="fa fa-refresh refresh-btn-gdn" aria-hidden="true"></i>
                         <button type="submit" className="creategdn-btn px-4" disabled={formSent}>Create Godown</button>
                     </div>
                 </Form>

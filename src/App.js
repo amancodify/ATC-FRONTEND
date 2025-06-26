@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import axios from "axios";
 import cookie from "js-cookie";
 import { logout, clearCookie } from "./utils/auth";
@@ -24,6 +24,9 @@ const App = () => {
                 } else {
                     logout();
                 }
+            }).catch((error) => {
+                console.error("Token verification failed:", error);
+                logout();
             });
         } else {
             clearCookie();
@@ -31,19 +34,17 @@ const App = () => {
     }, []);
 
     return (
-        <>
+        <BrowserRouter>
             <AtcNav />
-            <BrowserRouter>
-                <Switch>
-                    <Route exact path="/" component={Home} />
-                    <Route path="/about" component={AboutUS} />
-                    <Route path="/events" component={AtcEvents} />
-                    <Route path="/atcportal" component={AtcPortal} />
-                    <Route path="/login" component={LoginComp} />
-                    <Route component={ErrorComp} />
-                </Switch>
-            </BrowserRouter>
-        </>
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/about" element={<AboutUS />} />
+                <Route path="/events" element={<AtcEvents />} />
+                <Route path="/atcportal/*" element={<AtcPortal />} />
+                <Route path="/login" element={<LoginComp />} />
+                <Route path="*" element={<ErrorComp />} />
+            </Routes>
+        </BrowserRouter>
     );
 };
 

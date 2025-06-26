@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import 'react-day-picker/lib/style.css';
-import DayPickerInput from 'react-day-picker/DayPickerInput';
 import API_URL from '../../../config';
-import { formatDate, parseDate } from 'react-day-picker/moment';
 import { convertDate } from '../../../utils/dateConverter';
 import EmptyDataBannerComp from '../dealers/emptyDataBanner';
 import Popup from '../../../components/common/PopUp';
 import RefillTransactionsReport from './refillGodownReport';
 import { REFILL_MODE_TEXTS } from '../dealers/constants';
 
-const GodownTransactions = (props) => {
-    let godownCode = props.match.params.id;
+const GodownTransactions = () => {
+    const { id: godownCode } = useParams();
+    const navigate = useNavigate();
     let [godownData, setGodownData] = useState({});
     let [refillData, setRefillData] = useState([]);
     let [deleteConfirm, setDeleteConfirm] = useState(false);
@@ -19,9 +18,9 @@ const GodownTransactions = (props) => {
     let [currentId, setCurrentId] = useState('');
 
     const d = new Date();
-    const currentdateYDM = `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`;
-    const [fromDate, setFromDate] = useState(Date(currentdateYDM));
-    const [toDate, setToDate] = useState(Date(currentdateYDM));
+    const currentDateFormatted = d.toISOString().split('T')[0]; // YYYY-MM-DD format
+    const [fromDate, setFromDate] = useState(currentDateFormatted);
+    const [toDate, setToDate] = useState(currentDateFormatted);
     useEffect(() => {
         axios
             .get(`${API_URL}/godowns/refilltransactions/${godownCode}`)
@@ -58,9 +57,12 @@ const GodownTransactions = (props) => {
     return (
         <>
             <div className="col-md-12">
-                <a href={`#/viewgodown/${godownCode}`} className="back-btn back-btn-gt">
+                <button 
+                    onClick={() => navigate(`/viewgodown/${godownCode}`)} 
+                    className="back-btn back-btn-gt"
+                >
                     <i className="fa fa-arrow-left" aria-hidden="true"></i> Go Back To Godown
-                </a>
+                </button>
                 <div className="userdetails pt-3">
                     <div>
                         <div className="firmname">
@@ -84,19 +86,19 @@ const GodownTransactions = (props) => {
                             <div className="submain">
                                 <i onClick={() => window.location.reload()} className="fa fa-refresh reset-trans" aria-hidden="true"></i>
                                 <div className="d-flex flex-column">
-                                    <DayPickerInput
-                                        formatDate={formatDate}
-                                        parseDate={parseDate}
-                                        placeholder={'MM/DD/YYYY - From'}
-                                        onDayChange={(date) => setFromDate(date)}
+                                    <input
+                                        type="date"
+                                        value={fromDate}
+                                        onChange={(e) => setFromDate(e.target.value)}
+                                        className="form-control"
                                         style={{ fontSize: '12px', marginRight: '8px' }}
                                     />
                                 </div>
-                                <DayPickerInput
-                                    formatDate={formatDate}
-                                    parseDate={parseDate}
-                                    placeholder={'MM/DD/YYYY - To'}
-                                    onDayChange={(date) => setToDate(date)}
+                                <input
+                                    type="date"
+                                    value={toDate}
+                                    onChange={(e) => setToDate(e.target.value)}
+                                    className="form-control"
                                     style={{ fontSize: '12px' }}
                                 />
                             </div>
@@ -115,7 +117,7 @@ const GodownTransactions = (props) => {
                                 <div key={`gtrans_${inx}`} className="trans-card-main">
                                     <div className="date">
                                         <b className="mr-2">Date :</b>
-                                        {convertDate(finalDate.slice(0, 10), 0, true)}
+                                        {convertDate(finalDate && finalDate.slice ? finalDate.slice(0, 10) : finalDate, 0, true)}
                                         <div
                                             className="returntxt c-pointer redtxt d-flex align-items-center"
                                             onClick={() => {

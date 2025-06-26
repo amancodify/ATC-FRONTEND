@@ -1,6 +1,4 @@
 import React from "react";
-import Timer from "react-compound-timer";
-import Gallery from "react-photo-gallery";
 import { photos } from "./photos";
 import Footer2 from "../../components/common/Footer2";
 
@@ -24,27 +22,6 @@ const Events = () => {
                         </div>
                     </div>
                 </div>
-                <Timer initialTime={31622400000} startImmediately={true} direction={"backward"}>
-                    {() => (
-                        <React.Fragment>
-                            <div className="timer d-flex justify-content-center">
-                                <div className="days">
-                                    <Timer.Days /> <span>Days</span>
-                                </div>
-                                <div className="hours">
-                                    {" "}
-                                    <Timer.Hours /> <span>Hours</span>
-                                </div>
-                                <div className="mins">
-                                    <Timer.Minutes /> <span>Minutes</span>
-                                </div>
-                                <div className="seconds">
-                                    <Timer.Seconds /> <span>Seconds</span>
-                                </div>
-                            </div>
-                        </React.Fragment>
-                    )}
-                </Timer>
             </div>
             <div className="event-body d-flex">
                 <div className="text-section col-md-7 col-sm-12">
@@ -80,9 +57,26 @@ const Events = () => {
             {/* <div className="events-img-section">
                 <ImageSlider sliderImages={sliderPics} />
             </div> */}
-            <div class="spotlight">
-                <div class="main-title">Spotlight</div>
-                <Gallery photos={photos} />
+            <div className="spotlight">
+                <div className="main-title">Spotlight</div>
+                <div className="photos-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '16px', padding: '20px' }}>
+                    {photos.slice(0, 12).map((photo, index) => (
+                        <div key={index} style={{ overflow: 'hidden', borderRadius: '8px' }}>
+                            <img 
+                                src={photo.src} 
+                                alt={`Gallery ${index + 1}`}
+                                style={{ 
+                                    width: '100%', 
+                                    height: '200px', 
+                                    objectFit: 'cover',
+                                    transition: 'transform 0.3s ease'
+                                }}
+                                onMouseOver={(e) => e.target.style.transform = 'scale(1.05)'}
+                                onMouseOut={(e) => e.target.style.transform = 'scale(1)'}
+                            />
+                        </div>
+                    ))}
+                </div>
             </div>
             <Footer2 />
         </>

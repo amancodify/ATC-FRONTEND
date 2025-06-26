@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import { Form, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import CheckboxComp from '../../../components/common/Form/Checkbox';
 import axios from "axios";
 import API_URL from "../../../config";
 
-const EditDealer = (props) => {
-  let partyCode = props.match.params.id;
-  const { handleSubmit, register, errors } = useForm();
+const EditDealer = () => {
+  const { id: partyCode } = useParams();
+  const navigate = useNavigate();
+  const { handleSubmit, register, formState: { errors } } = useForm();
   let [formSent, setFormSent] = useState(false);
   let [singleDealersData, setSingleDealersData] = useState({});
   let [filename, setFileName] = useState("");
@@ -42,7 +44,7 @@ const EditDealer = (props) => {
       .then((response) => {
         if (response.data.nModified === 1) {
           setFormSent(true);
-          window.location.replace("#/");
+          navigate("/atcportal/");
         }
       });
   };
@@ -54,7 +56,7 @@ const EditDealer = (props) => {
 
   return (
     <div className="col-md-12 createparty-main">
-      <a href={`#/dealer/${partyCode}`} className="back-btn back-btn-editform"><i className="fa fa-arrow-left" aria-hidden="true"></i> Back</a>
+      <Link to={`/atcportal/dealer/${partyCode}`} className="back-btn back-btn-editform"><i className="fa fa-arrow-left" aria-hidden="true"></i> Back</Link>
       {singleDealersData.gender && (
         <>
           <p className="title-createdealer">Update Dealer/Party</p>
@@ -70,15 +72,14 @@ const EditDealer = (props) => {
                     required
                     type="text"
                     placeholder="Enter Dealer Code"
-                    name="firmCode"
-                    ref={register({
+                    {...register("firmCode", {
                       required: "Required",
                       pattern: {
                         message: "Invalid Dealer Code",
                       },
                     })}
                   />
-                  {errors.firmCode && errors.firmCode.message}
+                  {errors.firmCode && <span className="error-message">{errors.firmCode.message}</span>}
                 </Form.Group>
                 <Form.Group controlId="firmName" className="col-md-6 col-sm-12">
                   <Form.Label>Firm Name*</Form.Label>
@@ -87,15 +88,14 @@ const EditDealer = (props) => {
                     required
                     type="text"
                     placeholder="Enter Firm Name"
-                    name="firmName"
-                    ref={register({
+                    {...register("firmName", {
                       required: "Required",
                       pattern: {
                         message: "Invalid Firm Name",
                       },
                     })}
                   />
-                  {errors.firmName && errors.firmName.message}
+                  {errors.firmName && <span className="error-message">{errors.firmName.message}</span>}
                 </Form.Group>
               </div>
               <div className="row">
@@ -103,9 +103,8 @@ const EditDealer = (props) => {
                   <Form.Label>Gender*</Form.Label>
                   <select
                     defaultValue={singleDealersData.gender}
-                    name="gender"
                     className="form-control"
-                    ref={register({
+                    {...register("gender", {
                       required: "Required",
                       pattern: {
                         message: "Value Must be Selected",
@@ -118,7 +117,7 @@ const EditDealer = (props) => {
                     <option value="Female">Female</option>
                     <option value="Other">Other</option>
                   </select>
-                  {errors.gender && errors.gender.message}
+                  {errors.gender && <span className="error-message">{errors.gender.message}</span>}
                 </Form.Group>
                 <Form.Group
                   controlId="dealerArea"
@@ -127,9 +126,8 @@ const EditDealer = (props) => {
                   <Form.Label>Dealer's Area*</Form.Label>
                   <select
                     defaultValue={singleDealersData.dealer_area}
-                    name="dealerArea"
                     className="form-control"
-                    ref={register({
+                    {...register("dealerArea", {
                       required: "Required",
                       pattern: {
                         message: "Value Must be Selected",
@@ -144,7 +142,7 @@ const EditDealer = (props) => {
                     <option value="Chapra">Chapra</option>
                     <option value="Gopalganj">Gopalganj</option>
                   </select>
-                  {errors.dealerArea && errors.dealerArea.message}
+                  {errors.dealerArea && <span className="error-message">{errors.dealerArea.message}</span>}
                 </Form.Group>
               </div>
               <div className="row">
@@ -158,15 +156,14 @@ const EditDealer = (props) => {
                     required
                     type="text"
                     placeholder="Enter Owner's Fullname "
-                    name="ownerName"
-                    ref={register({
+                    {...register("ownerName", {
                       required: "Required",
                       pattern: {
                         message: "Invalid Name",
                       },
                     })}
                   />
-                  {errors.ownerName && errors.ownerName.message}
+                  {errors.ownerName && <span className="error-message">{errors.ownerName.message}</span>}
                 </Form.Group>
                 <Form.Group
                   controlId="formBasicPhone"
@@ -178,15 +175,14 @@ const EditDealer = (props) => {
                     required
                     type="tel"
                     placeholder="Enter Mobile"
-                    name="mobile"
-                    ref={register({
+                    {...register("mobile", {
                       required: "Required",
                       pattern: {
                         message: "Invalid Mobile Number",
                       },
                     })}
                   />
-                  {errors.mobile && errors.mobile.message}
+                  {errors.mobile && <span className="error-message">{errors.mobile.message}</span>}
                 </Form.Group>
               </div>
               <div className="row">
@@ -196,14 +192,13 @@ const EditDealer = (props) => {
                     defaultValue={singleDealersData.email}
                     type="email"
                     placeholder="Enter Email Address"
-                    name="email"
-                    ref={register({
+                    {...register("email", {
                       pattern: {
                         message: "invalid Email Address",
                       },
                     })}
                   />
-                  {errors.email && errors.email.message}
+                  {errors.email && <span className="error-message">{errors.email.message}</span>}
                 </Form.Group>
                 <Form.Group controlId="address" className="col-md-6 col-sm-12">
                   <Form.Label>Address*</Form.Label>
@@ -213,14 +208,13 @@ const EditDealer = (props) => {
                     as="textarea"
                     placeholder="Enter Permanent Address"
                     rows="1"
-                    name="address"
-                    ref={register({
+                    {...register("address", {
                       pattern: {
                         message: "Invalid Address",
                       },
                     })}
                   />
-                  {errors.address && errors.address.message}
+                  {errors.address && <span className="error-message">{errors.address.message}</span>}
                 </Form.Group>
               </div>
               <Form.Label>Dealer Photo (Optional)</Form.Label>
@@ -246,7 +240,7 @@ const EditDealer = (props) => {
                     name="damagedealer"
                     checked={singleDealersData.is_damage_dealer}
                     className=""
-                    refdata={register({
+                    refdata={register("damagedealer", {
                       pattern: {
                         message: "Select the Checkbox",
                       },

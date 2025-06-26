@@ -3,14 +3,14 @@ import { useForm } from "react-hook-form";
 import { Form, Button } from 'react-bootstrap';
 import axios from 'axios';
 import API_URL from "../../../config";
-// import { getCurrentDate } from "../../utils/dateConverter";
+import { getCurrentDate } from "../../../utils/dateConverter";
 import { getStoredProducts, getStoredTransMode } from "../utils";
 
 const PRODUCTS = getStoredProducts();
 const TRANS_MODES = getStoredTransMode();
 
 const ReturnBags = ({ tid, party_code, firm_name, party_name }) => {
-    const { handleSubmit, register } = useForm();
+    const { handleSubmit, register, formState: { errors } } = useForm();
     const [formSent, setFormSent] = useState(false);
     const [errorMsg, setErrorMsg] = useState("");
     const [products, setProducts] = useState({});
@@ -45,19 +45,19 @@ const ReturnBags = ({ tid, party_code, firm_name, party_name }) => {
             let finalProducts = [];
 
             for (let i = 0; i < prodLength; i++) {
-                if (values[`quantity${i}`] > 0) {
-                    if (values[`mode${i}`] === "") {
+                if (values[`quantity_${i}`] > 0) {
+                    if (values[`mode_${i}`] === "") {
                         setErrorMsg("Mode is required");
-                    } else if (values[`productcode${i}`] === "") {
+                    } else if (values[`productcode_${i}`] === "") {
                         setErrorMsg("Product is required");
-                    } else if (values[`producttype${i}`] === "") {
+                    } else if (values[`producttype_${i}`] === "") {
                         setErrorMsg("Producttype is required");
                     } else {
                         let formattedData = {
-                            quantity: parseFloat(values[`quantity${i}`]),
-                            producttype: values[`producttype${i}`],
-                            productcode: values[`productcode${i}`],
-                            returnmode: TRANS_MODES[values[`mode${i}`]],
+                            quantity: parseFloat(values[`quantity_${i}`]),
+                            producttype: values[`producttype_${i}`],
+                            productcode: values[`productcode_${i}`],
+                            returnmode: TRANS_MODES[values[`mode_${i}`]],
                             partycode: party_code,
                             reason: values['reason']
                         };
@@ -101,43 +101,44 @@ const ReturnBags = ({ tid, party_code, firm_name, party_name }) => {
                     {
                         products && products.length > 0 &&
                         <Form onSubmit={handleSubmit(onReturnSubmit)}>
-                            {/* <div className="returndate transaction-date"><div>Date:</div>
-                            <input defaultValue={getCurrentDate()} className="ml-2 mt-2 date-picker" type="date" name="trans_date"
-                                ref={register({
-                                    pattern: {
-                                        message: "Cannot be empty"
-                                    }
-                                })}
-                            />
-                        </div> */}
+                            <div className="returndate transaction-date">
+                                <div>Date:</div>
+                                <input 
+                                    defaultValue={getCurrentDate()} 
+                                    className="ml-2 mt-2 date-picker" 
+                                    type="date" 
+                                    {...register("trans_date", {
+                                        required: "Date cannot be empty"
+                                    })}
+                                />
+                            </div>
+                            {errors.trans_date && <div className="error-text">{errors.trans_date.message}</div>}
                             <Form.Label className="mb-3 ml-3"><b>Items to be Returned</b></Form.Label>
                             {
                                 products && products.length > 0 && products.map((item, inx) => {
                                     return (
                                         <Form.Group className=" mt-2 col-md-12 d-flex justify-content-center align-items-center" key={`returnmain${inx}`}>
                                             {/* <div class="product-text">{item.productcode}</div> */}
-                                            <select onChange={onChangeHandler} defaultValue="" name={`productcode${inx}`} className="form-control transaction-fields"
-                                                ref={register({
-                                                    pattern: {
-                                                        message: "Value Must be Selected"
-                                                    }
+                                            <select onChange={onChangeHandler} defaultValue="" className="form-control transaction-fields"
+                                                {...register(`productcode_${inx}`, {
+                                                    required: "Product must be selected"
                                                 })}
                                             >
                                                 <option disabled value="">Select Product</option>
                                                 <option value={item.productcode}>{PRODUCTS[item.productcode].name}</option>
                                             </select>
-                                            <Form.Control onChange={onChangeHandler} className="transaction-fields" type="number" placeholder={`Qty(max ${item.delivered} mt)`} name={`quantity${inx}`} step="0.001" min="0.0" max={item.delivered}
-                                                ref={register({
-                                                    pattern: {
-                                                        message: "Invalid Quantity Amount"
-                                                    }
+                                            {errors[`productcode_${inx}`] && <div className="error-text">{errors[`productcode_${inx}`].message}</div>}
+                                            <Form.Control onChange={onChangeHandler} className="transaction-fields" type="number" placeholder={`Qty(max ${item.delivered} mt)`} step="0.001" min="0.0" max={item.delivered}
+                                                {...register(`quantity_${inx}`, {
+                                                    valueAsNumber: true,
+                                                    min: { value: 0, message: "Quantity must be greater than 0" },
+                                                    max: { value: item.delivered, message: `Quantity cannot exceed ${item.delivered}` }
                                                 })}
                                             />
-                                            <select onChange={onChangeHandler} defaultValue="" name={`mode${inx}`} className="form-control transaction-fields"
-                                                ref={register({
-                                                    pattern: {
-                                                        message: "Value Must be Selected"
-                                                    }
+                                            {errors[`quantity_${inx}`] && <div className="error-text">{errors[`quantity_${inx}`].message}</div>}
+                                            <select onChange={onChangeHandler} defaultValue="" className="form-control transaction-fields"
+                                                {...register(`mode_${inx}`, {
+                                                    required: "Mode must be selected"
                                                 })}
                                             >
                                                 <option disabled value="">Select Mode</option>
@@ -150,31 +151,30 @@ const ReturnBags = ({ tid, party_code, firm_name, party_name }) => {
                                                     })
                                                 }
                                             </select>
+                                            {errors[`mode_${inx}`] && <div className="error-text">{errors[`mode_${inx}`].message}</div>}
 
-                                            <select onChange={onChangeHandler} defaultValue="" name={`producttype${inx}`} className="form-control transaction-fields"
-                                                ref={register({
-                                                    pattern: {
-                                                        message: "Value Must be Selected"
-                                                    }
+                                            <select onChange={onChangeHandler} defaultValue="" className="form-control transaction-fields"
+                                                {...register(`producttype_${inx}`, {
+                                                    required: "Product type must be selected"
                                                 })}
                                             >
                                                 <option disabled value="">Product Type</option>
                                                 <option value="FRESH">Fresh</option>
                                                 <option value="DAMAGE">Damage</option>
                                             </select>
+                                            {errors[`producttype_${inx}`] && <div className="error-text">{errors[`producttype_${inx}`].message}</div>}
                                         </Form.Group>
                                     )
                                 })
                             }
                             <Form.Group className="col-md-12">
                                 <Form.Label className="productlbl mb-3">Reason for Return</Form.Label>
-                                <Form.Control as="textarea" placeholder="Any comments here..." rows="3" name="reason"
-                                    ref={register({
-                                        pattern: {
-                                            message: "Invalid Reason"
-                                        }
+                                <Form.Control as="textarea" placeholder="Any comments here..." rows="3"
+                                    {...register("reason", {
+                                        required: "Reason is required"
                                     })}
                                 />
+                                {errors.reason && <div className="error-text">{errors.reason.message}</div>}
                             </Form.Group>
                             <div className="err-msg">{errorMsg}</div>
                             <Button variant="primary" type="submit" className="submit-btn" >Return</Button>

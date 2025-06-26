@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import CheckboxComp from '../../../components/common/Form/Checkbox';
 import API_URL from '../../../config';
 import { Dropdown } from 'semantic-ui-react';
 
 const AddConsignee = () => {
-    const { handleSubmit, register, errors } = useForm();
+    const { handleSubmit, register, formState: { errors } } = useForm();
+    const navigate = useNavigate();
     let [formSent, setFormSent] = useState(false);
     let [formResponse, setFormResponse] = useState({});
     let [filename, setFileName] = useState('');
@@ -47,7 +49,7 @@ const AddConsignee = () => {
                 setFileName('');
                 setFormSent(true);
                 setTimeout(() => {
-                    window.location.replace('#/consignees');
+                    navigate('/atcportal/consignees');
                 }, 700);
             }
         });

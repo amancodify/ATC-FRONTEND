@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactExport from 'react-data-export';
+import ReactExport from '../../../utils/excelExport';
 import { convertDate } from '../../../utils/dateConverter';
 
 const PartyReport = ({ allTrans, partyData }) => {
