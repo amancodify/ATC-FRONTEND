@@ -75,7 +75,7 @@ const ExcelReport = ({ fetchedData }) => {
             <ExcelFile
                 element={
                     <div className="d-flex">
-                        <img className="excel-img" src="images/excel-download.png" alt="Download" />
+                        <img className="excel-img" src="/images/excel-download.png" alt="Download" />
                         <div className="generate-txt">Download Report</div>
                     </div>
                 }
