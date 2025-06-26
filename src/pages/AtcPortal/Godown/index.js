@@ -3,9 +3,9 @@ import axios from "axios";
 import API_URL from "../../../config";
 
 const GODOWN_BANNERS = {
-    "Siwan": "images/siwan_godown.png",
-    "Chapra": "images/chapra_godown.png",
-    "Gopalganj": "images/godown-blank.png"
+    "Siwan": "/images/siwan_godown.png",
+    "Chapra": "/images/chapra_godown.png",
+    "Gopalganj": "/images/godown-blank.png"
 }
 
 
