@@ -3560,6 +3560,9 @@ a:link {
     color: rgb(68, 68, 68);
     transition: all 0.2s ease-in-out;
     z-index: 99;
+    background: none;
+    border: none;
+    outline: none;
     &:hover {
         transform: translateX(-4px);
     }

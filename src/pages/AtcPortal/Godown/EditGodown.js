@@ -47,7 +47,7 @@ const EditGodown = () => {
   return (
     <div className="col-md-12 createparty-main">
       <button 
-        onClick={() => navigate(`/viewgodown/${godownCode}`)} 
+        onClick={() => navigate(`/atcportal/viewgodown/${godownCode}`)} 
         className="back-btn backbtn-edit-godown"
       >
         <i className="fa fa-arrow-left" aria-hidden="true"></i> Back
@@ -73,7 +73,7 @@ const EditGodown = () => {
                     type="text"
                     placeholder="Enter Godown Code"
                     name="godownCode"
-                    ref={register({
+                    {...register("godownCode", {
                       required: "Required",
                       pattern: {
                         message: "Invalid Godown Code",
@@ -85,7 +85,7 @@ const EditGodown = () => {
                 <Form.Group controlId="godownName" className="col-md-5">
                   <Form.Label>Godown Name*</Form.Label>
                   <Form.Control required type="text" placeholder="Godown Name" name="godownName" defaultValue={singleGodownData.godownname}
-                    ref={register({
+                    {...register("godownName", {
                       required: 'Required',
                       pattern: {
                         message: "Invalid Godown Name"
@@ -97,26 +97,26 @@ const EditGodown = () => {
                 <Form.Group controlId="inchargeName" className="col-md-10">
                   <Form.Label>Incharge Name*</Form.Label>
                   <Form.Control required type="text" placeholder="Godown Incharge Name" name="inchargeName" defaultValue={singleGodownData.inchargename}
-                    ref={register({
+                    {...register("inchargeName", {
                       required: 'Required',
                       pattern: {
                         message: "Invalid Inchage Name"
                       }
                     })}
                   />
-                  {errors.godownCode && errors.godownCode.message}
+                  {errors.inchargeName && errors.inchargeName.message}
                 </Form.Group>
                 <Form.Group controlId="inchargemobile" className="col-md-5">
                   <Form.Label>Godown Incharge Mobile*</Form.Label>
                   <Form.Control required type="number" placeholder="Enter Incharge Mobile" name="inchargeMobile" defaultValue={singleGodownData.inchargemobile}
-                    ref={register({
+                    {...register("inchargeMobile", {
                       required: 'Required',
                       pattern: {
                         message: "Invalid Mobile"
                       }
                     })}
                   />
-                  {errors.godownCode && errors.godownCode.message}
+                  {errors.inchargeMobile && errors.inchargeMobile.message}
                 </Form.Group>
                 <Form.Group controlId="formBasicPhone" className="col-md-5">
                   <Form.Label>Godown Location*</Form.Label>
@@ -124,7 +124,7 @@ const EditGodown = () => {
                     name="godownLocation"
                     defaultValue={singleGodownData.godownLocation}
                     className="form-control"
-                    ref={register({
+                    {...register("godownLocation", {
                       required: "Required",
                       pattern: {
                         message: "Value Must be Selected",
@@ -139,7 +139,7 @@ const EditGodown = () => {
                     <option value="Chapra">Chapra</option>
                     <option value="Gopalganj">Gopalganj</option>
                   </select>
-                  {errors.gender && errors.gender.message}
+                  {errors.godownLocation && errors.godownLocation.message}
                 </Form.Group>
                 <Form.Group controlId="formBasicPhone" className="col-md-10">
                   <Form.Label>Address*</Form.Label>
@@ -150,7 +150,7 @@ const EditGodown = () => {
                     placeholder="Enter Godown Address"
                     rows="4"
                     name="address"
-                    ref={register({
+                    {...register("address", {
                       pattern: {
                         message: "Invalid Address",
                       },
