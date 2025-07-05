@@ -30,7 +30,7 @@ const Godown = (() => {
                         allGodowons.length > 0 && allGodowons.map((item, inx) => {
                             return (
                                 <div className="col-md-4 submain-img" key={`godown_${inx}`}>
-                                    <a className="banner-container text-align-center" href={`#viewgodown/${item.godowncode}`}>
+                                    <a className="banner-container text-align-center" href={`viewgodown/${item.godowncode}`}>
                                         <img className="godown-img" src={GODOWN_BANNERS[item.godownlocation]} alt="" />
                                         <span>{item.godownname}</span>
                                     </a>
