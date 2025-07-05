@@ -30,7 +30,7 @@ const CreateGodown = (() => {
     return (
         <div className="col-md-12 createparty-main">
             <div className="godown-title-main">
-                <img className="godown-vector" src="images/create_godown.png" alt="" />
+                <img className="godown-vector" src="/images/create_godown.png" alt="" />
                 <p className="title-godown">Add New Godown</p>
             </div>
             <div className="col-md-9 col-sm-12 col-xs-12 createdealer-main">

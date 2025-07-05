@@ -468,7 +468,7 @@ const AllTransactions = () => {
                             onClick={() => deleteTrans(transactionId)}
                         >
                             {loadingText === "Deleting" ? (
-                                <img className="loading-gif" src="./images/loading.gif" alt="" />
+                                <img className="loading-gif" src="/images/loading.gif" alt="" />
                             ) : (
                                 ""
                             )}

@@ -7,12 +7,12 @@ import Events from "../../components/common/Crousal";
 import Footer2 from "../../components/common/Footer2";
 
 var sliderImages = [
-  "images/6.jpg",
-  "images/7.jpg",
-  "images/3.jpg",
-  "images/4.jpg",
-  "images/5.jpg",
-  "images/1.jpg",
+  "/images/6.jpg",
+  "/images/7.jpg",
+  "/images/3.jpg",
+  "/images/4.jpg",
+  "/images/5.jpg",
+  "/images/1.jpg",
 ];
 
 const AboutUs =(() => {

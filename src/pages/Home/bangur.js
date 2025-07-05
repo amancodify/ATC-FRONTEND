@@ -16,12 +16,9 @@ const Bangur = () => {
                                         fact that it is a very trustworthy and a market leading company, Specially in Bihar where development is on
                                         its peak, many other competitors are there in the area and we together still leading the market and selling
                                         highest numbers of bags per month. <br /> <br />
-                                        <iframe
-                                            className="mb-2 bangur-video"
-                                            title="Bangur Ad"
-                                            height="250"
-                                            src="https://www.youtube.com//embed/IeFTUjF077Y"
-                                        ></iframe>
+
+                                        <iframe width="560" height="315" src="https://www.youtube.com/embed/dsqg5AdeguI?si=7x6_qQPbfyR-H6_2" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                                        
                                         Bangur Cement is a product of Shree Cement which has three main brands -{' '}
                                         <b>Shree Ultra, Bangur Cement & Rockstrong.</b> It is among the top five cement groups in India. It is the
                                         first Cement Company and one of the three Indian companies who were listed as New Sustainability Champion by
@@ -30,7 +27,7 @@ const Bangur = () => {
                                     </div>
                                 </div>
                                 <div className="col-md-4 bangur-bag">
-                                    <img src="./images/bangur.png" alt="" />
+                                    <img src="/images/bangur.png" alt="" />
                                 </div>
                             </div>
                         </div>

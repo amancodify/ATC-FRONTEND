@@ -20,7 +20,7 @@ const Career = (() => {
     return (
         <div className="row justify-content-center section-padding px-5" id="career">
             <div className="col-lg-5 col-md-12 col-sm-12 col-xs-12 career-left">
-                <img src="images/career.jpg" className="career-img" alt="" />
+                <img src="/images/career.jpg" className="career-img" alt="" />
             </div>
             <div className="col-lg-5 col-md-12 col-sm-12 col-xs-12 career-right">
                 <h1>CAREER COUNTER</h1>

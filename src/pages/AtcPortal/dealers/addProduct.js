@@ -33,7 +33,7 @@ const AddProduct = (() => {
                 <span> &nbsp; Adding Product...</span>
             </div>
             <p className="title-createdealer">Add Product</p>
-            <img className="add-vector" src="images/product.png" alt="" />
+            <img className="add-vector" src="/images/product.png" alt="" />
             <div className="col-md-9 col-sm-12 col-xs-12 createdealer-main">
                 <Form onSubmit={handleSubmit(onSubmit)} className="container">
                     <div className="row">

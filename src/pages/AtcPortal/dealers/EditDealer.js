@@ -60,7 +60,7 @@ const EditDealer = () => {
       {singleDealersData.gender && (
         <>
           <p className="title-createdealer">Update Dealer/Party</p>
-          <img className="add-vector" src="images/addillis.png" alt="" />
+          <img className="add-vector" src="/images/addillis.png" alt="" />
           <div className="col-md-9 col-sm-12 col-xs-12 createdealer-main">
             <Form onSubmit={handleSubmit(onSubmit)} className="container">
               <div className="row">

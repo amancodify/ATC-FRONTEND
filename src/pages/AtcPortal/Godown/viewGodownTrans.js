@@ -171,7 +171,7 @@ const GodownTransactions = () => {
                             className={`deletebtn ${loadingText === 'Deleting' ? 'disable-btn' : ''}`}
                             onClick={() => onDeleteClick(currentId)}
                         >
-                            {loadingText === 'Deleting' ? <img className="loading-gif" src="./images/loading.gif" alt="" /> : ''}
+                            {loadingText === 'Deleting' ? <img className="loading-gif" src="/images/loading.gif" alt="" /> : ''}
                             {loadingText}
                         </button>
                     </div>

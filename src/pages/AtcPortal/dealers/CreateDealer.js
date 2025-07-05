@@ -53,7 +53,7 @@ const CreateDealer = (() => {
                 <img style={{ display: "block" }} src="/images/loading3.gif" alt="" />
             </div>
             <p className="title-createdealer">Add Dealer/Party</p>
-            <img className="add-vector" src="images/addillis.png" alt="" />
+            <img className="add-vector" src="/images/addillis.png" alt="" />
             <div className="col-md-9 col-sm-12 col-xs-12 createdealer-main">
                 <Form onSubmit={handleSubmit(onSubmit)} className="container">
                     <div className="row">

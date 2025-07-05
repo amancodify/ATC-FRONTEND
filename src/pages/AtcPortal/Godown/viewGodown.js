@@ -65,7 +65,7 @@ const ViewGodwon = () => {
                     <Link to={`/atcportal/godown`} className="back-btn back-btn-godown "><i className="fa fa-arrow-left" aria-hidden="true"></i> Back</Link>
                     <div className="row">
                         <div className="col-md-6">
-                            <img className="vector-img" src="images/godown_vector1.jpg" alt="" />
+                            <img className="vector-img" src="/images/godown_vector1.jpg" alt="" />
                         </div>
                         <div className="col-md-5 godown-description">
                             <div className="title">{godownname}</div>

@@ -57,7 +57,7 @@ const EditGodown = () => {
           <div className="godown-title-main">
             <img
               className="godown-vector"
-              src="images/create_godown.png"
+              src="/images/create_godown.png"
               alt=""
             />
             <p className="title-godown">Update Godown</p>
