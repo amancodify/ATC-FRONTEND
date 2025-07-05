@@ -11,8 +11,8 @@ function convertDate() {
     return [date.getFullYear(), mnth, day].join("-");
 }
 
-const RefillGodown = ({ godownCode }) => {
-    const { handleSubmit, register } = useForm();
+const RefillGodown = () => {
+    const { handleSubmit, register, formState: { errors } } = useForm();
     let [formSent, setFormSent] = useState(false);
     const [products, setProducts] = useState([]);
 
@@ -27,102 +27,146 @@ const RefillGodown = ({ godownCode }) => {
             })
     }, []);
 
-    const onSubmit = values => {
+    const onSubmit = (values) => {
         let refillData = {
             productCode: values.productCode,
             fresh: parseFloat(values.fresh),
             damage: parseFloat(values.damage),
-            godownCode: godownCode,
+            godownCode: values.godownCode || '',
             refillDate: values.refilldate,
             refillMode: values.refillMode
         };
 
         axios.post(`${API_URL}/godowns/stockrefill`, refillData)
             .then(response => {
-                if (response.data.status === "200") {
+                if (response.data.status === "200" || response.data.status === 200) {
                     setFormSent(true);
                 }
                 setTimeout(() => window.location.reload(), 500)
-
             })
     }
     return (
         <>
-            <div className="row justify-content-center refill-form px-2 py-5 mt-4">
-                <div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <Form onSubmit={handleSubmit(onSubmit)}>
-                        <div className="d-flex transaction-date"><div>Date:</div> <input defaultValue={convertDate()} required name="refilldate" ref={register({
-                            pattern: {
-                                message: "Cannot be empty"
-                            }
-                        })} className="ml-2 popup-date date-picker" type="date" /></div>
-
-
-                        <Form.Group className="col-md-12 d-flex justify-content-center align-items-center">
-                            <select
-                                name="productCode"
-                                defaultValue=""
-                                className="form-control transaction-fields"
-                                ref={register({
-                                    required: "Required",
-                                    pattern: {
-                                        message: "Value Must be Selected",
-                                    },
-                                })}
-                                required
-                            >
-                                <option value="" disabled>Select Product</option>
-                                {
-                                    products && products.length > 0 && products.map((item, inx) => {
-                                        return (
-                                            <option key={`pc_${inx}`} value={item.productcode}>{item.productname}</option>
-                                        )
-                                    })
-                                }
-                            </select>
-
-                            <Form.Control placeholder="Fresh Quantity" className="transaction-fields" type="number" name="fresh" step="0.001" min="0.0"
-                                ref={register({
-                                    required: 'Required',
-                                    pattern: {
-                                        message: "Cannot be empty"
+            <div className="col-md-12 createparty-main">
+                <p className="title-createdealer">Refill Godown</p>
+                <img className="add-vector" src="/images/godown_vector1.jpg" alt="" />
+                <div className="col-md-9 col-sm-12 col-xs-12 createdealer-main">
+                    <Form onSubmit={handleSubmit(onSubmit)} className="container">
+                        <div className="row">
+                            <Form.Group className="col-md-12 col-sm-12">
+                                <Form.Label>Date*</Form.Label>
+                                <Form.Control
+                                    defaultValue={convertDate()}
+                                    required
+                                    type="date"
+                                    placeholder="Select Date"
+                                    {...register("refilldate", {
+                                        required: 'Required',
+                                        pattern: {
+                                            message: "Cannot be empty"
+                                        }
+                                    })}
+                                />
+                                {errors.refilldate && errors.refilldate.message}
+                            </Form.Group>
+                        </div>
+                        <div className="row">
+                            <Form.Group className="col-md-12 col-sm-12">
+                                <Form.Label>Product*</Form.Label>
+                                <Form.Control
+                                    as="select"
+                                    name="productCode"
+                                    defaultValue=""
+                                    className="transaction-fields"
+                                    {...register("productCode", {
+                                        required: "Required",
+                                        pattern: {
+                                            message: "Value Must be Selected",
+                                        },
+                                    })}
+                                    required
+                                >
+                                    <option value="" disabled>Select Product</option>
+                                    {
+                                        products && products.length > 0 && products.map((item, inx) => {
+                                            return (
+                                                <option key={`pc_${inx}`} value={item.productcode}>{item.productname}</option>
+                                            )
+                                        })
                                     }
-                                })}
-                            />
-                            <Form.Control placeholder="Damage Quantity" className="transaction-fields" type="number" name="damage" step="0.001" min="0.0"
-                                ref={register({
-                                    required: 'Required',
-                                    pattern: {
-                                        message: "invalid phone Number"
-                                    }
-                                })}
-                            />
-
-                            <select
-                                name="refillMode"
-                                defaultValue=""
-                                className="form-control transaction-fields"
-                                ref={register({
-                                    required: "Required",
-                                    pattern: {
-                                        message: "Value Must be Selected",
-                                    },
-                                })}
-                                required
-                            >
-                                <option value="" disabled>Select Mode</option>
-                                <option value="RAIL">Railway</option>
-                                <option value="STOCKTRANSFER">Stock Transfer</option>
-                            </select>
-                        </Form.Group>
-                        <Button variant="primary" type="submit" className="submit-btn" >Refill</Button>
+                                </Form.Control>
+                                {errors.productCode && errors.productCode.message}
+                            </Form.Group>
+                        </div>
+                        <div className="row">
+                            <Form.Group className="col-md-6 col-sm-12">
+                                <Form.Label>Fresh Quantity*</Form.Label>
+                                <Form.Control
+                                    placeholder="Fresh Quantity"
+                                    type="number"
+                                    name="fresh"
+                                    step="0.001"
+                                    min="0.0"
+                                    {...register("fresh", {
+                                        required: 'Required',
+                                        pattern: {
+                                            message: "Cannot be empty"
+                                        }
+                                    })}
+                                />
+                                {errors.fresh && errors.fresh.message}
+                            </Form.Group>
+                            <Form.Group className="col-md-6 col-sm-12">
+                                <Form.Label>Damage Quantity*</Form.Label>
+                                <Form.Control
+                                    placeholder="Damage Quantity"
+                                    type="number"
+                                    name="damage"
+                                    step="0.001"
+                                    min="0.0"
+                                    {...register("damage", {
+                                        required: 'Required',
+                                        pattern: {
+                                            message: "Cannot be empty"
+                                        }
+                                    })}
+                                />
+                                {errors.damage && errors.damage.message}
+                            </Form.Group>
+                        </div>
+                        <div className="row">
+                            <Form.Group className="col-md-12 col-sm-12">
+                                <Form.Label>Refill Mode*</Form.Label>
+                                <Form.Control
+                                    as="select"
+                                    name="refillMode"
+                                    defaultValue=""
+                                    className="transaction-fields"
+                                    {...register("refillMode", {
+                                        required: "Required",
+                                        pattern: {
+                                            message: "Value Must be Selected",
+                                        },
+                                    })}
+                                    required
+                                >
+                                    <option value="" disabled>Select Mode</option>
+                                    <option value="RAIL">Railway</option>
+                                    <option value="STOCKTRANSFER">Stock Transfer</option>
+                                </Form.Control>
+                                {errors.refillMode && errors.refillMode.message}
+                            </Form.Group>
+                        </div>
+                        <div className="d-flex justify-content-center align-items-center mt-4">
+                            <Button variant="primary" type="submit" className="create-btn px-4" >Refill</Button>
+                        </div>
                     </Form>
+                    {
+                        (formSent && <div className="form-thankyou-text"><i className="thumb-up mr-2 fa fa-thumbs-up"></i>
+                            Godown Refill Successful !!</div>)
+                    }
                 </div>
             </div>
-            {
-                (formSent && <div className="form-thankyou-text"><i className="thumb-up mr-2 fa fa-thumbs-up"></i>
-                    Godown Refill Successful !!</div>)
-            }
         </>
     )
 }

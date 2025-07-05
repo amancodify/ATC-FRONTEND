@@ -57,7 +57,7 @@ const GodownPartyTrans = () => {
         <>
             <div className="col-md-12">
                 <button 
-                    onClick={() => navigate(`/viewgodown/${godownCode}`)} 
+                    onClick={() => navigate(`/atcportal/viewgodown/${godownCode}`)} 
                     className="back-btn back-btn-gt"
                 >
                     <i className="fa fa-arrow-left" aria-hidden="true"></i> Go Back To Godown
