@@ -99,7 +99,7 @@ const OpeningBalance = ({ partyCode, openingDone }) => {
                   className="ml-2 date-picker"
                   type="date"
                   name="opening_balance_date"
-                  ref={register({
+                  {...register("opening_balance_date", {
                     pattern: {
                       message: "Cannot be empty",
                     },
@@ -121,7 +121,7 @@ const OpeningBalance = ({ partyCode, openingDone }) => {
                         step="0.001"
                         min="0.0"
                         onChange={(e) => handleOnChange(e, item.productcode)}
-                        ref={register({
+                        {...register("delivered", {
                           pattern: {
                             message: "Cannot be empty",
                           },
@@ -137,7 +137,7 @@ const OpeningBalance = ({ partyCode, openingDone }) => {
                         step="0.001"
                         min="0.0"
                         onChange={(e) => handleOnChange(e, item.productcode)}
-                        ref={register({
+                        {...register("billed", {
                           pattern: {
                             message: "invalid phone Number",
                           },
