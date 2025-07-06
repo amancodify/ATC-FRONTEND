@@ -1572,7 +1572,7 @@ a:link {
     position: relative;
     display: flex;
     flex-direction: column;
-    padding: 50px;
+    padding-top: 20px;
     align-items: center;
     color: rgb(66, 66, 66);
     font-weight: 500;
@@ -1594,15 +1594,18 @@ a:link {
         box-shadow: 0px 6px 12px #0000001a;
         border: 1px solid rgb(226, 226, 226);
         border-radius: 5px;
-        padding: 50px;
+        padding: 20px;
         position: relative;
         @media only screen and (max-width: 600px) {
             padding: 30px 0px;
             border: none;
         }
+        .container {
+            padding-top: 20px;;
+        }
     }
     .add-vector {
-        height: 100px;
+        width: 70px;
         position: absolute;
         left: 14%;
         z-index: 99;

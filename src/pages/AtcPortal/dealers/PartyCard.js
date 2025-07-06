@@ -101,7 +101,7 @@ const PartyCard = ({
                     <div className="card-full">
                         <div className="d-flex align-items-center justify-content-center">
                             <img
-                                src={"https://www.w3schools.com/howto/img_avatar.png"}
+                                src="/images/default_avatar.jpg"
                                 className="icon"
                                 alt=""
                             />

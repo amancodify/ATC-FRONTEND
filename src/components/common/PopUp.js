@@ -1,7 +1,7 @@
 import React from "react";
 import Modal from 'react-bootstrap/Modal';
 
-const Popup = ({ show, onHide, children, hideFooter = true, footerContent = "", title, size="lg", headerImg }) => {
+const Popup = ({ show, onHide, children, hideFooter = true, footerContent = "", title, size="xl", headerImg }) => {
   return (
     <Modal
       {...{ show, onHide }}

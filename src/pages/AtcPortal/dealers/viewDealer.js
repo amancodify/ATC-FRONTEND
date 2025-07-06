@@ -117,7 +117,7 @@ const ViewDealer = () => {
                             <div className="col-md-2 d-flex flex-column align-items-center justify-content-center">
                                 <img
                                     className="userimg mt-1"
-                                    src="https://www.w3schools.com/howto/img_avatar.png"
+                                    src="/images/default_avatar.jpg"
                                     alt=""
                                 />
                             </div>
