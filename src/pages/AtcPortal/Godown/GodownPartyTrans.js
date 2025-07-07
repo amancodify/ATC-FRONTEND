@@ -5,6 +5,7 @@ import { convertDate } from '../../../utils/dateConverter';
 import API_URL from '../../../config';
 import EmptyDataBannerComp from '../dealers/emptyDataBanner';
 import GodownPartyTransactionsReport from './godownPartyTransactionReport';
+import get from 'lodash/get';
 
 const GodownPartyTrans = () => {
     const { id: godownCode } = useParams();
@@ -45,7 +46,7 @@ const GodownPartyTrans = () => {
                 } else {
                     setPartyTrans((prev) => [...prev, ...response.data.data.data]);
                 }
-                setGodownData(response.data.data.data[0]?.godowndetails || {});
+                setGodownData(get(response, 'data.data.data[0].godowndetails', {}));
             })
             .catch((err) => {
                 console.log(err);
