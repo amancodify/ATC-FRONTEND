@@ -32,17 +32,26 @@ const GodownPartyTrans = () => {
     const [fromDate, setFromDate] = useState(currentDateFormatted);
     const [toDate, setToDate] = useState(currentDateFormatted);
 
+    // Pagination state
+    const [page, setPage] = useState(1);
+    const [limit] = useState(10); // You can make this dynamic if needed
+
     useEffect(() => {
         axios
-            .get(`${API_URL}/godowns/partytransactions/${godownCode}`)
+            .get(`${API_URL}/godowns/partytransactions/${godownCode}?page=${page}&limit=${limit}`)
             .then((response) => {
-                setPartyTrans(response.data.data);
-                setGodownData(response.data.data[0].godowndetails);
+                if (page === 1) {
+                    setPartyTrans(response.data.data.data);
+                } else {
+                    setPartyTrans((prev) => [...prev, ...response.data.data.data]);
+                }
+                setGodownData(response.data.data.data[0]?.godowndetails || {});
             })
             .catch((err) => {
                 console.log(err);
             });
-    }, [godownCode]);
+        // eslint-disable-next-line
+    }, [godownCode, page, limit]);
 
     const dateWiseTransactions = () => {
         let requestData = {
@@ -154,6 +163,28 @@ const GodownPartyTrans = () => {
                             );
                         })}
                     {partyTrans.length <= 0 && <EmptyDataBannerComp />}
+                </div>
+                {/* Pagination Controls */}
+                <div className="my-5" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginTop: 16 }}>
+                    <span style={{ marginRight: 8 }}>Page {page}</span>
+                    <button
+                        className="arrow-btn"
+                        onClick={() => {
+                            setPartyTrans([]);
+                            setPage((prev) => Math.max(1, prev - 1));
+                        }}
+                        disabled={page === 1}
+                        style={{ marginRight: 4 }}
+                    >
+                        <i className="fa fa-arrow-left" aria-hidden="true"></i>
+                    </button>
+                    <button
+                        className="arrow-btn"
+                        onClick={() => setPage((prev) => prev + 1)}
+                        disabled={partyTrans.length < page * limit}
+                    >
+                        <i className="fa fa-arrow-right" aria-hidden="true"></i>
+                    </button>
                 </div>
             </div>
         </>
