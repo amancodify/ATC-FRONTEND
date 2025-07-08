@@ -122,7 +122,7 @@ const ViewDealer = () => {
                                 />
                             </div>
                             <div className="col-md-8">
-                                <div className="firmname">
+                                <div className="firmname" style={{ lineHeight: "35px" }}>
                                     {firm_name} - {party_code}
                                 </div>
                                 <table>

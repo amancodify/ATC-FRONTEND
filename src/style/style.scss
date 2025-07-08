@@ -1907,7 +1907,7 @@ a:link {
 .party-details-text {
     font-size: 16px;
     color: rgb(73, 73, 73);
-    margin-bottom: 7px;
+    margin-bottom: 4px;
     display: flex;
     align-items: center;
     font-weight: 600;
@@ -3012,6 +3012,7 @@ a:link {
         padding: 30px 50px 80px 50px;
         box-shadow: 0px 3px 12px #00000029;
         border-radius: 5px;
+        min-width: 400px;
         @media only screen and (max-width: 600px) {
             padding: 20px 20px;
             box-shadow: none;
@@ -3332,6 +3333,7 @@ a:link {
     justify-content: center;
     align-items: center;
     position: relative;
+    min-height: 50vh;
     @media only screen and (max-width: 600px) {
         width: 90%;
     }

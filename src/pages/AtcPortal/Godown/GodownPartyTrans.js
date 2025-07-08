@@ -1,17 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import get from 'lodash/get';
 import { convertDate } from '../../../utils/dateConverter';
 import API_URL from '../../../config';
 import EmptyDataBannerComp from '../dealers/emptyDataBanner';
 import GodownPartyTransactionsReport from './godownPartyTransactionReport';
-import get from 'lodash/get';
 
 const GodownPartyTrans = () => {
     const { id: godownCode } = useParams();
     const navigate = useNavigate();
-    const d = new Date();
-    const currentDateFormatted = d.toISOString().split('T')[0]; // YYYY-MM-DD format
 
     // Helper function to format date as "time ago"
     const getTimeAgo = (dateString) => {
@@ -30,8 +28,6 @@ const GodownPartyTrans = () => {
 
     const [godownData, setGodownData] = useState({});
     const [partyTrans, setPartyTrans] = useState([]);
-    const [fromDate, setFromDate] = useState(currentDateFormatted);
-    const [toDate, setToDate] = useState(currentDateFormatted);
 
     // Pagination state
     const [page, setPage] = useState(1);
@@ -54,15 +50,6 @@ const GodownPartyTrans = () => {
         // eslint-disable-next-line
     }, [godownCode, page, limit]);
 
-    const dateWiseTransactions = () => {
-        let requestData = {
-            id: godownCode,
-            fromDate: `${convertDate(fromDate)}T00:00:00.000Z`,
-            toDate: `${convertDate(toDate, 1)}T00:00:00.000Z`,
-        };
-        axios.post(`${API_URL}/`, requestData).then((response) => {});
-    };
-
     return (
         <>
             <div className="col-md-12">
@@ -84,36 +71,12 @@ const GodownPartyTrans = () => {
                             <b>Address:</b> {godownData.address}
                         </div>
                     </div>
-                    <div className="d-flex flex-column">
+                    <div className="d-flex flex-column mt-4">
                         <div className="firmname d-flex justify-content-between">
                             <div className="g-trans-title">Godown Party Transactions</div>
                         </div>
                         <div className="mt-3">
                             <GodownPartyTransactionsReport transactionData={partyTrans} godownData={godownData} />
-                        </div>
-                        <div className="date-range-main">
-                            <div className="submain">
-                                <i onClick={() => window.location.reload()} className="fa fa-refresh reset-trans" aria-hidden="true"></i>
-                                <div className="d-flex flex-column">
-                                    <input
-                                        type="date"
-                                        value={fromDate}
-                                        onChange={(e) => setFromDate(e.target.value)}
-                                        className="form-control"
-                                        style={{ fontSize: '12px' }}
-                                    />
-                                </div>
-                                <input
-                                    type="date"
-                                    value={toDate}
-                                    onChange={(e) => setToDate(e.target.value)}
-                                    className="form-control"
-                                    style={{ fontSize: '12px', margin: '0px 10px' }}
-                                />
-                            </div>
-                            <div onClick={dateWiseTransactions} className="fetchbtn">
-                                Fetch
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -165,28 +128,31 @@ const GodownPartyTrans = () => {
                         })}
                     {partyTrans.length <= 0 && <EmptyDataBannerComp />}
                 </div>
-                {/* Pagination Controls */}
-                <div className="my-5" style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', marginTop: 16 }}>
-                    <span style={{ marginRight: 8 }}>Page {page}</span>
-                    <button
-                        className="arrow-btn"
-                        onClick={() => {
-                            setPartyTrans([]);
-                            setPage((prev) => Math.max(1, prev - 1));
+                {/* Pagination Controls - Load More style */}
+                {partyTrans.length > 0 && partyTrans.length % limit === 0 && (
+                    <div
+                        style={{
+                            textAlign: "center",
+                            marginTop: "40px",
+                            marginBottom: "40px",
+                            fontSize: "16px",
+                            fontWeight: "500",
                         }}
-                        disabled={page === 1}
-                        style={{ marginRight: 4 }}
                     >
-                        <i className="fa fa-arrow-left" aria-hidden="true"></i>
-                    </button>
-                    <button
-                        className="arrow-btn"
-                        onClick={() => setPage((prev) => prev + 1)}
-                        disabled={partyTrans.length < page * limit}
-                    >
-                        <i className="fa fa-arrow-right" aria-hidden="true"></i>
-                    </button>
-                </div>
+                        <span
+                            onClick={() => setPage((prev) => prev + 1)}
+                            className="d-flex align-items-center justify-content-center load-more"
+                            style={{ cursor: "pointer" }}
+                        >
+                            Load More
+                            <i
+                                style={{ fontSize: "22px", marginLeft: "10px" }}
+                                className="fa fa-angle-down"
+                                aria-hidden="true"
+                            ></i>
+                        </span>
+                    </div>
+                )}
             </div>
         </>
     );

@@ -53,7 +53,7 @@ const AtcReports = () => {
                         </div>
                     </div>
                     {!showLink && (
-                        <div className="col-md-12 report-link-main">
+                        <div className="col-md-12 d-flex align-items-center justify-content-center report-link-main">
                             <img className="empty-img" src="/images/emptydata.gif" alt="" />
                             <div className="empty-text mb-3">
                                 {statusText === "Generating report please wait..." ? (
