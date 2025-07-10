@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHouseDamage } from '@fortawesome/free-solid-svg-icons';
 import { Link } from "react-router-dom";
 import { lastUpdatedDateFormat } from "../../../utils/dateConverter";
 import axios from "axios";
@@ -88,13 +90,14 @@ const PartyCard = ({
                                     event.stopPropagation();
                                     nudgeUser();
                                 }}
-                                className="mr-4 nudge-main"
+                                className="mr-3 nudge-main"
                             >
-                                <i className="fa fa-hand-o-right nudge-icon" aria-hidden="true"></i>{" "}
-                                <span className="text">Notify User</span>
+                                <i className="fa fa-envelope nudge-icon mr-1" aria-hidden="true"></i>
+                                <span className="">Notify User</span>
                             </span>
                         )}
                         <span>
+                            <i className="fa fa-repeat mr-1" aria-hidden="true"></i>
                             Last Updated: <em>{updatedDate}</em>
                         </span>
                     </div>
@@ -109,7 +112,11 @@ const PartyCard = ({
                                 <div className="firmname">
                                     {firmName} - {partyCode}
                                 </div>
-                                {isDamageDealer ? <i class="fa fa-bolt d-letter" aria-hidden="true"></i> : ""}
+                                {isDamageDealer ? (
+                                    <span title="This Dealer Buys Damage Bags">
+                                        <FontAwesomeIcon icon={faHouseDamage} className="d-letter" />
+                                    </span>
+                                ) : ""}
                                 <div className="ownername">
                                     <i className="fa fa-user iconwidth"></i> {OwnerName}
                                 </div>

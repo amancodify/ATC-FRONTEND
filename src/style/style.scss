@@ -1473,7 +1473,6 @@ a:link {
             bottom: 4px;
             font-size: 10px;
             font-family: "Poppins";
-            font-weight: bold;
             color: rgb(88, 88, 88);
             @media only screen and (max-width: 600px) {
                 font-size: 8px;
@@ -3877,12 +3876,13 @@ a:link {
     height: auto !important;
 }
 .nudge-main {
-    color: #000142;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
-    font-weight: 500;
     &:hover {
-        color: rgb(0, 98, 67);
+        color: rgb(18, 18, 18);
+        background-color: rgb(233, 233, 233);
+        border-radius: 8px;
+        padding: 2px 6px;
     }
     .nudge-icon {
         margin-right: 2px;
