@@ -62,8 +62,9 @@ const CreateDealer = (() => {
                             <Form.Control required type="text" placeholder="Enter Dealer Code"
                                 {...register("firmCode", {
                                     required: 'Required',
-                                    pattern: {
-                                        message: "Invalid Dealer Code"
+                                    validate: {
+                                        noSpaces: v => !/\s/.test(v) || "No spaces allowed in Dealer Code",
+                                        notOnlyEnglish: v => /[^\u0000-\u007F]/.test(v) || "Dealer Code must contain at least one non-English character"
                                     }
                                 })}
                             />
