@@ -11,7 +11,7 @@ function convertDate() {
     return [date.getFullYear(), mnth, day].join("-");
 }
 
-const RefillGodown = () => {
+const RefillGodown = ({ godownCode }) => {
     const { handleSubmit, register, formState: { errors } } = useForm();
     let [formSent, setFormSent] = useState(false);
     const [products, setProducts] = useState([]);
@@ -24,7 +24,7 @@ const RefillGodown = () => {
             .catch(err => {
                 console.log(err);
                 window.location.reload();
-            })
+            });
     }, []);
 
     const onSubmit = (values) => {
@@ -32,7 +32,7 @@ const RefillGodown = () => {
             productCode: values.productCode,
             fresh: parseFloat(values.fresh),
             damage: parseFloat(values.damage),
-            godownCode: values.godownCode || '',
+            godownCode: godownCode,
             refillDate: values.refilldate,
             refillMode: values.refillMode
         };
@@ -41,8 +41,12 @@ const RefillGodown = () => {
             .then(response => {
                 if (response.data.status === "200" || response.data.status === 200) {
                     setFormSent(true);
+                    setTimeout(() => window.location.reload(), 500);
                 }
-                setTimeout(() => window.location.reload(), 500)
+            })
+            .catch(err => {
+                console.error("Error refilling godown:", err);
+                alert("Error: " + (err.response?.data?.message || err.message));
             })
     }
     return (
