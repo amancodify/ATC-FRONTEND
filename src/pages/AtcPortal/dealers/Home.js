@@ -195,9 +195,30 @@ const Home = () => {
                         Showing {allDealers && allDealers.length} of {totalDealersCount} dealers
                     </div>
                     <div className="filter-main ml-4">
-                        <div className="filterby-text" onClick={() => setShowFilters(!showFilters)}>
-                            Filters <i className="fa fa-angle-down down-arrow ml-1"></i>
-                        </div>
+                        <button
+                            type="button"
+                            className="filterby-text"
+                            onClick={() => setShowFilters(!showFilters)}
+                            aria-expanded={showFilters}
+                            style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: 8,
+                                padding: '0.45rem 0.7rem',
+                                borderRadius: 8,
+                                border: '1px solid rgba(0,0,0,0.08)',
+                                background: 'linear-gradient(180deg, #ffffff, #f8fafc)',
+                                boxShadow: '0 4px 10px rgba(2,6,23,0.04)',
+                                cursor: 'pointer',
+                                fontWeight: 600,
+                            }}
+                        >
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M3 5h18M6 12h12M10 19h4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                            <span>Filters</span>
+                            <i className="fa fa-angle-down down-arrow ml-1" style={{ marginLeft: 6 }}></i>
+                        </button>
                         {showFilters && (
                             <div className="all-filters-cb-main" ref={clickRef}>
                                 {/* <div className="pointer"></div> */}
@@ -287,7 +308,7 @@ const Home = () => {
                                         Load More
                                         <i
                                             style={{ fontSize: "22px", marginLeft: "10px" }}
-                                            class="fa fa-angle-down"
+                                            className="fa fa-angle-down"
                                             aria-hidden="true"
                                         ></i>
                                     </span>
