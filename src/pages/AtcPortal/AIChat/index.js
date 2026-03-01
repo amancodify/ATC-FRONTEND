@@ -8,6 +8,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import axios from 'axios';
 import Markdown from 'markdown-to-jsx';
 import API_URL from '../../../config';
+import { getToken } from '../../../utils/auth';
 import './AIChat.scss';
 
 const SUGGESTIONS = [
@@ -154,7 +155,7 @@ const AIChat = () => {
                 setMentionLoading(true);
                 const { data } = await axios.get(
                     `${API_URL}/ai/dealers/search`,
-                    { params: { q: mentionQuery }, withCredentials: true, signal: controller.signal },
+                    { params: { q: mentionQuery }, withCredentials: true, headers: { Authorization: `Bearer ${getToken()}` }, signal: controller.signal },
                 );
                 if (data.success) {
                     setMentionResults(data.dealers || []);
@@ -261,7 +262,7 @@ const AIChat = () => {
             const { data } = await axios.post(
                 `${API_URL}/ai/chat`,
                 payload,
-                { timeout: 30000, withCredentials: true, signal: controller.signal },
+                { timeout: 30000, withCredentials: true, headers: { Authorization: `Bearer ${getToken()}` }, signal: controller.signal },
             );
 
             if (data.success) {
