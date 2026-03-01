@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from "react";
 import { Navigate } from "react-router-dom";
 import axios from "axios";
-import PropTypes from "prop-types";
 import { login, isLoggedIn } from "../../utils/auth";
 import API_URL from "../../config";
 
@@ -275,7 +274,5 @@ const UserLogin = () => {
     </div>
   );
 };
-
-UserLogin.propTypes = {};
 
 export default UserLogin;

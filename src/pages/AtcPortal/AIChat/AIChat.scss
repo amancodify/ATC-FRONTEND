@@ -1,0 +1,706 @@
+/**
+ * AI Chat — clean, full-height chat UI
+ */
+
+// ─── tokens ───────────────────────────────────────────────────────────────────
+$navy:       #04092c;
+$dark-navy:  #100029;
+$accent:     #4f46e5;
+$accent-hover: #4338ca;
+$bg:         #f8f9fb;
+$white:      #ffffff;
+$border:     #e5e7eb;
+$text:       #1f2937;
+$text-muted: #6b7280;
+$error-bg:   #fef2f2;
+$error:      #dc2626;
+$radius:     10px;
+$radius-sm:  6px;
+$font:       'Poppins', system-ui, sans-serif;
+
+// ─── root container (fixed to fill viewport right of sidebar, below navbar) ──
+.ai-chat {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 50px;           // below top navbar
+    left: 21%;           // right of sidebar (sidebar is max-width 21%)
+    right: 0;
+    bottom: 0;
+    background: $bg;
+    font-family: $font;
+    z-index: 1;
+
+    @media (max-width: 600px) {
+        left: 0;         // sidebar collapses on mobile
+        top: 50px;
+    }
+}
+
+// ─── header ───────────────────────────────────────────────────────────────────
+.ai-chat__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 24px;
+    background: $white;
+    border-bottom: 1px solid $border;
+    flex-shrink: 0;
+    z-index: 2;
+}
+
+.ai-chat__header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    h1 {
+        margin: 0;
+        font-size: 17px;
+        font-weight: 600;
+        color: $text;
+    }
+}
+
+.ai-chat__logo {
+    font-size: 20px;
+    color: $accent;
+}
+
+.ai-chat__new-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    background: $bg;
+    color: $text;
+    border: 1px solid $border;
+    border-radius: $radius-sm;
+    font-family: $font;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
+
+    &:hover {
+        background: darken($bg, 3%);
+        border-color: darken($border, 10%);
+        box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+
+    svg { flex-shrink: 0; }
+}
+
+// ─── body (scrollable area) ───────────────────────────────────────────────────
+.ai-chat__body {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+
+    // thin scrollbar
+    scrollbar-width: thin;
+    scrollbar-color: #d1d5db transparent;
+
+    &::-webkit-scrollbar { width: 5px; }
+    &::-webkit-scrollbar-thumb {
+        background: #d1d5db;
+        border-radius: 3px;
+    }
+}
+
+// ─── welcome / empty state ────────────────────────────────────────────────────
+.ai-chat__welcome {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    text-align: center;
+
+    h2 {
+        font-size: 24px;
+        font-weight: 700;
+        color: $text;
+        margin: 0 0 6px;
+    }
+
+    > p {
+        color: $text-muted;
+        font-size: 14px;
+        margin: 0 0 32px;
+    }
+}
+
+.ai-chat__welcome-icon {
+    font-size: 48px;
+    color: $accent;
+    margin-bottom: 16px;
+}
+
+// ─── suggestions ──────────────────────────────────────────────────────────────
+.ai-chat__suggestions {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    max-width: 620px;
+    width: 100%;
+
+    @media (max-width: 600px) {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+}
+
+.ai-chat__suggestion {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    background: $white;
+    border: 1px solid $border;
+    border-radius: $radius;
+    font-family: $font;
+    font-size: 13px;
+    color: $text;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+
+    &:hover:not(:disabled) {
+        border-color: $accent;
+        box-shadow: 0 2px 8px rgba(79,70,229,0.10);
+        transform: translateY(-1px);
+    }
+
+    &:disabled { opacity: .5; cursor: not-allowed; }
+}
+
+.ai-chat__suggestion-icon { font-size: 20px; flex-shrink: 0; }
+
+// ─── messages list ────────────────────────────────────────────────────────────
+.ai-chat__messages {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 20px 24px;
+
+    @media (max-width: 600px) { padding: 14px 12px; }
+}
+
+// ─── single message row ──────────────────────────────────────────────────────
+.ai-chat__msg {
+    display: flex;
+    gap: 10px;
+    max-width: 80%;
+
+    &--user {
+        align-self: flex-end;
+        flex-direction: row-reverse;
+
+        .ai-chat__time { text-align: right; }
+    }
+
+    &--assistant {
+        align-self: flex-start;
+
+        // Let assistant messages with tables expand wider
+        &:has(table) {
+            max-width: 95%;
+        }
+    }
+
+    @media (max-width: 600px) {
+        max-width: 92%;
+        &--assistant:has(table) { max-width: 98%; }
+    }
+}
+
+.ai-chat__msg-col {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+// ─── avatar ───────────────────────────────────────────────────────────────────
+.ai-chat__avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 14px;
+    margin-top: 2px;
+
+    &--ai {
+        background: linear-gradient(135deg, $accent, #7c3aed);
+        color: $white;
+    }
+}
+
+// ─── bubble ───────────────────────────────────────────────────────────────────
+.ai-chat__bubble {
+    padding: 10px 14px;
+    border-radius: $radius;
+    font-size: 14px;
+    line-height: 1.55;
+    word-break: break-word;
+
+    p { margin: 0; }
+
+    &--user {
+        background: $navy;
+        color: $white;
+        border-bottom-right-radius: 2px;
+    }
+
+    &--assistant {
+        background: $white;
+        color: $text;
+        border: 1px solid $border;
+        border-bottom-left-radius: 2px;
+    }
+
+    // ── markdown inside assistant bubbles ─────────────────
+    strong { font-weight: 600; }
+
+    code {
+        background: rgba(0,0,0,.06);
+        padding: 1px 5px;
+        border-radius: 4px;
+        font-family: 'SF Mono', 'Fira Code', monospace;
+        font-size: 12px;
+    }
+
+    pre {
+        background: #f3f4f6;
+        padding: 12px;
+        border-radius: $radius-sm;
+        overflow-x: auto;
+        margin: 8px 0;
+
+        code { background: transparent; padding: 0; }
+    }
+
+    // ── responsive table wrapper ──────────────────────────
+    .ai-chat__table-wrap {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        margin: 10px 0;
+        border: 1px solid $border;
+        border-radius: $radius-sm;
+
+        // thin horizontal scrollbar
+        scrollbar-width: thin;
+        scrollbar-color: #d1d5db transparent;
+        &::-webkit-scrollbar { height: 5px; }
+        &::-webkit-scrollbar-thumb {
+            background: #d1d5db;
+            border-radius: 3px;
+        }
+    }
+
+    table {
+        border-collapse: collapse;
+        width: max-content;
+        min-width: 100%;
+        margin: 0;
+        font-size: 13px;
+
+        th, td {
+            border: 1px solid $border;
+            padding: 8px 14px;
+            text-align: left;
+            white-space: nowrap;
+        }
+
+        th {
+            background: #f3f4f6;
+            font-weight: 600;
+            color: $text;
+            position: sticky;
+            top: 0;
+            z-index: 1;
+        }
+
+        td {
+            color: $text;
+        }
+
+        tr:nth-child(even) td { background: #fafbfc; }
+        tr:hover td { background: #eef2ff; }
+
+        // Allow long text cells to wrap after a reasonable width
+        td.wrap-cell, th.wrap-cell {
+            white-space: normal;
+            min-width: 120px;
+            max-width: 250px;
+        }
+    }
+
+    blockquote {
+        border-left: 3px solid $accent;
+        padding-left: 12px;
+        margin: 8px 0;
+        color: $text-muted;
+        font-style: italic;
+    }
+
+    ul, ol { margin: 6px 0; padding-left: 20px; }
+    li { margin: 3px 0; }
+
+    // ── collapsible reasoning panel ───────────────────────
+    details.query-panel {
+        margin-top: 10px;
+        border: 1px solid $border;
+        border-radius: $radius-sm;
+        overflow: hidden;
+        background: #fafafa;
+
+        summary {
+            padding: 8px 12px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 12px;
+            color: $text-muted;
+            background: #f3f4f6;
+            border-bottom: 1px solid transparent;
+            user-select: none;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: background 0.2s;
+
+            &::-webkit-details-marker { display: none; }
+
+            &::before {
+                content: '▶';
+                font-size: 9px;
+                transition: transform 0.2s;
+                display: inline-block;
+            }
+
+            &:hover { background: #ebedf0; }
+        }
+
+        &[open] summary {
+            border-bottom-color: $border;
+            &::before { transform: rotate(90deg); }
+        }
+
+        > pre {
+            margin: 0;
+            border-radius: 0;
+            font-size: 11px;
+            max-height: 260px;
+            overflow-y: auto;
+        }
+    }
+
+    // ── loading dots ──────────────────────────────────────
+    &--loading {
+        padding: 14px 18px;
+    }
+}
+
+// ─── bounce dots ──────────────────────────────────────────────────────────────
+.ai-chat__dots {
+    display: flex;
+    gap: 5px;
+
+    span {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: $text-muted;
+        animation: bounce 1.4s infinite ease-in-out both;
+
+        &:nth-child(1) { animation-delay: 0s; }
+        &:nth-child(2) { animation-delay: 0.16s; }
+        &:nth-child(3) { animation-delay: 0.32s; }
+    }
+}
+
+@keyframes bounce {
+    0%, 80%, 100% { transform: scale(0.4); opacity: 0.4; }
+    40%           { transform: scale(1);   opacity: 1; }
+}
+
+// ─── message actions ──────────────────────────────────────────────────────────
+.ai-chat__msg-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 6px;
+    font-size: 12px;
+}
+
+.ai-chat__copy-btn {
+    background: none;
+    border: none;
+    color: $text-muted;
+    font-family: $font;
+    font-size: 12px;
+    cursor: pointer;
+    padding: 0;
+    transition: color 0.15s;
+
+    &:hover { color: $text; }
+}
+
+.ai-chat__doc-count {
+    color: $text-muted;
+    margin-left: auto;
+}
+
+// ─── timestamp ────────────────────────────────────────────────────────────────
+.ai-chat__time {
+    display: block;
+    font-size: 10px;
+    color: #9ca3af;
+    margin-top: 2px;
+    padding: 0 4px;
+}
+
+// ─── error toast ──────────────────────────────────────────────────────────────
+.ai-chat__error {
+    position: absolute;
+    bottom: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 18px;
+    background: $error-bg;
+    border: 1px solid #fecaca;
+    border-radius: $radius-sm;
+    color: $error;
+    font-size: 13px;
+    z-index: 10;
+    animation: fadeIn 0.25s ease;
+    max-width: 90%;
+
+    button {
+        background: none;
+        border: none;
+        color: $error;
+        font-size: 16px;
+        cursor: pointer;
+        padding: 0;
+        flex-shrink: 0;
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateX(-50%) translateY(6px); }
+    to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+// ─── footer / input bar ──────────────────────────────────────────────────────
+.ai-chat__footer {
+    padding: 10px 24px;
+    background: $white;
+    border-top: 1px solid $border;
+    flex-shrink: 0;
+
+    @media (max-width: 600px) { padding: 8px 12px; }
+}
+
+.ai-chat__input-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;  // anchor for mention dropdown
+}
+
+.ai-chat__input {
+    flex: 1;
+    border: 1px solid $border;
+    border-radius: $radius;
+    padding: 10px 14px;
+    font-family: $font;
+    font-size: 14px;
+    line-height: 22px;
+    resize: none;
+    min-height: 42px;
+    max-height: 120px;
+    background: $bg;
+    color: $text;
+    transition: border-color 0.2s, box-shadow 0.2s;
+
+    &:focus {
+        outline: none;
+        border-color: $accent;
+        box-shadow: 0 0 0 3px rgba(79,70,229,0.10);
+    }
+
+    &:disabled {
+        background: #f3f4f6;
+        color: #9ca3af;
+        cursor: not-allowed;
+    }
+
+    &::placeholder { color: #9ca3af; }
+}
+
+.ai-chat__send-btn {
+    width: 42px;
+    height: 42px;
+    border: none;
+    border-radius: 50%;
+    background: $accent;
+    color: $white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background 0.2s, transform 0.1s;
+
+    svg { margin-left: 2px; }
+
+    &:hover:not(:disabled) { background: $accent-hover; }
+    &:active:not(:disabled) { transform: scale(0.95); }
+    &:disabled { opacity: 0.4; cursor: not-allowed; }
+}
+
+.ai-chat__hint {
+    display: block;
+    margin-top: 4px;
+    font-size: 11px;
+    color: #9ca3af;
+    padding-bottom: 0;
+}
+
+// ─── @mention dropdown ───────────────────────────────────────────────────────
+.ai-chat__mention-dropdown {
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 0;
+    right: 50px;  // leave space for send button
+    background: $white;
+    border: 1px solid $border;
+    border-radius: $radius;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+    max-height: 260px;
+    overflow-y: auto;
+    z-index: 100;
+    animation: mentionSlideUp 0.15s ease;
+
+    scrollbar-width: thin;
+    scrollbar-color: #d1d5db transparent;
+    &::-webkit-scrollbar { width: 4px; }
+    &::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 2px; }
+}
+
+@keyframes mentionSlideUp {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.ai-chat__mention-item {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    padding: 9px 14px;
+    cursor: pointer;
+    transition: background 0.1s;
+    border-bottom: 1px solid darken($bg, 2%);
+
+    &:last-child { border-bottom: none; }
+
+    &:hover,
+    &--active {
+        background: #eef2ff;
+    }
+}
+
+.ai-chat__mention-firm {
+    font-size: 13px;
+    font-weight: 600;
+    color: $text;
+}
+
+.ai-chat__mention-meta {
+    font-size: 11px;
+    color: $text-muted;
+}
+
+.ai-chat__mention-loading {
+    padding: 12px 14px;
+    font-size: 12px;
+    color: $text-muted;
+    text-align: center;
+}
+
+// ─── selected dealer chip ────────────────────────────────────────────────────
+.ai-chat__selected-dealer {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 6px;
+    padding: 4px 10px;
+    background: #eef2ff;
+    border: 1px solid #c7d2fe;
+    border-radius: 20px;
+    font-size: 12px;
+    color: $accent;
+    font-weight: 500;
+    width: fit-content;
+
+    button {
+        background: none;
+        border: none;
+        color: #6366f1;
+        font-size: 13px;
+        cursor: pointer;
+        padding: 0;
+        line-height: 1;
+        transition: color 0.15s;
+
+        &:hover { color: $error; }
+    }
+}
+
+// ─── welcome hint for @ ──────────────────────────────────────────────────────
+.ai-chat__mention-hint {
+    font-size: 12px;
+    color: $text-muted;
+    margin: 0 0 24px;
+
+    kbd {
+        display: inline-block;
+        padding: 1px 6px;
+        background: $white;
+        border: 1px solid $border;
+        border-radius: 3px;
+        font-family: monospace;
+        font-size: 12px;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.06);
+    }
+}
+
+// ─── typewriter cursor ────────────────────────────────────────────────────────
+// The bubble that's currently typing gets a blinking cursor at the end
+.ai-chat__bubble--assistant {
+    // During typing, the last inline element gets a pseudo-cursor
+    &.ai-chat__bubble--typing > div:first-child::after {
+        content: '▍';
+        display: inline;
+        color: $accent;
+        animation: cursorBlink 0.7s steps(2) infinite;
+        font-weight: 400;
+        margin-left: 1px;
+    }
+}
+
+@keyframes cursorBlink {
+    0%   { opacity: 1; }
+    50%  { opacity: 0; }
+    100% { opacity: 1; }
+}

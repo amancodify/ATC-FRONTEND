@@ -37,14 +37,24 @@ export const login = ({ token, age, name, email, redirectUrl = "/atcportal" }) =
     console.error("Missing required login parameters");
     return;
   }
-  const cookieOptions = { expires: age, secure: true, sameSite: 'Strict' };
+  // Check if running on localhost for development
+  const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+  const cookieOptions = { 
+    expires: age, 
+    secure: !isLocalhost, // Allow HTTP on localhost
+    sameSite: 'Lax' // Use Lax for better compatibility with cross-origin requests
+  };
   cookie.set('_rtok', token, cookieOptions);
   cookie.set('_loginname', name, cookieOptions);
   if (email) {
     cookie.set('_loginemail', email, cookieOptions);
   }
   // Session cookie for quick session check (shorter expiry)
-  cookie.set('verifiedSession', true, { expires: 300, secure: true, sameSite: 'Strict' });
+  cookie.set('verifiedSession', true, { 
+    expires: 300, 
+    secure: !isLocalhost, // Allow HTTP on localhost
+    sameSite: 'Lax' // Use Lax for better compatibility
+  });
   window.location.replace(redirectUrl);
 };
 

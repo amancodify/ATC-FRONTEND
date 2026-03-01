@@ -2,6 +2,7 @@ import React from "react";
 import cookie from "js-cookie";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { isLoggedIn, logout } from "../../utils/auth";
+import AIChat from "./AIChat";
 import Home from "./dealers/Home";
 import CreateDealer from "./dealers/CreateDealer";
 import AddConsignee from "./consignee/addConsignee";
@@ -32,7 +33,9 @@ const AtcPortalMain = () => {
                 <ControllerSection loginName={loginname} logoutHandler={logout} />
                 <div className="view-section-main">
                     <Routes>
-                        <Route index element={<Home />} />
+                        <Route index element={<AIChat />} />
+                        <Route path="ai-chat" element={<AIChat />} />
+                        <Route path="dealers" element={<Home />} />
                         <Route path="createdealer" element={<CreateDealer />} />
                         <Route path="addconsignee" element={<AddConsignee />} />
                         <Route path="godown" element={<Atcgodown />} />

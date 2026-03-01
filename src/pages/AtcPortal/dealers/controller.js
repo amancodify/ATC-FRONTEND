@@ -7,7 +7,7 @@ const ControllerSection = ({
     logoutHandler
 }) => {
     const [showLogout, setShowLogout] = useState(false);
-    const [currentTab, setCurrentTab] = useState(1);
+    const [currentTab, setCurrentTab] = useState(0); // AI Chat is default (tab 0)
 
     const ref = useRef(null);
     useOnClickOutside(ref, () => setShowLogout(false));
@@ -38,7 +38,17 @@ const ControllerSection = ({
                 <div className="options">
                     <div className="viewcontrols">
                         <div className="titles-section pl-4">View </div>
-                        <Link to="/atcportal/" className="add">
+                        <Link to="/atcportal/ai-chat" className="add">
+                            <div className={`add d-flex align-items-center pl-4 ${isCurrentTab(0) ? "active-tab" : ""}`} onClick={() => setCurrentTab(0)}>
+                                <img
+                                    src="/images/home-white.png"
+                                    className="icon"
+                                    alt=""
+                                />
+                                <div className="text">AI Chat</div>
+                            </div>
+                        </Link>
+                        <Link to="/atcportal/dealers" className="add">
                             <div className={`add d-flex align-items-center pl-4 ${isCurrentTab(1) ? "active-tab" : ""}`} onClick={() => setCurrentTab(1)}>
                                 <img
                                     src="/images/home-white.png"
