@@ -8,33 +8,27 @@ const ControllerSection = ({
 }) => {
     const location = useLocation();
     const [showLogout, setShowLogout] = useState(false);
-    const [currentTab, setCurrentTab] = useState(() => {
-        const pathname = location.pathname;
-        if (pathname.includes('/atcportal/dealers')) return 1;
-        if (pathname.includes('/atcportal/godown')) return 3;
-        if (pathname.includes('/atcportal/reports')) return 4;
-        if (pathname.includes('/atcportal/products')) return 9;
-        if (pathname.includes('/atcportal/createdealer')) return 5;
-        if (pathname.includes('/atcportal/creategodown')) return 7;
-        if (pathname.includes('/atcportal/addproduct')) return 8;
-        if (pathname.includes('/atcportal/ai-chat')) return 0;
+
+    const getTabFromPath = (pathname) => {
+        const normalizedPath = pathname.replace(/\/$/, '');
+        if (normalizedPath === '/atcportal' || normalizedPath === '/atcportal/dealers') return 1;
+        if (normalizedPath.includes('/atcportal/godown')) return 3;
+        if (normalizedPath.includes('/atcportal/reports')) return 4;
+        if (normalizedPath.includes('/atcportal/products')) return 9;
+        if (normalizedPath.includes('/atcportal/createdealer')) return 5;
+        if (normalizedPath.includes('/atcportal/creategodown')) return 7;
+        if (normalizedPath.includes('/atcportal/addproduct')) return 8;
+        if (normalizedPath.includes('/atcportal/ai-chat')) return 0;
         return 0;
-    });
+    };
+
+    const [currentTab, setCurrentTab] = useState(() => getTabFromPath(location.pathname));
 
     const ref = useRef(null);
     useOnClickOutside(ref, () => setShowLogout(false));
 
     useEffect(() => {
-        const pathname = location.pathname;
-        if (pathname.includes('/atcportal/dealers')) setCurrentTab(1);
-        else if (pathname.includes('/atcportal/godown')) setCurrentTab(3);
-        else if (pathname.includes('/atcportal/reports')) setCurrentTab(4);
-        else if (pathname.includes('/atcportal/products')) setCurrentTab(9);
-        else if (pathname.includes('/atcportal/createdealer')) setCurrentTab(5);
-        else if (pathname.includes('/atcportal/creategodown')) setCurrentTab(7);
-        else if (pathname.includes('/atcportal/addproduct')) setCurrentTab(8);
-        else if (pathname.includes('/atcportal/ai-chat')) setCurrentTab(0);
-        else setCurrentTab(0);
+        setCurrentTab(getTabFromPath(location.pathname));
     }, [location.pathname]);
 
     const isCurrentTab = (tab) => tab === currentTab;
