@@ -19,6 +19,7 @@ import ATCGodownpartyreturns from "./Godown/viewGodownReturns";
 import ATCReports from "./Reports";
 import ControllerSection from "./dealers/controller";
 import AtcAddProduct from "./dealers/addProduct";
+import ProductsPage from "./products";
 import ConsigneeHome from "./consignee";
 import ViewConsignee from "./consignee/viewConsignee";
 import ViewConsigneeTrans from "./consignee/viewConsigneeTrans";
@@ -41,6 +42,7 @@ const AtcPortalMain = () => {
                         <Route path="godown" element={<Atcgodown />} />
                         <Route path="creategodown" element={<AtcCreategodown />} />
                         <Route path="addproduct" element={<AtcAddProduct />} />
+                        <Route path="products" element={<ProductsPage />} />
                         <Route path="viewgodown/:id" element={<AtcViewgodown />} />
                         <Route path="dealer/:id" element={<AtcViewDealer />} />
                         <Route path="editprofile/:id" element={<AtcEditDealer />} />

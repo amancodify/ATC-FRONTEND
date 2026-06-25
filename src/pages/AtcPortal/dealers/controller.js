@@ -1,16 +1,41 @@
-import React, { useState, useRef } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState, useRef } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { useOnClickOutside } from './outsideClick';
 
 const ControllerSection = ({
     loginName,
     logoutHandler
 }) => {
+    const location = useLocation();
     const [showLogout, setShowLogout] = useState(false);
-    const [currentTab, setCurrentTab] = useState(0); // AI Chat is default (tab 0)
+    const [currentTab, setCurrentTab] = useState(() => {
+        const pathname = location.pathname;
+        if (pathname.includes('/atcportal/dealers')) return 1;
+        if (pathname.includes('/atcportal/godown')) return 3;
+        if (pathname.includes('/atcportal/reports')) return 4;
+        if (pathname.includes('/atcportal/products')) return 9;
+        if (pathname.includes('/atcportal/createdealer')) return 5;
+        if (pathname.includes('/atcportal/creategodown')) return 7;
+        if (pathname.includes('/atcportal/addproduct')) return 8;
+        if (pathname.includes('/atcportal/ai-chat')) return 0;
+        return 0;
+    });
 
     const ref = useRef(null);
     useOnClickOutside(ref, () => setShowLogout(false));
+
+    useEffect(() => {
+        const pathname = location.pathname;
+        if (pathname.includes('/atcportal/dealers')) setCurrentTab(1);
+        else if (pathname.includes('/atcportal/godown')) setCurrentTab(3);
+        else if (pathname.includes('/atcportal/reports')) setCurrentTab(4);
+        else if (pathname.includes('/atcportal/products')) setCurrentTab(9);
+        else if (pathname.includes('/atcportal/createdealer')) setCurrentTab(5);
+        else if (pathname.includes('/atcportal/creategodown')) setCurrentTab(7);
+        else if (pathname.includes('/atcportal/addproduct')) setCurrentTab(8);
+        else if (pathname.includes('/atcportal/ai-chat')) setCurrentTab(0);
+        else setCurrentTab(0);
+    }, [location.pathname]);
 
     const isCurrentTab = (tab) => tab === currentTab;
     return (
@@ -38,16 +63,6 @@ const ControllerSection = ({
                 <div className="options">
                     <div className="viewcontrols">
                         <div className="titles-section pl-4">View </div>
-                        <Link to="/atcportal/ai-chat" className="add">
-                            <div className={`add d-flex align-items-center pl-4 ${isCurrentTab(0) ? "active-tab" : ""}`} onClick={() => setCurrentTab(0)}>
-                                <img
-                                    src="/images/home-white.png"
-                                    className="icon"
-                                    alt=""
-                                />
-                                <div className="text">AI Chat</div>
-                            </div>
-                        </Link>
                         <Link to="/atcportal/dealers" className="add">
                             <div className={`add d-flex align-items-center pl-4 ${isCurrentTab(1) ? "active-tab" : ""}`} onClick={() => setCurrentTab(1)}>
                                 <img
@@ -86,6 +101,22 @@ const ControllerSection = ({
                                     alt=""
                                 />
                                 <div className="text">Reports</div>
+                            </div>
+                        </Link>
+                        <Link to="/atcportal/products" className="add">
+                            <div className={`add d-flex align-items-center pl-4 ${isCurrentTab(9) ? "active-tab" : ""}`} onClick={() => setCurrentTab(9)}>
+                                <img src="/images/addgodwon-white.png" className="icon" alt="" />
+                                <div className="text">Products</div>
+                            </div>
+                        </Link>
+                        <Link to="/atcportal/ai-chat" className="add">
+                            <div className={`add d-flex align-items-center pl-4 ${isCurrentTab(0) ? "active-tab" : ""}`} onClick={() => setCurrentTab(0)}>
+                                <img
+                                    src="/images/home-white.png"
+                                    className="icon"
+                                    alt=""
+                                />
+                                <div className="text">AI Chat</div>
                             </div>
                         </Link>
                     </div>
