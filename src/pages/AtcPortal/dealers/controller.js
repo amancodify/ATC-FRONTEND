@@ -11,14 +11,29 @@ const ControllerSection = ({
 
     const getTabFromPath = (pathname) => {
         const normalizedPath = pathname.replace(/\/$/, '');
+
         if (normalizedPath === '/atcportal' || normalizedPath === '/atcportal/dealers') return 1;
-        if (normalizedPath.includes('/atcportal/godown')) return 3;
-        if (normalizedPath.includes('/atcportal/reports')) return 4;
-        if (normalizedPath.includes('/atcportal/products')) return 9;
-        if (normalizedPath.includes('/atcportal/createdealer')) return 5;
-        if (normalizedPath.includes('/atcportal/creategodown')) return 7;
-        if (normalizedPath.includes('/atcportal/addproduct')) return 8;
-        if (normalizedPath.includes('/atcportal/ai-chat')) return 0;
+        if (
+            normalizedPath.startsWith('/atcportal/dealer') ||
+            normalizedPath.startsWith('/atcportal/transactions') ||
+            normalizedPath.startsWith('/atcportal/editprofile')
+        ) return 1;
+
+        if (
+            normalizedPath.startsWith('/atcportal/godown') ||
+            normalizedPath.startsWith('/atcportal/viewgodown') ||
+            normalizedPath.startsWith('/atcportal/godownrefilltransactions') ||
+            normalizedPath.startsWith('/atcportal/godownpartytransaction') ||
+            normalizedPath.startsWith('/atcportal/godownpartyreturns')
+        ) return 3;
+
+        if (normalizedPath.startsWith('/atcportal/reports')) return 4;
+        if (normalizedPath.startsWith('/atcportal/products')) return 9;
+        if (normalizedPath.startsWith('/atcportal/createdealer')) return 5;
+        if (normalizedPath.startsWith('/atcportal/creategodown')) return 7;
+        if (normalizedPath.startsWith('/atcportal/addproduct')) return 8;
+        if (normalizedPath.startsWith('/atcportal/ai-chat')) return 0;
+
         return 0;
     };
 
