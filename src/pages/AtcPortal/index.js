@@ -34,7 +34,7 @@ const AtcPortalMain = () => {
                 <ControllerSection loginName={loginname} logoutHandler={logout} />
                 <div className="view-section-main">
                     <Routes>
-                        <Route index element={<AIChat />} />
+                        <Route index element={<Home />} />
                         <Route path="ai-chat" element={<AIChat />} />
                         <Route path="dealers" element={<Home />} />
                         <Route path="createdealer" element={<CreateDealer />} />
