@@ -64,7 +64,6 @@ const CreateDealer = (() => {
                                     required: 'Required',
                                     validate: {
                                         noSpaces: v => !/\s/.test(v) || "No spaces allowed in Dealer Code",
-                                        notOnlyEnglish: v => /[^\x00-\x7F]/.test(v) || "Dealer Code must contain at least one non-English character"
                                     }
                                 })}
                             />
