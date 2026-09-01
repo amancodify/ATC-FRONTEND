@@ -23,19 +23,33 @@ import ProductsPage from "./products";
 import ConsigneeHome from "./consignee";
 import ViewConsignee from "./consignee/viewConsignee";
 import ViewConsigneeTrans from "./consignee/viewConsigneeTrans";
+import PortalTopBar from "./TopBar";
 
 const AtcPortalMain = () => {
     let validUser = isLoggedIn();
 
     if (validUser) {
         const loginname = cookie.get("_loginname");
+        const companyname = cookie.get("_companyname") || "Portal";
+        const accountStatus = cookie.get("_accountstatus") || null;
+        const aiChatEnabled = cookie.get("_aichat") === "1";
         return (
             <div className="atcportal-main">
-                <ControllerSection loginName={loginname} logoutHandler={logout} />
+                <PortalTopBar logoutHandler={logout} />
+                <ControllerSection
+                    loginName={loginname}
+                    companyName={companyname}
+                    accountStatus={accountStatus}
+                    aiChatEnabled={aiChatEnabled}
+                    logoutHandler={logout}
+                />
                 <div className="view-section-main">
                     <Routes>
                         <Route index element={<Home />} />
-                        <Route path="ai-chat" element={<AIChat />} />
+                        <Route
+                            path="ai-chat"
+                            element={aiChatEnabled ? <AIChat /> : <Navigate to="/atcportal" replace />}
+                        />
                         <Route path="dealers" element={<Home />} />
                         <Route path="createdealer" element={<CreateDealer />} />
                         <Route path="addconsignee" element={<AddConsignee />} />

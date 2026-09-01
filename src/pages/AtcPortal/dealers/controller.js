@@ -1,9 +1,24 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+    faUsers,
+    faWarehouse,
+    faChartPie,
+    faBoxOpen,
+    faRobot,
+    faUserPlus,
+    faCirclePlus,
+    faBars,
+} from "@fortawesome/free-solid-svg-icons";
+import CompLogo from "../../../assets/logo.png";
 import { useOnClickOutside } from './outsideClick';
 
 const ControllerSection = ({
     loginName,
+    companyName,
+    accountStatus,
+    aiChatEnabled,
     logoutHandler
 }) => {
     const location = useLocation();
@@ -32,9 +47,9 @@ const ControllerSection = ({
         if (normalizedPath.startsWith('/atcportal/createdealer')) return 5;
         if (normalizedPath.startsWith('/atcportal/creategodown')) return 7;
         if (normalizedPath.startsWith('/atcportal/addproduct')) return 8;
-        if (normalizedPath.startsWith('/atcportal/ai-chat')) return 0;
+        if (normalizedPath.startsWith('/atcportal/ai-chat')) return 10;
 
-        return 0;
+        return -1;
     };
 
     const [currentTab, setCurrentTab] = useState(() => getTabFromPath(location.pathname));
@@ -44,125 +59,103 @@ const ControllerSection = ({
 
     useEffect(() => {
         setCurrentTab(getTabFromPath(location.pathname));
+        setShowLogout(false);
     }, [location.pathname]);
 
     const isCurrentTab = (tab) => tab === currentTab;
-    return (
-        <>
-            <div className="col-md-3 controller-section">
-                <div className="showloggedinuser">
-                    <div className="d-flex flex-column align-items-center justify-content-center">
-                        <img src="/images/aiuser.jpg" alt="" className="userimg" />
-                        <div className="loginname">Welcome {loginName.split(" ")[0]} !</div>
-                    </div>
-                    <div className="settings-main" ref={ref}>
-                        <img onClick={() => setShowLogout(!showLogout)} src="https://www.materialui.co/materialIcons/navigation/arrow_drop_down_white_192x192.png" alt="" className="iconvector" />
-                        {
-                            showLogout &&
-                            <div className="settings-options">
-                                <div className="pointer"></div>
-                                <div className="option">Edit Profile</div>
-                                <div className="dropdown-divider"></div>
-                                <div className="option" onClick={() => logoutHandler()}>Logout</div>
-                            </div>
-                        }
-                    </div>
 
-                </div>
-                <div className="options">
-                    <div className="viewcontrols">
-                        <div className="titles-section pl-4">View </div>
-                        <Link to="/atcportal/dealers" className="add">
-                            <div className={`add d-flex align-items-center pl-4 ${isCurrentTab(1) ? "active-tab" : ""}`} onClick={() => setCurrentTab(1)}>
-                                <img
-                                    src="/images/home-white.png"
-                                    className="icon"
-                                    alt=""
-                                />
-                                <div className="text">Dealers</div>
-                            </div>
-                        </Link>
-                        {/* <Link to="/atcportal/consignees" className="add">
-                            <div className={`add d-flex align-items-center pl-4 ${isCurrentTab(2) ? "active-tab" : ""}`} onClick={() => setCurrentTab(2)} >
-                                <img
-                                    src="/images/home-white.png"
-                                    className="icon"
-                                    alt=""
-                                />
-                                <div className="text">Consignees</div>
-                            </div>
-                        </Link> */}
-                        <Link to="/atcportal/godown" className="add">
-                            <div className={`add d-flex align-items-center pl-4 ${isCurrentTab(3) ? "active-tab" : ""}`} onClick={() => setCurrentTab(3)}>
-                                <img
-                                    src="/images/addgodwon-white.png"
-                                    className="icon"
-                                    alt=""
-                                />
-                                <div className="text">Godowns</div>
-                            </div>
-                        </Link>
-                        <Link to="/atcportal/reports" className="add">
-                            <div className={`add d-flex align-items-center pl-4 ${isCurrentTab(4) ? "active-tab" : ""}`} onClick={() => setCurrentTab(4)}>
-                                <img
-                                    src="/images/addgodwon-white.png"
-                                    className="icon"
-                                    alt=""
-                                />
-                                <div className="text">Reports</div>
-                            </div>
-                        </Link>
-                        <Link to="/atcportal/products" className="add">
-                            <div className={`add d-flex align-items-center pl-4 ${isCurrentTab(9) ? "active-tab" : ""}`} onClick={() => setCurrentTab(9)}>
-                                <img src="/images/addgodwon-white.png" className="icon" alt="" />
-                                <div className="text">Products</div>
-                            </div>
-                        </Link>
-                        <Link to="/atcportal/ai-chat" className="add">
-                            <div className={`add d-flex align-items-center pl-4 ${isCurrentTab(0) ? "active-tab" : ""}`} onClick={() => setCurrentTab(0)}>
-                                <img
-                                    src="/images/home-white.png"
-                                    className="icon"
-                                    alt=""
-                                />
-                                <div className="text">AI Chat</div>
-                            </div>
-                        </Link>
-                    </div>
-                    <div className="createcontrols">
-                        <div className="titles-section pl-4">Create</div>
-                        <Link to="/atcportal/createdealer" className="add">
-                            <div className={`add d-flex align-items-center pl-4 ${isCurrentTab(5) ? "active-tab" : ""}`} onClick={() => setCurrentTab(5)}>
-                                <img src="/images/adduser-white.png" className="icon" alt="" />
-                                <div className="text">Add Dealer</div>
-                            </div>
-                        </Link>
-                        {/* <Link to="/atcportal/addconsignee" className="add">
-                            <div className={`add d-flex align-items-center pl-4 ${isCurrentTab(6) ? "active-tab" : ""}`} onClick={() => setCurrentTab(6)}>
-                                <img src="/images/adduser-white.png" className="icon" alt="" />
-                                <div className="text">Add Consignee</div>
-                            </div>
-                        </Link> */}
-                        <Link to="/atcportal/creategodown" className="add">
-                            <div className={`add d-flex align-items-center pl-4 ${isCurrentTab(7) ? "active-tab" : ""}`} onClick={() => setCurrentTab(7)}>
-                                <img src="/images/addgodwon-white.png" className="icon" alt="" />
-                                <div className="text">Add Godown</div>
-                            </div>
-                        </Link>
-                        <Link to="/atcportal/addproduct" className="add">
-                            <div className={`add d-flex align-items-center pl-4 ${isCurrentTab(8) ? "active-tab" : ""}`} onClick={() => setCurrentTab(8)}>
-                                <img src="/images/addgodwon-white.png" className="icon" alt="" />
-                                <div className="text">Add Product</div>
-                            </div>
-                        </Link>
-                    </div>
-                </div>
-                <div className="poweredby-txt">
-                    Aman Trading Company
-                </div>
+    const initials = loginName
+        .trim()
+        .split(/\s+/)
+        .map((w) => w[0])
+        .join("")
+        .slice(0, 2)
+        .toUpperCase();
+
+    const viewItems = [
+        { id: 1, to: "/atcportal/dealers", icon: faUsers, label: "Dealers" },
+        { id: 3, to: "/atcportal/godown", icon: faWarehouse, label: "Godowns" },
+        { id: 4, to: "/atcportal/reports", icon: faChartPie, label: "Reports" },
+        { id: 9, to: "/atcportal/products", icon: faBoxOpen, label: "Products" },
+    ];
+
+    const createItems = [
+        { id: 5, to: "/atcportal/createdealer", icon: faUserPlus, label: "Add Dealer" },
+        { id: 7, to: "/atcportal/creategodown", icon: faCirclePlus, label: "Add Godown" },
+        { id: 8, to: "/atcportal/addproduct", icon: faCirclePlus, label: "Add Product" },
+    ];
+
+    const renderItem = (item) => (
+        <Link key={item.id} to={item.to} className="sb-item-link">
+            <div
+                className={`sb-item ${isCurrentTab(item.id) ? "is-active" : ""}`}
+                onClick={() => setCurrentTab(item.id)}
+                aria-current={isCurrentTab(item.id) ? "page" : undefined}
+            >
+                <FontAwesomeIcon icon={item.icon} className="sb-ic" fixedWidth />
+                <span className="sb-txt">{item.label}</span>
             </div>
-        </>
-    )
-}
+        </Link>
+    );
+
+    const aiItem = aiChatEnabled && renderItem({ id: 10, to: "/atcportal/ai-chat", icon: faRobot, label: "AI Chat" });
+
+    return (
+        <div className="col-md-3 controller-section">
+            <div className="sb-user" ref={ref}>
+                <div className="sb-avatar" aria-hidden="true">{initials}</div>
+                <div className="sb-usermeta">
+                    <div className="sb-username" title={loginName}>{loginName}</div>
+                    <div className="sb-company" title={companyName}>{companyName}</div>
+                </div>
+                <button
+                    type="button"
+                    className="sb-gear"
+                    onClick={() => setShowLogout(!showLogout)}
+                    aria-label="Account options"
+                    aria-expanded={showLogout}
+                >
+                    <FontAwesomeIcon icon={faBars} />
+                </button>
+                {showLogout && (
+                    <div className="sb-menu" role="menu">
+                        <div className="sb-menu-head">
+                            <div className="sb-menu-name">{loginName}</div>
+                            <div className="sb-menu-sub">{companyName}</div>
+                        </div>
+                        <button type="button" className="sb-menu-item" role="menuitem" onClick={() => logoutHandler()}>
+                            Logout
+                        </button>
+                    </div>
+                )}
+            </div>
+
+            <nav className="sb-nav" aria-label="Portal navigation">
+                <div className="sb-label"><span>View</span></div>
+                {viewItems.map(renderItem)}
+                {aiItem}
+                <div className="sb-label"><span>Create</span></div>
+                {createItems.map(renderItem)}
+            </nav>
+
+            <div className="sb-footer">
+                <div className="sb-footer-top">
+                    <span className="sb-dot" aria-hidden="true" />
+                    <span className="sb-footer-txt" title={companyName}>{companyName}</span>
+                    {accountStatus && (
+                        <span className={`sb-status ${accountStatus === "ACTIVE" ? "ok" : "bad"}`}>
+                            {accountStatus === "ACTIVE" ? "Active" : "Suspended"}
+                        </span>
+                    )}
+                </div>
+                <Link to="/" className="sb-footer-brand" title="Visit website">
+                    <img className="sb-brand-logo" src={CompLogo} alt="ATC logo" />
+                    <span className="sb-brand-txt">Powered by ATC</span>
+                    <span className="sb-brand-arrow" aria-hidden="true">↗</span>
+                </Link>
+            </div>
+        </div>
+    );
+};
 
 export default ControllerSection;

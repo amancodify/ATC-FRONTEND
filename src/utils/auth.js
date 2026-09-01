@@ -28,10 +28,16 @@ export const clearCookie = () => {
   cookie.remove('_loginname');
   cookie.remove('verifiedSession');
   cookie.remove('_loginemail');
+  cookie.remove('_companycode');
+  cookie.remove('_companyname');
+  cookie.remove('_accountstatus');
+  cookie.remove('_role');
+  cookie.remove('_aichat');
 }
 
 // Log in the user and set cookies with enhanced options and error handling
-export const login = ({ token, age, name, email, redirectUrl = "/atcportal" }) => {
+// tenant: { role, companyCode, companyName, aiChatEnabled } (optional)
+export const login = ({ token, age, name, email, tenant, redirectUrl = "/atcportal" }) => {
   if (!token || !age || !name) {
     // eslint-disable-next-line no-console
     console.error("Missing required login parameters");
@@ -39,8 +45,8 @@ export const login = ({ token, age, name, email, redirectUrl = "/atcportal" }) =
   }
   // Check if running on localhost for development
   const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-  const cookieOptions = { 
-    expires: age, 
+  const cookieOptions = {
+    expires: age,
     secure: !isLocalhost, // Allow HTTP on localhost
     sameSite: 'Lax' // Use Lax for better compatibility with cross-origin requests
   };
@@ -49,9 +55,17 @@ export const login = ({ token, age, name, email, redirectUrl = "/atcportal" }) =
   if (email) {
     cookie.set('_loginemail', email, cookieOptions);
   }
+  if (tenant) {
+    if (tenant.role) cookie.set('_role', tenant.role, cookieOptions);
+    if (tenant.companyCode) cookie.set('_companycode', tenant.companyCode, cookieOptions);
+    if (tenant.companyName) cookie.set('_companyname', tenant.companyName, cookieOptions);
+    if (typeof tenant.aiChatEnabled === 'boolean') {
+      cookie.set('_aichat', tenant.aiChatEnabled ? '1' : '0', cookieOptions);
+    }
+  }
   // Session cookie for quick session check (shorter expiry)
-  cookie.set('verifiedSession', true, { 
-    expires: 300, 
+  cookie.set('verifiedSession', true, {
+    expires: 300,
     secure: !isLocalhost, // Allow HTTP on localhost
     sameSite: 'Lax' // Use Lax for better compatibility
   });
