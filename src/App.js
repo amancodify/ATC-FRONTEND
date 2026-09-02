@@ -14,16 +14,23 @@ import LoginComp from "./pages/Login";
 import ErrorComp from "./pages/ErrorPage";
 import AtcEvents from "./pages/Events";
 import AdminLogin from "./pages/Admin/AdminLogin";
-import AdminDashboard from "./pages/Admin/AdminDashboard";
+import AdminLayout from "./pages/Admin/AdminLayout";
+import DashboardPage from "./pages/Admin/DashboardPage";
+import CustomersPage from "./pages/Admin/CustomersPage";
+import OnboardPage from "./pages/Admin/OnboardPage";
+import TenantDetail from "./pages/Admin/TenantDetail";
+import SettingsPage from "./pages/Admin/SettingsPage";
 
-// The marketing navbar is hidden on portal routes - the portal renders its
-// own top bar (company branding + avatar user menu).
+// The marketing navbar is hidden on portal + admin console routes - they
+// render their own app shells (company top bar / admin side panel).
 const Shell = () => {
     const location = useLocation();
-    const isPortal = location.pathname.startsWith("/atcportal");
+    const hideNav =
+        location.pathname.startsWith("/atcportal") ||
+        location.pathname.startsWith("/admin");
     return (
         <>
-            {!isPortal && <AtcNav />}
+            {!hideNav && <AtcNav />}
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/about" element={<AboutUS />} />
@@ -31,7 +38,13 @@ const Shell = () => {
                 <Route path="/atcportal/*" element={<AtcPortal />} />
                 <Route path="/login" element={<LoginComp />} />
                 <Route path="/admin/login" element={<AdminLogin />} />
-                <Route path="/admin" element={<AdminDashboard />} />
+                <Route path="/admin" element={<AdminLayout />}>
+                    <Route index element={<DashboardPage />} />
+                    <Route path="customers" element={<CustomersPage />} />
+                    <Route path="tenants/:id" element={<TenantDetail />} />
+                    <Route path="onboard" element={<OnboardPage />} />
+                    <Route path="settings" element={<SettingsPage />} />
+                </Route>
                 <Route path="*" element={<ErrorComp />} />
             </Routes>
         </>

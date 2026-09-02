@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import cookie from "js-cookie";
+import axios from "axios";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { isLoggedIn, logout } from "../../utils/auth";
+import API_URL from "../../config";
 import AIChat from "./AIChat";
 import Home from "./dealers/Home";
 import CreateDealer from "./dealers/CreateDealer";
@@ -27,6 +29,20 @@ import PortalTopBar from "./TopBar";
 
 const AtcPortalMain = () => {
     let validUser = isLoggedIn();
+
+    // Presence heartbeat — tells the admin console this user is online
+    // while their portal is open (only when the tab is visible).
+    useEffect(() => {
+        if (!validUser) return undefined;
+        const beat = () => {
+            if (document.visibilityState === "visible") {
+                axios.post(`${API_URL}/heartbeat`).catch(() => {});
+            }
+        };
+        beat();
+        const timer = setInterval(beat, 45000);
+        return () => clearInterval(timer);
+    }, [validUser]);
 
     if (validUser) {
         const loginname = cookie.get("_loginname");
