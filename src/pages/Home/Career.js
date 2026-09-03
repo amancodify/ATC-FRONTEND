@@ -8,13 +8,23 @@ import API_URL from "../../config";
 const Career = (() => {
     const { handleSubmit, register, formState: { errors } } = useForm();
     let [formSent, setFormSent] = useState(false);
+    let [formError, setFormError] = useState("");
     const onSubmit = (values, e) => {
+        setFormError("");
         axios.post(`${API_URL}/sendemail`, values)
             .then(response => {
-                if (response.status === 200) {
+                if (response.status === 200 && response.data && response.data.status === "200") {
                     setFormSent(true)
                     e.target.reset();
+                } else {
+                    setFormError(
+                        (response.data && response.data.message) ||
+                        "Could not send your message. Please try again."
+                    )
                 }
+            })
+            .catch(() => {
+                setFormError("Network error. Please check your connection and try again.")
             })
     }
     return (
@@ -99,6 +109,9 @@ const Career = (() => {
                 {
                     (formSent && <div className="form-thankyou-text"><i className="thumb-up mr-2 fa fa-thumbs-up"></i>
                         Thankyou for reaching out to us. We'll get back to you shortly !!</div>)
+                }
+                {
+                    (formError && <div className="form-error-text" role="alert">{formError}</div>)
                 }
             </div>
         </div>

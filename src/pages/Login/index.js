@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBuilding,
@@ -491,9 +491,6 @@ const UserLogin = () => {
           </button>
         </form>
 
-        <div className="login-alt">
-          Administrator? <Link to="/admin/login">Sign in to the Admin Console</Link>
-        </div>
         <div className="login-help">
           Don&apos;t have access yet? Your company admin creates accounts.
         </div>

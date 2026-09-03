@@ -1,7 +1,5 @@
 import React, { useState, useRef } from "react";
 import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
 import cookie from "js-cookie";
 import CompLogo from "../../assets/logo.png";
 import { useOnClickOutside } from "./dealers/outsideClick";
@@ -41,11 +39,9 @@ const PortalTopBar = ({ logoutHandler }) => {
                     onClick={() => setOpen(!open)}
                     aria-expanded={open}
                     aria-haspopup="menu"
-                    aria-label="Account menu"
+                    aria-label={`${loginName} — account menu`}
                 >
                     <span className="ptop-avatar" aria-hidden="true">{initials}</span>
-                    <span className="ptop-name">{loginName}</span>
-                    <FontAwesomeIcon icon={faBars} className="ptop-caret" />
                 </button>
                 {open && (
                     <div className="sb-menu" role="menu">

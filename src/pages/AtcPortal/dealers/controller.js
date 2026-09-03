@@ -9,7 +9,7 @@ import {
     faRobot,
     faUserPlus,
     faCirclePlus,
-    faBars,
+    faChevronDown,
 } from "@fortawesome/free-solid-svg-icons";
 import CompLogo from "../../../assets/logo.png";
 import { useOnClickOutside } from './outsideClick';
@@ -115,7 +115,7 @@ const ControllerSection = ({
                     aria-label="Account options"
                     aria-expanded={showLogout}
                 >
-                    <FontAwesomeIcon icon={faBars} />
+                    <FontAwesomeIcon icon={faChevronDown} />
                 </button>
                 {showLogout && (
                     <div className="sb-menu" role="menu">
@@ -148,7 +148,7 @@ const ControllerSection = ({
                         </span>
                     )}
                 </div>
-                <Link to="/" className="sb-footer-brand" title="Visit website">
+                <Link to="/" target="_blank" rel="noopener noreferrer" className="sb-footer-brand" title="Visit website (opens in new tab)">
                     <img className="sb-brand-logo" src={CompLogo} alt="ATC logo" />
                     <span className="sb-brand-txt">Powered by ATC</span>
                     <span className="sb-brand-arrow" aria-hidden="true">↗</span>

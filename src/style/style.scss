@@ -1075,6 +1075,14 @@ a:link {
     font-weight: 500;
 }
 
+.form-error-text {
+    font-size: 14px;
+    color: #dc2626;
+    text-align: center;
+    margin-top: 14px;
+    font-weight: 500;
+}
+
 .blockquote-custom {
     position: relative;
     font-size: 1.1rem;
@@ -1225,59 +1233,39 @@ a:link {
     .ptop-user {
         position: relative;
         flex-shrink: 0;
-        .ptop-trigger {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 5px 12px 5px 6px;
-            border: 1px solid rgba(255, 255, 255, 0.14);
-            border-radius: 999px;
-            background: rgba(255, 255, 255, 0.07);
-            cursor: pointer;
-            transition: background 0.18s ease, border-color 0.18s ease;
-            &:hover,
-            &:focus-visible {
-                background: rgba(255, 255, 255, 0.12);
-                border-color: rgba(255, 255, 255, 0.28);
-            }
-            .ptop-avatar {
-                width: 32px;
-                height: 32px;
-                border-radius: 50%;
+            .ptop-trigger {
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                font-family: "Poppins", sans-serif;
-                font-size: 11.5px;
-                font-weight: 700;
-                color: #221a05;
-                background: linear-gradient(135deg, #ffd971 0%, #f5a623 100%);
-                user-select: none;
+                padding: 4px;
+                border: 1px solid rgba(255, 255, 255, 0.14);
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.07);
+                cursor: pointer;
+                transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+                &:hover,
+                &:focus-visible {
+                    background: rgba(255, 255, 255, 0.12);
+                    border-color: rgba(255, 255, 255, 0.28);
+                    transform: translateY(-1px);
+                }
+                .ptop-avatar {
+                    width: 32px;
+                    height: 32px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-family: "Poppins", sans-serif;
+                    font-size: 11.5px;
+                    font-weight: 700;
+                    color: #221a05;
+                    background: linear-gradient(135deg, #ffd971 0%, #f5a623 100%);
+                    user-select: none;
+                }
             }
-            .ptop-name {
-                max-width: 180px;
-                font-family: "Poppins", sans-serif;
-                font-size: 13px;
-                font-weight: 600;
-                color: rgba(255, 255, 255, 0.92);
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
-            .ptop-caret {
-                font-size: 11px;
-                color: rgba(255, 255, 255, 0.6);
-            }
-        }
         .sb-menu {
             right: 0;
-        }
-    }
-
-    @media only screen and (max-width: 600px) {
-        padding: 0 12px;
-        .ptop-name {
-            display: none;
         }
     }
 }
@@ -3564,24 +3552,9 @@ a:link {
             }
         }
 
-        .login-alt {
-            max-width: 420px;
-            margin-top: 20px;
-            font-size: 13px;
-            color: #64748b;
-            a {
-                color: #5b3df5;
-                font-weight: 600;
-                text-decoration: none;
-                &:hover {
-                    text-decoration: underline;
-                }
-            }
-        }
-
         .login-help {
             max-width: 420px;
-            margin-top: 10px;
+            margin-top: 14px;
             font-size: 12.5px;
             color: #94a3b8;
         }
