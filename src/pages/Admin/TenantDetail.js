@@ -31,6 +31,7 @@ import {
   faKey,
   faTrash,
   faPencil,
+  faEnvelope,
   faUserPen,
 } from "@fortawesome/free-solid-svg-icons";
 import { initials as toInitials, fmtDateTime } from "./adminTheme";
@@ -603,6 +604,22 @@ const TenantDetail = () => {
                 <Switch
                   checked={!!tenant.aiChatEnabled}
                   onChange={(e) => toggleFlag("aiChatEnabled", e.target.checked)}
+                  color="primary"
+                />
+              </div>
+
+              <div className="td-flag-row">
+                <span className="td-flag-ic is-teal"><FontAwesomeIcon icon={faEnvelope} /></span>
+                <div className="td-flag-main">
+                  <div className="td-flag-name">Nudge Emails</div>
+                  <div className="td-flag-desc">
+                    Automated account-status emails sent to dealers (via SendGrid). Turn off to
+                    mute all outgoing dealer emails from this workspace.
+                  </div>
+                </div>
+                <Switch
+                  checked={tenant.emailEnabled !== false}
+                  onChange={(e) => toggleFlag("emailEnabled", e.target.checked)}
                   color="primary"
                 />
               </div>
