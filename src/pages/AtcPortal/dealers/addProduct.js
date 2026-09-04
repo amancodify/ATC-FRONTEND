@@ -1,17 +1,23 @@
 import React, { useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
 import { useForm } from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+    faBoxOpen,
+    faCloudArrowUp,
+    faCircleCheck,
+    faCircleExclamation,
+    faRotateRight,
+} from "@fortawesome/free-solid-svg-icons";
 import API_URL from "../../../config";
 
 const AddProduct = (() => {
     const { handleSubmit, register, formState: { errors } } = useForm();
     const navigate = useNavigate();
-    let [formSent, setFormSent] = useState(false);
-    let [formResponse, setFormResponse] = useState({});
-    let [loadingScr, setLoadingScr] = useState(false);
-
+    const [formSent, setFormSent] = useState(false);
+    const [formResponse, setFormResponse] = useState({});
+    const [loadingScr, setLoadingScr] = useState(false);
 
     const onSubmit = (values) => {
         setLoadingScr(true);
@@ -24,58 +30,73 @@ const AddProduct = (() => {
                     setTimeout(() => { navigate("/atcportal/") }, 300);
                 }
             })
+            .catch(() => {
+                setLoadingScr(false);
+                setFormResponse({ status: 500, message: "Something went wrong. Please try again." });
+            })
     }
 
+    const err = (key) => errors[key] && <span className="cp-err">{errors[key].message}</span>;
+    const inputClass = (key) => "cp-input" + (errors[key] ? " has-err" : "");
+
     return (
-        <div className="col-md-12 createparty-main">
-            <div className={loadingScr ? "loading add-prod-loading" : "no-loading"}>
-                <i className="fa fa-cog fa-spin"></i>
-                <span> &nbsp; Adding Product...</span>
+        <div className="create-page">
+            <div className="cp-head">
+                <span className="cp-ic" aria-hidden="true"><FontAwesomeIcon icon={faBoxOpen} /></span>
+                <div>
+                    <div className="cp-eyebrow">Create</div>
+                    <h1 className="cp-title">Add Product</h1>
+                    <div className="cp-sub">Define a new product for your transactions and reports.</div>
+                </div>
             </div>
-            <p className="title-createdealer">Add Product</p>
-            <img className="add-vector" src="/images/product.png" alt="" />
-            <div className="col-md-9 col-sm-12 col-xs-12 createdealer-main">
-                <Form onSubmit={handleSubmit(onSubmit)} className="container">
-                    <div className="row">
-                        <Form.Group controlId="productname" className="col-md-12 col-sm-12">
-                            <Form.Label>Product Name*</Form.Label>
-                            <Form.Control required type="text" placeholder="Enter Product Name"
-                                {...register("productname", {
-                                    required: 'Required',
-                                    pattern: {
-                                        message: "Invalid Product Name"
-                                    }
-                                })}
-                            />
-                            {errors.productname && errors.productname.message}
-                        </Form.Group>
+
+            <form className="cp-card" onSubmit={handleSubmit(onSubmit)} noValidate>
+                <div className="cp-grid">
+                    <div className="cp-field cp-full">
+                        <label className="cp-label cp-req" htmlFor="productname">Product Name</label>
+                        <input id="productname" type="text" placeholder="e.g. Premium Cement Bag" className={inputClass("productname")}
+                            {...register("productname", { required: 'Product name is required' })}
+                        />
+                        {err("productname")}
                     </div>
-                    <div className="row">
-                        <Form.Group controlId="productdetails" className="col-md-12 col-sm-12">
-                            <Form.Label>Product Description*</Form.Label>
-                            <Form.Control required as="textarea" placeholder="Enter Product Details" rows="2"
-                                {...register("productdetails", {
-                                    pattern: {
-                                        message: "Invalid product details"
-                                    }
-                                })}
-                            />
-                            {errors.productdetails && errors.productdetails.message}
-                        </Form.Group>
+
+                    <div className="cp-field cp-full">
+                        <label className="cp-label cp-req" htmlFor="productdetails">Product Description</label>
+                        <textarea id="productdetails" rows="3" placeholder="Describe the product — grade, packaging, usage…" className={inputClass("productdetails") + " cp-textarea"}
+                            {...register("productdetails", { required: 'Product description is required' })}
+                        />
+                        {err("productdetails")}
                     </div>
-                    <div className="d-flex justify-content-center align-items-center mt-4">
-                        <i onClick={() => navigate(0)} className="fa fa-refresh refresh-btn" aria-hidden="true"></i>
-                        <Button variant="primary" type="submit" className="create-btn px-4" >Add Product</Button>
-                    </div>
-                </Form>
-                {
-                    (formSent && <div className="form-thankyou-text"><i className="thumb-up mr-2 fa fa-thumbs-up"></i>
-                        Product Created Successfully !!</div>)
-                }
-                {
-                    formResponse.status === 11000 && <div className="mt-3 text-center error-text">Duplicate Error: Product with this code already present, try putting unique Product Code</div>
-                }
-            </div>
+                </div>
+
+                <div className="cp-actions">
+                    <button type="button" className="cp-reset" onClick={() => navigate(0)} disabled={loadingScr}>
+                        <FontAwesomeIcon icon={faRotateRight} /> Reset
+                    </button>
+                    <button type="submit" className="cp-btn" disabled={loadingScr} aria-busy={loadingScr}>
+                        {loadingScr ? (
+                            <><span className="cp-spin" /> Adding…</>
+                        ) : (
+                            <><FontAwesomeIcon icon={faBoxOpen} /> Add Product</>
+                        )}
+                    </button>
+                </div>
+            </form>
+
+            {formSent && (
+                <div className="cp-banner cp-ok">
+                    <FontAwesomeIcon icon={faCircleCheck} />
+                    Product Created Successfully !!
+                </div>
+            )}
+            {formResponse.status && formResponse.status !== 200 && (
+                <div className="cp-banner cp-err-bg">
+                    <FontAwesomeIcon icon={faCircleExclamation} />
+                    {formResponse.status === 11000
+                        ? "Duplicate Error: A product with this code already exists."
+                        : (formResponse.message || "Could not create the product. Please try again.")}
+                </div>
+            )}
         </div>
     );
 });

@@ -1,6 +1,17 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+    faBoxOpen,
+    faCircleExclamation,
+    faPlus,
+    faCalendarAlt,
+} from '@fortawesome/free-solid-svg-icons';
 import API_URL from '../../../config';
+
+const fmtDate = (d) =>
+    d ? new Date(d).toLocaleDateString(undefined, { day: "2-digit", month: "short", year: "numeric" }) : "—";
 
 const ProductsPage = () => {
     const [products, setProducts] = useState([]);
@@ -28,76 +39,75 @@ const ProductsPage = () => {
     }, []);
 
     return (
-        <div className="container py-4" style={{ minHeight: '90vh' }}>
-            <div
-                className="card"
-                style={{
-                    borderRadius: 20,
-                    border: '1px solid rgba(15, 23, 42, 0.08)',
-                    boxShadow: '0 24px 70px rgba(15, 23, 42, 0.14)',
-                    overflow: 'hidden',
-                    background: 'linear-gradient(135deg, #ffffff 0%, #f7faff 100%)',
-                }}
-            >
-                <div className="card-body p-4 p-md-5">
-                    <div className="d-flex flex-column flex-md-row align-items-md-center justify-content-between mb-4 gap-3">
-                        <div>
-                            <div className="d-flex align-items-center gap-2 mb-2">
-                                <h2 className="mb-0">Products</h2>
-                            </div>
-                            <div className="text-muted small">A complete view of all products added in the system.</div>
-                        </div>
-                        <div
-                            className="px-3 py-2 rounded-pill text-white fw-semibold"
-                            style={{ background: 'linear-gradient(90deg, #4f46e5, #2563eb)' }}
-                        >
-                            {products.length} {products.length === 1 ? 'product' : 'products'}
-                        </div>
+        <div className="products-page">
+            <div className="pp-head">
+                <div className="pp-head-left">
+                    <span className="pp-ic" aria-hidden="true"><FontAwesomeIcon icon={faBoxOpen} /></span>
+                    <div>
+                        <div className="pp-eyebrow">Catalogue</div>
+                        <h1 className="pp-title">Products</h1>
+                        <div className="pp-sub">All products available for your transactions and reports.</div>
                     </div>
-
-                    {loading ? (
-                        <div className="text-center py-5 text-muted">
-                            <span className="spinner-border spinner-border-sm mr-2" role="status" aria-hidden="true"></span>
-                            Loading products...
-                        </div>
-                    ) : error ? (
-                        <div className="alert alert-danger mb-0" style={{ borderRadius: 12 }}>{error}</div>
-                    ) : products.length === 0 ? (
-                        <div className="text-center py-5 text-muted" style={{ background: '#f8fafc', borderRadius: 16, border: '1px dashed #cbd5e1' }}>
-                            No products found yet.
-                        </div>
-                    ) : (
-                        <div className="row" style={{ margin: '-0.75rem' }}>
-                            {products.map((product, index) => (
-                                <div className="col-md-6 col-xl-4" key={product.productcode || `${product.productname}-${index}`} style={{ padding: '0.75rem' }}>
-                                    <div
-                                        className="h-100 border"
-                                        style={{
-                                            background: 'linear-gradient(135deg, #ffffff 0%, #f9fbff 100%)',
-                                            borderColor: 'rgba(99, 102, 241, 0.16)',
-                                            borderRadius: 22,
-                                            boxShadow: '0 16px 40px rgba(15, 23, 42, 0.10)',
-                                            minHeight: 190,
-                                            padding: 24,
-                                            margin: 4,
-                                        }}
-                                    >
-                                        <div className="d-flex justify-content-between align-items-start gap-2 mb-3">
-                                            <h6 className="mb-0 fw-bold text-dark">{product.productname || 'Unnamed Product'}</h6>
-                                            <span className="badge rounded-pill" style={{ background: '#e0f2fe', color: '#0369a1' }}>
-                                                {product.productcode || 'N/A'}
-                                            </span>
-                                        </div>
-                                        <div className="text-muted small" style={{ whiteSpace: 'pre-wrap', lineHeight: 1.7, fontSize: '0.95rem' }}>
-                                            {product.productdetails || 'No description provided.'}
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    )}
+                </div>
+                <div className="pp-head-right">
+                    <span className="pp-count">{products.length} {products.length === 1 ? "product" : "products"}</span>
+                    <Link to="/atcportal/addproduct" className="pp-add-btn">
+                        <FontAwesomeIcon icon={faPlus} /> Add Product
+                    </Link>
                 </div>
             </div>
+
+            {loading ? (
+                <div className="pp-grid">
+                    {[0, 1, 2].map((i) => (
+                        <div className="pp-card pp-skeleton" key={i} aria-hidden="true">
+                            <div className="pp-top">
+                                <span className="pp-tile pp-tile-skel" />
+                                <span className="pp-skel-line" style={{ width: "55%" }} />
+                            </div>
+                            <span className="pp-skel-line" style={{ width: "100%" }} />
+                            <span className="pp-skel-line" style={{ width: "85%" }} />
+                            <span className="pp-skel-line" style={{ width: "60%" }} />
+                        </div>
+                    ))}
+                </div>
+            ) : error ? (
+                <div className="pp-banner pp-err-bg">
+                    <FontAwesomeIcon icon={faCircleExclamation} />
+                    {error}
+                </div>
+            ) : products.length === 0 ? (
+                <div className="pp-empty">
+                    <span className="pp-empty-ic" aria-hidden="true"><FontAwesomeIcon icon={faBoxOpen} /></span>
+                    <div className="pp-empty-title">No products yet</div>
+                    <div className="pp-empty-sub">Add your first product to start using it in transactions and reports.</div>
+                    <Link to="/atcportal/addproduct" className="pp-add-btn"><FontAwesomeIcon icon={faPlus} /> Add Product</Link>
+                </div>
+            ) : (
+                <div className="pp-grid">
+                    {products.map((product, index) => (
+                        <div className="pp-card" key={product.productcode || `${product.productname}-${index}`}>
+                            <div className="pp-top">
+                                <span className="pp-tile" aria-hidden="true"><FontAwesomeIcon icon={faBoxOpen} /></span>
+                                <div className="pp-name-wrap">
+                                    <div className="pp-name" title={product.productname}>
+                                        {product.productname || 'Unnamed Product'}
+                                    </div>
+                                    <div className="pp-code">{product.productcode || 'N/A'}</div>
+                                </div>
+                            </div>
+                            <div className="pp-desc">
+                                {product.productdetails || 'No description provided.'}
+                            </div>
+                            <div className="pp-foot">
+                                <span className="pp-added">
+                                    <FontAwesomeIcon icon={faCalendarAlt} /> Added {fmtDate(product.createdAt)}
+                                </span>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            )}
         </div>
     );
 };

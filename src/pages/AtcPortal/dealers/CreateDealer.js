@@ -1,20 +1,25 @@
 import React, { useState } from 'react';
-import { Form, Button } from 'react-bootstrap';
 import { useForm } from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import CheckboxComp from '../../../components/common/Form/Checkbox';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+    faUserPlus,
+    faCloudArrowUp,
+    faCircleCheck,
+    faCircleExclamation,
+    faRotateRight,
+} from "@fortawesome/free-solid-svg-icons";
 import API_URL from "../../../config";
 
 const CreateDealer = (() => {
     const { handleSubmit, register, formState: { errors } } = useForm();
     const navigate = useNavigate();
-    let [formSent, setFormSent] = useState(false);
-    let [formResponse, setFormResponse] = useState({});
-    let [filename, setFileName] = useState("");
-    let [fileData, setFileData] = useState({});
-    let [loadingScr, setLoadingScr] = useState(false);
-
+    const [formSent, setFormSent] = useState(false);
+    const [formResponse, setFormResponse] = useState({});
+    const [filename, setFileName] = useState("");
+    const [fileData, setFileData] = useState({});
+    const [loadingScr, setLoadingScr] = useState(false);
 
     const onSubmit = (values, e) => {
         setLoadingScr(true);
@@ -29,7 +34,7 @@ const CreateDealer = (() => {
         formData.append('email', values.email)
         formData.append('fileData', fileData)
         formData.append('is_damage_dealer', values.damagedealer)
-        
+
         axios.post(`${API_URL}/dealers/create`, formData)
             .then(response => {
                 setLoadingScr(false);
@@ -37,8 +42,12 @@ const CreateDealer = (() => {
                 if (response.data.status === 200) {
                     setFormSent(true);
                     setFileName("");
-                    setTimeout(()=> {navigate("/atcportal/")}, 700);
+                    setTimeout(() => { navigate("/atcportal/") }, 700);
                 }
+            })
+            .catch(() => {
+                setLoadingScr(false);
+                setFormResponse({ status: 500, message: "Something went wrong. Please try again." });
             })
     }
 
@@ -47,167 +56,151 @@ const CreateDealer = (() => {
         setFileName(e.target.files[0].name);
     }
 
+    const err = (key) => errors[key] && <span className="cp-err">{errors[key].message}</span>;
+    const inputClass = (key) => "cp-input" + (errors[key] ? " has-err" : "");
+
     return (
-        <div className="col-md-12 createparty-main">
-            <div className={loadingScr ? "loading" : "no-loading"}>
-                <img style={{ display: "block" }} src="/images/loading3.gif" alt="" />
+        <div className="create-page">
+            <div className="cp-head">
+                <span className="cp-ic" aria-hidden="true"><FontAwesomeIcon icon={faUserPlus} /></span>
+                <div>
+                    <div className="cp-eyebrow">Create</div>
+                    <h1 className="cp-title">Add Dealer / Party</h1>
+                    <div className="cp-sub">Register a new dealer with their firm and contact details.</div>
+                </div>
             </div>
-            <p className="title-createdealer">Add Dealer/Party</p>
-            <img className="add-vector" src="/images/addillis.png" alt="" />
-            <div className="col-md-9 col-sm-12 col-xs-12 createdealer-main">
-                <Form onSubmit={handleSubmit(onSubmit)} className="container">
-                    <div className="row">
-                        <Form.Group controlId="formBasicName" className="col-md-6 col-sm-12">
-                            <Form.Label>Dealer Code*</Form.Label>
-                            <Form.Control required type="text" placeholder="Enter Dealer Code"
-                                {...register("firmCode", {
-                                    required: 'Required',
-                                    validate: {
-                                        noSpaces: v => !/\s/.test(v) || "No spaces allowed in Dealer Code",
-                                    }
-                                })}
-                            />
-                            {errors.firmCode && errors.firmCode.message}
-                        </Form.Group>
-                        <Form.Group controlId="firmname" className="col-md-6 col-sm-12">
-                            <Form.Label>Firm Name*</Form.Label>
-                            <Form.Control required type="text" placeholder="Enter Firm Name"
-                                {...register("firmName", {
-                                    required: 'Required',
-                                    pattern: {
-                                        message: "Invalid Firm Name"
-                                    }
-                                })}
-                            />
-                            {errors.firmName && errors.firmName.message}
-                        </Form.Group>
+
+            <form className="cp-card" onSubmit={handleSubmit(onSubmit)} noValidate>
+                <div className="cp-grid">
+                    <div className="cp-field">
+                        <label className="cp-label cp-req" htmlFor="firmCode">Dealer Code</label>
+                        <input id="firmCode" type="text" placeholder="e.g. ATCBC-014" className={inputClass("firmCode")}
+                            {...register("firmCode", {
+                                required: 'Dealer Code is required',
+                                validate: {
+                                    noSpaces: v => !/\s/.test(v) || "No spaces allowed in Dealer Code",
+                                }
+                            })}
+                        />
+                        {err("firmCode")}
                     </div>
-                    <div className="row">
-                        <Form.Group controlId="gender" className="col-md-6 col-sm-12">
-                            <Form.Label>Gender*</Form.Label>
-                            <select defaultValue="Select Option" className="form-control"
-                                {...register("gender", {
-                                    required: 'Required',
-                                    pattern: {
-                                        message: "Value Must be Selected"
-                                    }
-                                })}
-                                required
-                            >
-                                <option disabled>Select Option</option>
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
-                                <option value="Other">Other</option>
-                            </select>
-                            {errors.gender && errors.gender.message}
-                        </Form.Group>
-                        <Form.Group controlId="dealerArea" className="col-md-6 col-sm-12">
-                            <Form.Label>Dealer's Area*</Form.Label>
-                            <select defaultValue="" className="form-control"
-                                {...register("dealerArea", {
-                                    required: 'Required',
-                                    pattern: {
-                                        message: "Value Must be Selected"
-                                    }
-                                })}
-                                required
-                            >
-                                <option value="" disabled>Select Option</option>
-                                <option value="Siwan">Siwan</option>
-                                <option value="Chapra">Chapra</option>
-                                <option value="Gopalganj">Gopalganj</option>
-                            </select>
-                            {errors.dealerArea && errors.dealerArea.message}
-                        </Form.Group>
+
+                    <div className="cp-field">
+                        <label className="cp-label cp-req" htmlFor="firmName">Firm Name</label>
+                        <input id="firmName" type="text" placeholder="Enter firm name" className={inputClass("firmName")}
+                            {...register("firmName", { required: 'Firm name is required' })}
+                        />
+                        {err("firmName")}
                     </div>
-                    <div className="row">
-                        <Form.Group controlId="ownerName" className="col-md-6 col-sm-12">
-                            <Form.Label>Owner Name*</Form.Label>
-                            <Form.Control required type="text" placeholder="Enter Owner's Fullname "
-                                {...register("ownerName", {
-                                    required: 'Required',
-                                    pattern: {
-                                        message: "Invalid Name"
-                                    }
-                                })}
-                            />
-                            {errors.ownerName && errors.ownerName.message}
-                        </Form.Group>
-                        <Form.Group controlId="formBasicPhone" className="col-md-6 col-sm-12">
-                            <Form.Label>Mobile*</Form.Label>
-                            <Form.Control required type="tel" placeholder="Enter Mobile"
-                                {...register("mobile", {
-                                    required: 'Required',
-                                    pattern: {
-                                        message: "Invalid Mobile Number"
-                                    }
-                                })}
-                            />
-                            {errors.mobile && errors.mobile.message}
-                        </Form.Group>
+
+                    <div className="cp-field">
+                        <label className="cp-label cp-req" htmlFor="gender">Gender</label>
+                        <select id="gender" defaultValue="" className={inputClass("gender") + " cp-select"}
+                            {...register("gender", { required: 'Please select a gender' })}
+                        >
+                            <option value="" disabled>Select gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                        {err("gender")}
                     </div>
-                    <div className="row">
-                        <Form.Group controlId="formBasicEmail" className="col-md-6 col-sm-12">
-                            <Form.Label>Email</Form.Label>
-                            <Form.Control type="email" placeholder="Enter Email Address"
-                                {...register("email", {
-                                    pattern: {
-                                        message: "invalid Email Address"
-                                    }
-                                })}
-                            />
-                            {errors.email && errors.email.message}
-                        </Form.Group>
-                        <Form.Group controlId="formBasicEmail" className="col-md-6 col-sm-12">
-                            <Form.Label>Dealer Photo (Optional)</Form.Label>
-                            <div className="custom-file">
-                                <input onChange={onFileUpload} type="file" className="custom-file-input" id="customFile" />
-                                <label className="file-uploader-field custom-file-label" htmlFor="customFile">{filename}</label>
-                            </div>
-                        </Form.Group>
+
+                    <div className="cp-field">
+                        <label className="cp-label cp-req" htmlFor="dealerArea">Dealer's Area</label>
+                        <select id="dealerArea" defaultValue="" className={inputClass("dealerArea") + " cp-select"}
+                            {...register("dealerArea", { required: 'Please select an area' })}
+                        >
+                            <option value="" disabled>Select area</option>
+                            <option value="Siwan">Siwan</option>
+                            <option value="Chapra">Chapra</option>
+                            <option value="Gopalganj">Gopalganj</option>
+                        </select>
+                        {err("dealerArea")}
                     </div>
-                    <div className="row">
-                        <Form.Group controlId="formBasicAddress" className="col-md-12 col-sm-12">
-                            <Form.Label>Address*</Form.Label>
-                            <Form.Control required as="textarea" placeholder="Enter Permanent Address" rows="2"
-                                {...register("address", {
-                                    pattern: {
-                                        message: "Invalid Address"
-                                    }
-                                })}
-                            />
-                            {errors.address && errors.address.message}
-                        </Form.Group>
+
+                    <div className="cp-field">
+                        <label className="cp-label cp-req" htmlFor="ownerName">Owner Name</label>
+                        <input id="ownerName" type="text" placeholder="Enter owner's full name" className={inputClass("ownerName")}
+                            {...register("ownerName", { required: 'Owner name is required' })}
+                        />
+                        {err("ownerName")}
                     </div>
-                    <div className="row">
-                        <Form.Group controlId="formBasicAddress" className="col-md-12 col-sm-12">
-                            <CheckboxComp
-                                text="This dealer buys damage products as well"
-                                name="damagedealer"
-                                checked={false}
-                                className=""
-                                refdata={register("damagedealer", {
-                                    pattern: {
-                                        message: "Select the Checkbox"
-                                    }
-                                })}
-                                required={false}
-                            />
-                        </Form.Group>
+
+                    <div className="cp-field">
+                        <label className="cp-label cp-req" htmlFor="mobile">Mobile</label>
+                        <input id="mobile" type="tel" placeholder="10-digit mobile number" className={inputClass("mobile")}
+                            {...register("mobile", {
+                                required: 'Mobile number is required',
+                                pattern: { value: /^[6-9]\d{9}$/, message: "Enter a valid 10-digit mobile number" }
+                            })}
+                        />
+                        {err("mobile")}
                     </div>
-                    <div className="d-flex justify-content-center align-items-center mt-4">
-                        <i onClick={() => navigate(0)} className="fa fa-refresh refresh-btn" aria-hidden="true"></i>
-                        <Button variant="primary" type="submit" className="create-btn px-4" >Create Dealer</Button>
+
+                    <div className="cp-field">
+                        <label className="cp-label" htmlFor="email">Email</label>
+                        <input id="email" type="email" placeholder="Optional email address" className={inputClass("email")}
+                            {...register("email", {
+                                pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: "Enter a valid email address" }
+                            })}
+                        />
+                        {err("email")}
                     </div>
-                </Form>
-                {
-                    (formSent && <div className="form-thankyou-text"><i className="thumb-up mr-2 fa fa-thumbs-up"></i>
-                        Dealer Created Successfully !!</div>)
-                }
-                {
-                    formResponse.status === 11000 && <div className="mt-3 text-center error-text">Duplicate Error: User with this code already present, try putting unique Firm Code</div>
-                }
-            </div>
+
+                    <div className="cp-field">
+                        <label className="cp-label" htmlFor="dealerPhoto">Dealer Photo (optional)</label>
+                        <label className={"cp-file" + (filename ? " has-file" : "")} htmlFor="dealerPhoto">
+                            <FontAwesomeIcon icon={faCloudArrowUp} />
+                            <span>{filename || "Upload dealer photo"}</span>
+                        </label>
+                        <input id="dealerPhoto" type="file" accept="image/*" onChange={onFileUpload} />
+                    </div>
+
+                    <div className="cp-field cp-full">
+                        <label className="cp-label cp-req" htmlFor="address">Address</label>
+                        <textarea id="address" rows="2" placeholder="Enter permanent address" className={inputClass("address") + " cp-textarea"}
+                            {...register("address", { required: 'Address is required' })}
+                        />
+                        {err("address")}
+                    </div>
+
+                    <div className="cp-field cp-full">
+                        <label className="cp-check">
+                            <input type="checkbox" {...register("damagedealer")} />
+                            <span>This dealer buys damage products as well</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div className="cp-actions">
+                    <button type="button" className="cp-reset" onClick={() => navigate(0)} disabled={loadingScr}>
+                        <FontAwesomeIcon icon={faRotateRight} /> Reset
+                    </button>
+                    <button type="submit" className="cp-btn" disabled={loadingScr} aria-busy={loadingScr}>
+                        {loadingScr ? (
+                            <><span className="cp-spin" /> Creating…</>
+                        ) : (
+                            <><FontAwesomeIcon icon={faUserPlus} /> Create Dealer</>
+                        )}
+                    </button>
+                </div>
+            </form>
+
+            {formSent && (
+                <div className="cp-banner cp-ok">
+                    <FontAwesomeIcon icon={faCircleCheck} />
+                    Dealer Created Successfully !!
+                </div>
+            )}
+            {formResponse.status && formResponse.status !== 200 && (
+                <div className="cp-banner cp-err-bg">
+                    <FontAwesomeIcon icon={faCircleExclamation} />
+                    {formResponse.status === 11000
+                        ? "Duplicate Error: A dealer with this code already exists. Please use a unique Firm Code."
+                        : (formResponse.message || "Could not create the dealer. Please try again.")}
+                </div>
+            )}
         </div>
     );
 });
