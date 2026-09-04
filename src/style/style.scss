@@ -1163,6 +1163,8 @@ a:link {
             max-width: 100%;
             position: relative;
             display: block;
+            top: 0;
+            height: auto;
             padding: 12px 12px 6px;
         }
     }
@@ -1654,64 +1656,71 @@ a:link {
 }
 
 .view-section {
-    padding: 10px 40px;
+    padding: 14px 34px 30px;
     @media only screen and (max-width: 600px) {
-        padding: 0px 10px;
+        padding: 8px 14px 26px;
     }
     .scroll-section {
         padding-bottom: 20px;
-        margin-top: 15px;
-        margin-left: 10px;
+        margin-top: 12px;
+        margin-left: 6px;
         @media only screen and (max-width: 600px) {
-            padding-left: 10px;
+            margin-left: 0;
         }
     }
     .searchbox {
+        position: relative;
         width: 100%;
-        margin: 20px 0;
-        
-        @media only screen and (max-width: 600px) {
-            margin: 20px 0 4px 0;
-        }
+        margin: 16px 0 4px;
 
         .searchbox-field {
-            position: relative;
             display: block;
             width: 100%;
-            height: 55px;
-            border-radius: 35px;
-            border: 1px solid #e0e0e0;
+            height: 52px;
+            border-radius: 14px;
+            border: 1.5px solid #e4e7f2;
             outline: none;
-            padding: 10px 20px;
+            padding: 0 48px 0 20px;
             background: #000c3b;
             color: #ffffff;
-            font-size: 18px;
-            transition: all 0.2s ease-in-out;
+            font-size: 15px;
+            font-family: "Poppins", sans-serif;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+
+            &::placeholder {
+                color: rgba(255, 255, 255, 0.55);
+            }
             @media only screen and (max-width: 600px) {
-                width: 93%;
-                font-size: 16px;
-                height: 40px;
-                padding: 0 44px 2px 30px;
-                margin-left: 15px;
+                height: 46px;
+                font-size: 14px;
+                padding: 0 44px 0 16px;
+                margin-left: 0;
+                width: 100%;
             }
             &:focus {
-                box-shadow: 0 4px 16px rgba(60,64,67,0.25), 0 1.5px 6px rgba(60,64,67,0.15);
-                background: #fff;
-                color: #000c3b;
+                background: #ffffff;
+                color: #12123a;
+                border-color: #6d5ce6;
+                box-shadow: 0 0 0 4px rgba(109, 92, 230, 0.12);
+                &::placeholder {
+                    color: #9aa3b5;
+                }
             }
         }
         .search-icon {
             position: absolute;
-            right: 4%;
-            top: 47px;
-            color: rgb(155, 155, 155);
-            font-size: 20px;
-            font-weight: 400;
-            margin-right: 10px;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9aa3b5;
+            font-size: 17px;
             cursor: pointer;
+            transition: color 0.2s ease;
+            &:hover {
+                color: #4c3fd6;
+            }
             @media only screen and (max-width: 600px) {
-                right: 10%;
-                top: 10px;
+                right: 15px;
             }
         }
     }
@@ -1723,123 +1732,127 @@ a:link {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        margin-left: 10px;
+        gap: 12px;
+        margin-left: 6px;
         @media only screen and (max-width: 600px) {
-            margin-left: 0px;
-            margin-right: 15px;
-            margin-bottom: 10px;
-            margin-top: 20px;
+            margin: 6px 0 0;
             font-size: 12px;
-            width: 96%;
         }
         .dealers-count {
-            padding: 5px 0px;
+            padding: 4px 0;
             font-weight: 600;
-            color: rgb(74, 74, 74);
+            color: #64748b;
+            font-size: 13px;
             @media only screen and (max-width: 600px) {
-                padding: 0px;
-                margin-left: 20px;
-                margin-bottom: 10px;
-                font-size: "12px";
+                padding: 0;
+                font-size: 12px;
             }
         }
     }
 }
 
 .data-card-main {
-    max-height: 550px;
     .card-full {
         display: flex;
         justify-content: space-between;
         align-items: center;
+        gap: 16px;
         width: 100%;
     }
     .data-card {
         position: relative;
-        height: 130px;
-        margin-top: 20px;
-        background-color: rgb(255, 255, 255);
-        box-shadow: 0px 3px 31px #00000014;
-        border: 1px solid rgb(236, 236, 236);
-        border-radius: 5px;
-        padding: 44px 15px;
+        margin-top: 16px;
+        background-color: #ffffff;
+        border: 1px solid #eceef5;
+        border-radius: 14px;
+        box-shadow: 0 4px 18px rgba(18, 18, 58, 0.05);
+        padding: 30px 20px;
+        min-height: 118px;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        transition: all 0.1s ease-in;
+        overflow: hidden;
+        text-decoration: none;
+        transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
         font-family: "Poppins";
+
         .display-letter {
             position: absolute;
-            z-index: 99;
-            left: 0px;
-            top: 0px;
-            width: 100px;
-            height: 15px;
-            font-size: 9px;
+            z-index: 2;
+            top: 0;
+            right: 0;
+            width: auto;
+            height: auto;
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 0.6px;
             font-family: "Poppins";
-            padding: 2px 0px;
-            border-radius: 4px 0px 6px 0px;
+            padding: 2px 14px;
+            border-radius: 0 13px 0 12px;
             display: flex;
             justify-content: center;
             align-items: center;
         }
         .createdon {
             position: absolute;
-            z-index: 99;
-            right: 22px;
-            bottom: 4px;
-            font-size: 10px;
+            z-index: 2;
+            right: 20px;
+            bottom: 7px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 10.5px;
             font-family: "Poppins";
-            color: rgb(88, 88, 88);
-            @media only screen and (max-width: 600px) {
-                font-size: 8px;
-            }
-        }
-        @media only screen and (max-width: 600px) {
-            width: 88%;
-            margin: 5px auto;
+            color: rgb(120, 120, 140);
+            white-space: nowrap;
         }
         &:hover {
-            box-shadow: 0px 0px 8px #6e6e6e5f;
-            background-color: rgb(249, 251, 255);
+            box-shadow: 0 12px 30px rgba(18, 18, 58, 0.13);
+            transform: translateY(-2px);
+            border-color: rgba(109, 92, 230, 0.28);
         }
 
         .icon {
-            width: 75px;
-            height: 75px;
-            border-radius: 100px;
-            @media only screen and (max-width: 600px) {
-                width: 40px;
-                height: 40px;
-            }
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            object-fit: cover;
+            flex-shrink: 0;
+            border: 2px solid #eef0f6;
         }
         .info {
             color: rgb(55, 55, 55);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            min-width: 0;
             .firmname {
-                font-size: 16px;
-                margin-left: 20px;
-                font-family: "poppins";
-                letter-spacing: 1px;
-                font-weight: bold;
-                color: rgb(55, 55, 55);
-                @media only screen and (max-width: 600px) {
-                    font-size: 10px;
-                    width: 100px;
-                }
+                font-size: 15px;
+                margin-left: 16px;
+                font-family: "Poppins";
+                letter-spacing: 0.2px;
+                font-weight: 700;
+                color: #12123a;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 320px;
+            }
+            .d-letter {
+                margin-left: 4px;
+                color: #b45309;
             }
             .ownername {
-                font-size: 12px;
-                margin-left: 20px;
-                font-family: "poppins";
-                color: rgb(64, 64, 64);
-                @media only screen and (max-width: 600px) {
-                    display: none;
-                }
-                .text-mob {
-                    color: rgb(64, 64, 64);
+                font-size: 12.5px;
+                margin-left: 16px;
+                margin-top: 2px;
+                font-family: "Poppins";
+                color: #64748b;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                .iconwidth {
+                    width: 12px;
                 }
             }
         }
@@ -1850,35 +1863,102 @@ a:link {
             &:hover {
                 transform: translateX(4px);
             }
-            @media only screen and (max-width: 600px) {
-                display: none;
-            }
         }
         .datashow {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-left: 20px;
+            margin: 0 10px 0 12px;
+            flex-shrink: 0;
             .title {
                 color: rgb(66, 66, 66);
                 margin-right: 15px;
-                font-size: 16px;
-                font-weight: 700;
-                @media only screen and (max-width: 600px) {
-                    font-size: 12px;
-                    margin-left: 15px;
-                    display: flex;
-                    flex-direction: column;
-                }
+                font-size: 12px;
+                font-weight: 600;
+                letter-spacing: 0.3px;
+                text-transform: uppercase;
+                color: #94a3b8;
             }
             .value {
                 font-size: 16px;
-                margin-left: 10px;
-                font-weight: 500;
-                @media only screen and (max-width: 600px) {
-                    font-size: 10px;
-                    margin-left: 0px;
+                margin-left: 8px;
+                font-weight: 700;
+            }
+        }
+    }
+
+    // ── Mobile: cards stack vertically, all info visible ────────────────
+    @media only screen and (max-width: 600px) {
+        .data-card {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            height: auto;
+            min-height: 0;
+            width: 100%;
+            margin-top: 12px;
+            padding: 14px 14px 12px;
+
+            .display-letter {
+                top: 0;
+                right: 0;
+                padding: 2px 12px;
+                font-size: 9.5px;
+                border-radius: 0 13px 0 12px;
+            }
+            .card-full {
+                order: -1;
+                flex-wrap: wrap;
+                gap: 0 12px;
+                width: 100%;
+                > .d-flex {
+                    flex: 1 1 auto;
+                    min-width: 0;
                 }
+                .icon {
+                    width: 46px;
+                    height: 46px;
+                }
+                .datashow {
+                    flex: 1 1 100%;
+                    margin: 12px 0 0;
+                    padding-top: 10px;
+                    border-top: 1px dashed #eef0f6;
+                    .title {
+                        font-size: 11px;
+                        margin: 0;
+                        .value {
+                            font-size: 14px;
+                            margin-left: 6px;
+                            .mt-unit {
+                                font-size: 10px;
+                            }
+                        }
+                    }
+                }
+            }
+            .info {
+                flex: 1;
+                min-width: 0;
+                .firmname {
+                    font-size: 13.5px;
+                    margin-left: 12px;
+                    max-width: none;
+                }
+                .ownername {
+                    display: block;
+                    font-size: 11.5px;
+                    margin-left: 12px;
+                    margin-top: 1px;
+                }
+            }
+            .createdon {
+                position: static;
+                order: 1;
+                margin: 12px 2px 0;
+                justify-content: space-between;
+                font-size: 10.5px;
+                white-space: normal;
             }
         }
     }
@@ -5384,28 +5464,41 @@ a:link {
     transition: all 0.18s ease-in-out;
     .all-filters-cb-main {
         position: absolute;
-        z-index: 9999999;
+        z-index: 60;
         right: 0px;
-        top: 30px;
-        display: flex;
+        top: 44px;
         flex-direction: column;
-        background-color: rgb(255, 255, 255);
-        border: 0.5px solid rgb(213, 213, 213);
-        // box-shadow: rgb(123 123 123 / 15%) 0px 10px 30px;
-        border-radius: 2px;
-        min-width: 170px;
+        background-color: #ffffff;
+        border: 1px solid #eceef5;
+        border-radius: 12px;
+        box-shadow: 0 14px 38px rgba(8, 8, 35, 0.14);
+        min-width: 200px;
+        padding: 6px 0;
+        overflow: hidden;
         display: flex;
+        animation: sbPop 0.16s ease;
     }
     .filtercb {
-        color: rgb(0, 13, 99);
-        padding: 3px 10px;
-        transition: all 0.1s ease-in-out;
+        color: #12123a;
+        padding: 9px 14px;
+        font-size: 13px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.15s ease;
+        .form-checkbox {
+            accent-color: #5b3df5;
+        }
         &:hover {
-            background-color: #002e79;
-            color: white;
+            background-color: rgba(109, 92, 230, 0.08);
+            color: #4c3fd6;
         }
     }
     @media only screen and (max-width: 600px) {
+        .all-filters-cb-main {
+            top: 42px;
+        }
         .filtercb:first-child {
             margin-left: 0px !important;
         }
@@ -5866,22 +5959,28 @@ a:link {
 }
 .nudge-main {
     cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 6px;
+    border-radius: 8px;
+    color: #5b3df5;
+    font-weight: 500;
     transition: all 0.2s ease-in-out;
     &:hover {
-        color: rgb(18, 18, 18);
-        background-color: rgb(233, 233, 233);
-        border-radius: 8px;
-        padding: 2px 6px;
+        color: #4c3fd6;
+        background-color: rgba(109, 92, 230, 0.08);
     }
     .nudge-icon {
         margin-right: 2px;
+        font-size: 11px;
     }
 }
 
 .nudge-sent-text {
-    color: rgb(9, 189, 9);
+    color: #059669;
     margin-right: 5px;
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .g-trans-title {
@@ -6409,7 +6508,25 @@ a:link {
 
 .load-more {
     cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 22px;
+    border-radius: 999px;
+    background: #ffffff;
+    border: 1px solid rgba(91, 61, 245, 0.28);
+    color: #5b3df5;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    font-size: 13.5px;
+    transition: all 0.2s ease;
+    i {
+        font-size: 18px;
+        margin: 0 !important;
+    }
 }
 .load-more:hover {
-    font-weight: 600 !important;
+    background: rgba(91, 61, 245, 0.06);
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px rgba(91, 61, 245, 0.2);
 }
